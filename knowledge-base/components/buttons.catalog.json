@@ -1,0 +1,338 @@
+{
+  "version": "0.2.0",
+  "lastUpdated": "2026-03-03",
+  "source": {
+    "fileKey": "IawDi2Zwy7mvMMrsHvIFg1",
+    "nodeId": "6483:5558",
+    "url": "https://www.figma.com/design/IawDi2Zwy7mvMMrsHvIFg1/%F0%9F%9B%A0%EF%B8%8F-Mindbox-Promo-Library?node-id=6483-5558&t=37QSIedZodPM0hws-11"
+  },
+  "behavior": {
+    "hover": "Apply hover token colors",
+    "active": "Scale whole button to 0.98",
+    "arrow": "No hover arrow in preview",
+    "animation": {
+      "durationMs": 160,
+      "easing": "cubic-bezier(0.2, 0.8, 0.2, 1)"
+    }
+  },
+  "sizes": [
+    {
+      "name": "XL",
+      "height": 56,
+      "paddingX": 40,
+      "buttonTextToken": "Button Component/Button XL",
+      "linkTextToken": "Button Component/Link XL",
+      "gap": 12,
+      "radiusRounded": 999,
+      "radiusSharp": 10,
+      "iconOnlySize": 56
+    },
+    {
+      "name": "L",
+      "height": 44,
+      "paddingX": 32,
+      "buttonTextToken": "Button Component/Button L",
+      "linkTextToken": "Button Component/Link L",
+      "gap": 12,
+      "radiusRounded": 999,
+      "radiusSharp": 8,
+      "iconOnlySize": 44
+    },
+    {
+      "name": "M",
+      "height": 36,
+      "paddingX": 28,
+      "buttonTextToken": "Button Component/Button M",
+      "linkTextToken": "Button Component/Link M",
+      "gap": 10,
+      "radiusRounded": 999,
+      "radiusSharp": 6,
+      "iconOnlySize": 36
+    },
+    {
+      "name": "S",
+      "height": 32,
+      "paddingX": 24,
+      "buttonTextToken": "Button Component/Button S",
+      "linkTextToken": "Button Component/Link S",
+      "gap": 8,
+      "radiusRounded": 999,
+      "radiusSharp": 4,
+      "iconOnlySize": 32
+    },
+    {
+      "name": "XS",
+      "height": 24,
+      "paddingX": 16,
+      "buttonTextToken": "Button Component/Button XS",
+      "linkTextToken": "Button Component/Link XS",
+      "gap": 6,
+      "radiusRounded": 999,
+      "radiusSharp": 4,
+      "iconOnlySize": 24
+    },
+    {
+      "name": "XXS",
+      "height": 20,
+      "paddingX": 12,
+      "buttonTextToken": "Button Component/Button XXS",
+      "linkTextToken": "Button Component/Link XXS",
+      "gap": 6,
+      "radiusRounded": 999,
+      "radiusSharp": 4,
+      "iconOnlySize": 20
+    }
+  ],
+  "filledTypes": [
+    {
+      "name": "Primary",
+      "bgToken": "BG/Button/Green",
+      "hoverBgToken": "BG/Button/Hover/Green",
+      "textToken": "Text/Primary – Night",
+      "hoverTextToken": "Text/Primary – Night",
+      "showArrow": true,
+      "isDisabled": false
+    },
+    {
+      "name": "Primary Night",
+      "bgToken": "BG/Button/Green",
+      "hoverBgToken": "BG/Button/Hover/Green",
+      "textToken": "Text/Primary – Night",
+      "hoverTextToken": "Text/Primary – Night",
+      "showArrow": true,
+      "isDisabled": false
+    },
+    {
+      "name": "Black",
+      "bgToken": "BG/Button/Black",
+      "hoverBgToken": "BG/Button/Hover/Black",
+      "textToken": "Text/Primary – Night",
+      "hoverTextToken": "Text/Primary – Night",
+      "showArrow": true,
+      "isDisabled": false
+    },
+    {
+      "name": "White",
+      "bgToken": "BG/Button/White",
+      "hoverBgToken": "BG/Button/Hover/White",
+      "textToken": "Text/Primary",
+      "hoverTextToken": "Text/Primary",
+      "showArrow": true,
+      "isDisabled": false
+    },
+    {
+      "name": "Secondary",
+      "bgToken": "BG/Button/Secondary",
+      "hoverBgToken": "BG/Button/Hover/Secondary",
+      "textToken": "Text/Line Primary",
+      "hoverTextToken": "Text/Line Primary",
+      "showArrow": true,
+      "isDisabled": false
+    },
+    {
+      "name": "Secondary Night",
+      "bgToken": "BG/Button/Secondary – Night",
+      "hoverBgToken": "BG/Button/Hover/Secondary – Night",
+      "textToken": "Text/Line Primary",
+      "hoverTextToken": "Text/Line Primary",
+      "showArrow": true,
+      "isDisabled": false
+    },
+    {
+      "name": "Disabled",
+      "bgToken": "BG/Button/Disabled",
+      "hoverBgToken": "BG/Button/Disabled",
+      "textToken": "Text/Tertiary",
+      "hoverTextToken": "Text/Tertiary",
+      "bgOpacity": 0.1,
+      "textOpacity": 0.35,
+      "backdropBlur": 40,
+      "showArrow": false,
+      "isDisabled": true
+    },
+    {
+      "name": "Disabled Night",
+      "bgToken": "BG/Button/Disabled – Night",
+      "hoverBgToken": "BG/Button/Disabled – Night",
+      "textToken": "Text/Tertiary – Night",
+      "hoverTextToken": "Text/Tertiary – Night",
+      "bgOpacity": 0.1,
+      "textOpacity": 0.3,
+      "backdropBlur": 40,
+      "showArrow": false,
+      "isDisabled": true
+    },
+    {
+      "name": "Success",
+      "bgToken": "BG/Highlight/Green 2",
+      "hoverBgToken": "BG/Highlight/Green 4",
+      "textToken": "Text/Secondary Green",
+      "hoverTextToken": "Text/Secondary Green",
+      "showArrow": true,
+      "isDisabled": false
+    },
+    {
+      "name": "Success Night",
+      "bgToken": "BG/Green 1",
+      "hoverBgToken": "BG/Green 2",
+      "textToken": "Text/Line Primary",
+      "hoverTextToken": "Text/Line Primary",
+      "showArrow": true,
+      "isDisabled": false
+    }
+  ],
+  "linkTypes": [
+    {
+      "name": "Primary",
+      "bgToken": "",
+      "hoverBgToken": "",
+      "textToken": "Link/Primary",
+      "hoverTextToken": "Link/Hover/Primary",
+      "hoverBgOpacity": 0.14,
+      "showArrow": true,
+      "isDisabled": false
+    },
+    {
+      "name": "Primary Night",
+      "bgToken": "",
+      "hoverBgToken": "",
+      "textToken": "Link/Primary – Night",
+      "hoverTextToken": "Link/Hover/Primary – Night",
+      "hoverBgOpacity": 0.14,
+      "showArrow": true,
+      "isDisabled": false
+    },
+    {
+      "name": "Black",
+      "bgToken": "",
+      "hoverBgToken": "",
+      "textToken": "Link/Secondary",
+      "hoverTextToken": "Link/Hover/Secondary",
+      "hoverBgOpacity": 0.12,
+      "showArrow": true,
+      "isDisabled": false
+    },
+    {
+      "name": "White",
+      "bgToken": "",
+      "hoverBgToken": "",
+      "textToken": "Link/Secondary – Night",
+      "hoverTextToken": "Link/Hover/Secondary – Night",
+      "textOpacity": 0.92,
+      "hoverTextOpacity": 0.92,
+      "hoverBgOpacity": 0.12,
+      "showArrow": true,
+      "isDisabled": false
+    },
+    {
+      "name": "Secondary",
+      "bgToken": "",
+      "hoverBgToken": "",
+      "textToken": "Link/Secondary",
+      "hoverTextToken": "Link/Hover/Secondary",
+      "hoverBgOpacity": 0.14,
+      "showArrow": true,
+      "isDisabled": false
+    },
+    {
+      "name": "Secondary Night",
+      "bgToken": "",
+      "hoverBgToken": "",
+      "textToken": "Link/Secondary – Night",
+      "hoverTextToken": "Link/Hover/Secondary – Night",
+      "hoverBgOpacity": 0.16,
+      "showArrow": true,
+      "isDisabled": false
+    },
+    {
+      "name": "Disabled",
+      "bgToken": "",
+      "hoverBgToken": "",
+      "textToken": "Text/Secondary",
+      "hoverTextToken": "Text/Secondary",
+      "textOpacity": 0.35,
+      "showArrow": false,
+      "isDisabled": true
+    },
+    {
+      "name": "Disabled Night",
+      "bgToken": "",
+      "hoverBgToken": "",
+      "textToken": "Text/Secondary – Night",
+      "hoverTextToken": "Text/Secondary – Night",
+      "textOpacity": 0.3,
+      "showArrow": false,
+      "isDisabled": true
+    },
+    {
+      "name": "Success",
+      "bgToken": "",
+      "hoverBgToken": "",
+      "textToken": "Text/Secondary Green",
+      "hoverTextToken": "Text/Primary Green",
+      "textOpacity": 0.9,
+      "hoverTextOpacity": 0.9,
+      "hoverBgOpacity": 0.12,
+      "showArrow": true,
+      "isDisabled": false
+    },
+    {
+      "name": "Success Night",
+      "bgToken": "",
+      "hoverBgToken": "",
+      "textToken": "Text/Primary Green – Night",
+      "hoverTextToken": "Text/Primary Green – Night",
+      "textOpacity": 0.9,
+      "hoverTextOpacity": 0.9,
+      "hoverBgOpacity": 0.12,
+      "showArrow": true,
+      "isDisabled": false
+    }
+  ],
+  "contentVariants": [
+    {
+      "id": "text",
+      "label": "Text only",
+      "leftIcon": null,
+      "rightIcon": null,
+      "iconOnly": false,
+      "hoverArrow": true
+    },
+    {
+      "id": "icon-left",
+      "label": "Icon left + text",
+      "leftIcon": "cross",
+      "rightIcon": null,
+      "iconOnly": false,
+      "hoverArrow": true
+    },
+    {
+      "id": "icon-right",
+      "label": "Text + icon right",
+      "leftIcon": null,
+      "rightIcon": "cross",
+      "iconOnly": false,
+      "hoverArrow": false
+    },
+    {
+      "id": "icon-only",
+      "label": "Icon only",
+      "leftIcon": "cross",
+      "rightIcon": null,
+      "iconOnly": true,
+      "hoverArrow": false
+    }
+  ],
+  "roundingModes": [
+    {
+      "id": "rounded",
+      "label": "Rounded=true",
+      "radiusKey": "radiusRounded"
+    },
+    {
+      "id": "sharp",
+      "label": "Rounded=false",
+      "radiusKey": "radiusSharp"
+    }
+  ]
+}

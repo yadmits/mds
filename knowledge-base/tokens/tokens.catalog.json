@@ -1,0 +1,932 @@
+{
+  "version": "0.2.0",
+  "lastUpdated": "2026-03-03",
+  "sources": [
+    {
+      "name": "Mindbox Promo Library",
+      "type": "figma",
+      "fileKey": "IawDi2Zwy7mvMMrsHvIFg1",
+      "mainLibraryUrl": "https://www.figma.com/design/IawDi2Zwy7mvMMrsHvIFg1/%F0%9F%9B%A0%EF%B8%8F-Mindbox-Promo-Library?node-id=8901-63114&m=dev"
+    }
+  ],
+  "tokenGroups": [
+    {
+      "group": "color",
+      "status": "in_progress",
+      "sourceNodeId": "9188:59195",
+      "sourceUrl": "https://www.figma.com/design/IawDi2Zwy7mvMMrsHvIFg1/%F0%9F%9B%A0%EF%B8%8F-Mindbox-Promo-Library?node-id=9188-59195&m=dev",
+      "items": [
+        {
+          "name": "BG/Button/Black",
+          "value": "#15161B",
+          "category": "button"
+        },
+        {
+          "name": "BG/Button/Disabled",
+          "value": "#0B203F",
+          "category": "button"
+        },
+        {
+          "name": "BG/Button/Disabled – Night",
+          "value": "#FFFFFF",
+          "category": "button"
+        },
+        {
+          "name": "BG/Button/Green",
+          "value": "#39AA5D",
+          "category": "button"
+        },
+        {
+          "name": "BG/Button/Hover/Black",
+          "value": "#282A30",
+          "category": "button"
+        },
+        {
+          "name": "BG/Button/Hover/Green",
+          "value": "#268644",
+          "category": "button"
+        },
+        {
+          "name": "BG/Button/Hover/Secondary",
+          "value": "#D2D8DE",
+          "category": "button"
+        },
+        {
+          "name": "BG/Button/Hover/Secondary – Night",
+          "value": "#FFFFFF",
+          "category": "button"
+        },
+        {
+          "name": "BG/Button/Secondary",
+          "value": "#DFE3E8",
+          "category": "button"
+        },
+        {
+          "name": "BG/Button/Secondary – Night",
+          "value": "#FFFFFF",
+          "category": "button"
+        },
+        {
+          "name": "BG/Button/White",
+          "value": "#FFFFFF",
+          "category": "button"
+        },
+        {
+          "name": "BG/Dark 1",
+          "value": "#36373F",
+          "category": "background"
+        },
+        {
+          "name": "BG/Dark 2",
+          "value": "#282A30",
+          "category": "background"
+        },
+        {
+          "name": "BG/Dark 3",
+          "value": "#212329",
+          "category": "background"
+        },
+        {
+          "name": "BG/Dark 4",
+          "value": "#1E1F24",
+          "category": "background"
+        },
+        {
+          "name": "BG/Dark 5",
+          "value": "#15161B",
+          "category": "background"
+        },
+        {
+          "name": "BG/Dark 6",
+          "value": "#0C0D10",
+          "category": "background"
+        },
+        {
+          "name": "BG/Green 1",
+          "value": "#56D67F",
+          "category": "background"
+        },
+        {
+          "name": "BG/Green 2",
+          "value": "#39AA5D",
+          "category": "background"
+        },
+        {
+          "name": "BG/Green 3",
+          "value": "#268644",
+          "category": "background"
+        },
+        {
+          "name": "BG/Highlight/Green 1",
+          "value": "#DEF8DD",
+          "category": "background"
+        },
+        {
+          "name": "BG/Highlight/Green 2",
+          "value": "#D0F1CF",
+          "category": "background"
+        },
+        {
+          "name": "BG/Highlight/Green 3",
+          "value": "#C0EDBF",
+          "category": "background"
+        },
+        {
+          "name": "BG/Highlight/Green 4",
+          "value": "#9AE1AA",
+          "category": "background"
+        },
+        {
+          "name": "BG/Highlight/OnDark",
+          "value": "#FFFFFF",
+          "category": "background"
+        },
+        {
+          "name": "BG/Highlight/OnDark Green",
+          "value": "#56D67F",
+          "category": "background"
+        },
+        {
+          "name": "BG/Highlight/OnLight",
+          "value": "#0B203F",
+          "category": "background"
+        },
+        {
+          "name": "BG/Light 0",
+          "value": "#FFFFFF",
+          "category": "background"
+        },
+        {
+          "name": "BG/Light 1",
+          "value": "#F0F3F6",
+          "category": "background"
+        },
+        {
+          "name": "BG/Light 2",
+          "value": "#E8EBEE",
+          "category": "background"
+        },
+        {
+          "name": "BG/Light 3",
+          "value": "#DFE3E8",
+          "category": "background"
+        },
+        {
+          "name": "BG/Light 4",
+          "value": "#D2D8DE",
+          "category": "background"
+        },
+        {
+          "name": "BG/Light 5",
+          "value": "#B4BECA",
+          "category": "background"
+        },
+        {
+          "name": "BG/Yellow",
+          "value": "#EAC25B",
+          "category": "background"
+        },
+        {
+          "name": "Link/Hover/Primary",
+          "value": "#11762D",
+          "category": "link"
+        },
+        {
+          "name": "Link/Hover/Primary – Night",
+          "value": "#88F09F",
+          "category": "link"
+        },
+        {
+          "name": "Link/Hover/Secondary",
+          "value": "#0B203F",
+          "category": "link"
+        },
+        {
+          "name": "Link/Hover/Secondary – Night",
+          "value": "#FFFFFF",
+          "category": "link"
+        },
+        {
+          "name": "Link/Hover/Tertiary",
+          "value": "#292B32",
+          "category": "link"
+        },
+        {
+          "name": "Link/Hover/Tertiary – Night",
+          "value": "#FFFFFF",
+          "category": "link"
+        },
+        {
+          "name": "Link/Primary",
+          "value": "#268644",
+          "category": "link"
+        },
+        {
+          "name": "Link/Primary – Night",
+          "value": "#56D67F",
+          "category": "link"
+        },
+        {
+          "name": "Link/Secondary",
+          "value": "#292B32",
+          "category": "link"
+        },
+        {
+          "name": "Link/Secondary – Night",
+          "value": "#FFFFFF",
+          "category": "link"
+        },
+        {
+          "name": "Link/Tertiary",
+          "value": "#0B203F",
+          "category": "link"
+        },
+        {
+          "name": "Link/Tertiary – Night",
+          "value": "#FFFFFF",
+          "category": "link"
+        },
+        {
+          "name": "Product/CDP",
+          "value": "#39AA5D",
+          "category": "product"
+        },
+        {
+          "name": "Product/HR-brand",
+          "value": "#2CF36B",
+          "category": "product"
+        },
+        {
+          "name": "Product/Loyalty",
+          "value": "#FA4C49",
+          "category": "product"
+        },
+        {
+          "name": "Product/Mailings",
+          "value": "#5383F4",
+          "category": "product"
+        },
+        {
+          "name": "Product/Media",
+          "value": "#D76BFE",
+          "category": "product"
+        },
+        {
+          "name": "Product/ML",
+          "value": "#FCA92F",
+          "category": "product"
+        },
+        {
+          "name": "Product/Popups",
+          "value": "#F8D94B",
+          "category": "product"
+        },
+        {
+          "name": "Product/Push",
+          "value": "#56D67F",
+          "category": "product"
+        },
+        {
+          "name": "Product/Quiz",
+          "value": "#30E5C1",
+          "category": "product"
+        },
+        {
+          "name": "Text/Error",
+          "value": "#F21B1B",
+          "category": "text"
+        },
+        {
+          "name": "Text/Line Primary",
+          "value": "#0B203F",
+          "category": "text"
+        },
+        {
+          "name": "Text/Line Primary – Night",
+          "value": "#FFFFFF",
+          "category": "text"
+        },
+        {
+          "name": "Text/Line Secondary",
+          "value": "#0B203F",
+          "category": "text"
+        },
+        {
+          "name": "Text/Line Secondary – Night",
+          "value": "#FFFFFF",
+          "category": "text"
+        },
+        {
+          "name": "Text/Primary",
+          "value": "#292B32",
+          "category": "text"
+        },
+        {
+          "name": "Text/Primary – Night",
+          "value": "#FFFFFF",
+          "category": "text"
+        },
+        {
+          "name": "Text/Primary Green",
+          "value": "#39AA5D",
+          "category": "text"
+        },
+        {
+          "name": "Text/Primary Green – Night",
+          "value": "#56D67F",
+          "category": "text"
+        },
+        {
+          "name": "Text/Secondary",
+          "value": "#0B203F",
+          "category": "text"
+        },
+        {
+          "name": "Text/Secondary – Night",
+          "value": "#FFFFFF",
+          "category": "text"
+        },
+        {
+          "name": "Text/Secondary Green",
+          "value": "#268644",
+          "category": "text"
+        },
+        {
+          "name": "Text/Tertiary",
+          "value": "#0B203F",
+          "category": "text"
+        },
+        {
+          "name": "Text/Tertiary – Night",
+          "value": "#FFFFFF",
+          "category": "text"
+        }
+      ]
+    },
+    {
+      "group": "typography",
+      "status": "in_progress",
+      "sourceNodeId": "9188:59197",
+      "sourceUrl": "https://www.figma.com/design/IawDi2Zwy7mvMMrsHvIFg1/%F0%9F%9B%A0%EF%B8%8F-Mindbox-Promo-Library?node-id=9188-59197&m=dev",
+      "items": [
+        {
+          "name": "Button Component/Button L",
+          "family": "CoFo Sans Variable",
+          "weight": 480,
+          "size": 22,
+          "lineHeight": 26,
+          "letterSpacing": -3,
+          "letterSpacingUnit": "percent",
+          "category": "button"
+        },
+        {
+          "name": "Button Component/Button M",
+          "family": "CoFo Sans Variable",
+          "weight": 500,
+          "size": 18,
+          "lineHeight": 24,
+          "letterSpacing": -2,
+          "category": "button",
+          "letterSpacingUnit": "percent"
+        },
+        {
+          "name": "Button Component/Button S",
+          "family": "CoFo Sans Variable",
+          "weight": 500,
+          "size": 16,
+          "lineHeight": 22,
+          "letterSpacing": -2,
+          "category": "button",
+          "letterSpacingUnit": "percent"
+        },
+        {
+          "name": "Button Component/Button XL",
+          "family": "CoFo Sans Variable",
+          "weight": 500,
+          "size": 24,
+          "lineHeight": 30,
+          "letterSpacing": -2,
+          "letterSpacingUnit": "percent",
+          "category": "button"
+        },
+        {
+          "name": "Button Component/Button XS",
+          "family": "CoFo Sans Variable",
+          "weight": 500,
+          "size": 14,
+          "lineHeight": 20,
+          "letterSpacing": -1,
+          "category": "button",
+          "letterSpacingUnit": "percent"
+        },
+        {
+          "name": "Button Component/Button XXS",
+          "family": "CoFo Sans Variable",
+          "weight": 500,
+          "size": 12,
+          "lineHeight": 16,
+          "letterSpacing": -1,
+          "letterSpacingUnit": "percent",
+          "category": "button"
+        },
+        {
+          "name": "Button Component/Link L",
+          "family": "CoFo Sans Variable",
+          "weight": 450,
+          "size": 22,
+          "lineHeight": 28,
+          "letterSpacing": -2,
+          "letterSpacingUnit": "percent",
+          "category": "button-link"
+        },
+        {
+          "name": "Button Component/Link M",
+          "family": "CoFo Sans Variable",
+          "weight": 450,
+          "size": 18,
+          "lineHeight": 24,
+          "letterSpacing": -2,
+          "letterSpacingUnit": "percent",
+          "category": "button-link"
+        },
+        {
+          "name": "Button Component/Link S",
+          "family": "CoFo Sans Variable",
+          "weight": 450,
+          "size": 16,
+          "lineHeight": 20,
+          "letterSpacing": -2,
+          "letterSpacingUnit": "percent",
+          "category": "button-link"
+        },
+        {
+          "name": "Button Component/Link XL",
+          "family": "CoFo Sans Variable",
+          "weight": 450,
+          "size": 24,
+          "lineHeight": 30,
+          "letterSpacing": -2,
+          "letterSpacingUnit": "percent",
+          "category": "button-link"
+        },
+        {
+          "name": "Button Component/Link XS",
+          "family": "CoFo Sans Variable",
+          "weight": 450,
+          "size": 14,
+          "lineHeight": 20,
+          "letterSpacing": -1,
+          "letterSpacingUnit": "percent",
+          "category": "button-link"
+        },
+        {
+          "name": "Button Component/Link XXS",
+          "family": "CoFo Sans Variable",
+          "weight": 400,
+          "size": 12,
+          "lineHeight": 16,
+          "letterSpacing": -1,
+          "letterSpacingUnit": "percent",
+          "category": "button-link"
+        },
+        {
+          "name": "H1",
+          "family": "CoFo Sans Variable",
+          "weight": 480,
+          "size": 70,
+          "lineHeight": 68,
+          "letterSpacing": -4,
+          "category": "heading",
+          "letterSpacingUnit": "percent"
+        },
+        {
+          "name": "H2",
+          "family": "CoFo Sans Variable",
+          "weight": 480,
+          "size": 50,
+          "lineHeight": 48,
+          "letterSpacing": -4,
+          "category": "heading",
+          "letterSpacingUnit": "percent"
+        },
+        {
+          "name": "H3",
+          "family": "CoFo Sans Variable",
+          "weight": 480,
+          "size": 32,
+          "lineHeight": 32,
+          "letterSpacing": -4,
+          "category": "heading",
+          "letterSpacingUnit": "percent"
+        },
+        {
+          "name": "L",
+          "family": "CoFo Sans Variable",
+          "weight": 400,
+          "size": 22,
+          "lineHeight": 28,
+          "letterSpacing": -2,
+          "category": "body",
+          "letterSpacingUnit": "percent"
+        },
+        {
+          "name": "L – Med",
+          "family": "CoFo Sans Variable",
+          "weight": 480,
+          "size": 22,
+          "lineHeight": 26,
+          "letterSpacing": -3,
+          "category": "body",
+          "letterSpacingUnit": "percent"
+        },
+        {
+          "name": "M",
+          "family": "CoFo Sans Variable",
+          "weight": 400,
+          "size": 18,
+          "lineHeight": 24,
+          "letterSpacing": -2,
+          "category": "body",
+          "letterSpacingUnit": "percent"
+        },
+        {
+          "name": "M – Long",
+          "family": "CoFo Sans Variable",
+          "weight": 400,
+          "size": 18,
+          "lineHeight": 28,
+          "letterSpacing": -2,
+          "category": "body",
+          "letterSpacingUnit": "percent"
+        },
+        {
+          "name": "M – Med",
+          "family": "CoFo Sans Variable",
+          "weight": 500,
+          "size": 18,
+          "lineHeight": 24,
+          "letterSpacing": -2,
+          "category": "body",
+          "letterSpacingUnit": "percent"
+        },
+        {
+          "name": "Mobile/H1",
+          "family": "CoFo Sans Variable",
+          "weight": 480,
+          "size": 48,
+          "lineHeight": 48,
+          "letterSpacing": -4,
+          "category": "mobile-heading",
+          "letterSpacingUnit": "percent"
+        },
+        {
+          "name": "Mobile/H2",
+          "family": "CoFo Sans Variable",
+          "weight": 480,
+          "size": 36,
+          "lineHeight": 36,
+          "letterSpacing": -4,
+          "category": "mobile-heading",
+          "letterSpacingUnit": "percent"
+        },
+        {
+          "name": "Mobile/H3",
+          "family": "CoFo Sans Variable",
+          "weight": 480,
+          "size": 28,
+          "lineHeight": 28,
+          "letterSpacing": -3,
+          "category": "mobile-heading",
+          "letterSpacingUnit": "percent"
+        },
+        {
+          "name": "Mobile/H4",
+          "family": "CoFo Sans Variable",
+          "weight": 480,
+          "size": 24,
+          "lineHeight": 26,
+          "letterSpacing": -4,
+          "category": "mobile-heading",
+          "letterSpacingUnit": "percent"
+        },
+        {
+          "name": "Mobile/L",
+          "family": "CoFo Sans Variable",
+          "weight": 400,
+          "size": 20,
+          "lineHeight": 24,
+          "letterSpacing": -2,
+          "category": "mobile-body",
+          "letterSpacingUnit": "percent"
+        },
+        {
+          "name": "Mobile/L – Med",
+          "family": "CoFo Sans Variable",
+          "weight": 480,
+          "size": 20,
+          "lineHeight": 24,
+          "letterSpacing": -3,
+          "category": "mobile-body",
+          "letterSpacingUnit": "percent"
+        },
+        {
+          "name": "S",
+          "family": "CoFo Sans Variable",
+          "weight": 400,
+          "size": 16,
+          "lineHeight": 24,
+          "letterSpacing": -2,
+          "category": "body",
+          "letterSpacingUnit": "percent"
+        },
+        {
+          "name": "S – Med",
+          "family": "CoFo Sans Variable",
+          "weight": 500,
+          "size": 16,
+          "lineHeight": 22,
+          "letterSpacing": -2,
+          "category": "body",
+          "letterSpacingUnit": "percent"
+        },
+        {
+          "name": "S – Short",
+          "family": "CoFo Sans Variable",
+          "weight": 400,
+          "size": 16,
+          "lineHeight": 20,
+          "letterSpacing": -2,
+          "category": "body",
+          "letterSpacingUnit": "percent"
+        },
+        {
+          "name": "XL",
+          "family": "CoFo Sans Variable",
+          "weight": 400,
+          "size": 32,
+          "lineHeight": 42,
+          "letterSpacing": -2,
+          "category": "body",
+          "letterSpacingUnit": "percent"
+        },
+        {
+          "name": "XS",
+          "family": "CoFo Sans Variable",
+          "weight": 400,
+          "size": 14,
+          "lineHeight": 20,
+          "letterSpacing": -1,
+          "category": "body",
+          "letterSpacingUnit": "percent"
+        },
+        {
+          "name": "XS – Med",
+          "family": "CoFo Sans Variable",
+          "weight": 500,
+          "size": 14,
+          "lineHeight": 21,
+          "letterSpacing": -1,
+          "category": "body",
+          "letterSpacingUnit": "percent"
+        },
+        {
+          "name": "XXS",
+          "family": "CoFo Sans Variable",
+          "weight": 400,
+          "size": 12,
+          "lineHeight": 16,
+          "letterSpacing": -1,
+          "category": "body",
+          "letterSpacingUnit": "percent"
+        },
+        {
+          "name": "XXS – Med",
+          "family": "CoFo Sans Variable",
+          "weight": 500,
+          "size": 12,
+          "lineHeight": 16,
+          "letterSpacing": 0,
+          "category": "body",
+          "letterSpacingUnit": "percent"
+        }
+      ]
+    },
+    {
+      "group": "effect",
+      "status": "in_progress",
+      "sourceNodeId": "9194:5142",
+      "sourceUrl": "https://www.figma.com/design/IawDi2Zwy7mvMMrsHvIFg1/%F0%9F%9B%A0%EF%B8%8F-Mindbox-Promo-Library?node-id=9194-5142&t=37QSIedZodPM0hws-11",
+      "items": [
+        {
+          "name": "BG/Blur/BG Blur Day",
+          "category": "blur-tint",
+          "value": "#F2F5F8",
+          "source": "figma-variable"
+        },
+        {
+          "name": "BG/Blur/BG Blur Night",
+          "category": "blur-tint",
+          "value": "#1B1B1B",
+          "source": "figma-variable"
+        },
+        {
+          "name": "BG/Blur/Header Day",
+          "category": "blur-tint",
+          "value": "#F2F5F8",
+          "source": "figma-variable"
+        },
+        {
+          "name": "BG/Blur/Header Night",
+          "category": "blur-tint",
+          "value": "#141414",
+          "source": "figma-variable"
+        },
+        {
+          "name": "BG Blur 20",
+          "category": "background-blur",
+          "value": "Effect(type: BACKGROUND_BLUR, radius: 20)",
+          "source": "figma-variable",
+          "effect": {
+            "type": "BACKGROUND_BLUR",
+            "radius": 20
+          }
+        },
+        {
+          "name": "BG Blur 40",
+          "category": "background-blur",
+          "value": "Effect(type: BACKGROUND_BLUR, radius: 40)",
+          "source": "figma-variable",
+          "effect": {
+            "type": "BACKGROUND_BLUR",
+            "radius": 40
+          }
+        },
+        {
+          "name": "BG Blur 60",
+          "category": "background-blur",
+          "value": "Effect(type: BACKGROUND_BLUR, radius: 60)",
+          "source": "figma-variable",
+          "effect": {
+            "type": "BACKGROUND_BLUR",
+            "radius": 60
+          }
+        },
+        {
+          "name": "BG Blur 120",
+          "category": "background-blur",
+          "value": "Effect(type: BACKGROUND_BLUR, radius: 120)",
+          "source": "figma-variable",
+          "effect": {
+            "type": "BACKGROUND_BLUR",
+            "radius": 120
+          }
+        },
+        {
+          "name": "BG Blur 200",
+          "category": "background-blur",
+          "value": "Effect(type: BACKGROUND_BLUR, radius: 200)",
+          "source": "figma-variable",
+          "effect": {
+            "type": "BACKGROUND_BLUR",
+            "radius": 200
+          }
+        },
+        {
+          "name": "Layer Blur 100",
+          "category": "layer-blur",
+          "value": "Effect(type: FOREGROUND_BLUR, radius: 100)",
+          "source": "figma-variable",
+          "effect": {
+            "type": "FOREGROUND_BLUR",
+            "radius": 100
+          }
+        },
+        {
+          "name": "Layer blur 200",
+          "category": "layer-blur",
+          "value": "Effect(type: FOREGROUND_BLUR, radius: 200)",
+          "source": "figma-variable",
+          "effect": {
+            "type": "FOREGROUND_BLUR",
+            "radius": 200
+          }
+        },
+        {
+          "name": "Layer Blur 400",
+          "category": "layer-blur",
+          "value": "Effect(type: FOREGROUND_BLUR, radius: 400)",
+          "source": "figma-variable",
+          "effect": {
+            "type": "FOREGROUND_BLUR",
+            "radius": 400
+          }
+        },
+        {
+          "name": "Glass L",
+          "category": "glass",
+          "value": "Effect(type: GLASS, radius: 4)",
+          "source": "figma-variable",
+          "effect": {
+            "type": "GLASS",
+            "radius": 4
+          }
+        },
+        {
+          "name": "Shadow S",
+          "category": "drop-shadow",
+          "value": "Effect(type: DROP_SHADOW, color: #0000000D, offset: (0, 8), radius: 16, spread: 0); Effect(type: DROP_SHADOW, color: #0000000A, offset: (0, 0), radius: 4, spread: 0)",
+          "source": "figma-variable",
+          "effect": {
+            "type": "DROP_SHADOW",
+            "layers": [
+              {
+                "color": "#0000000D",
+                "offsetX": 0,
+                "offsetY": 8,
+                "radius": 16,
+                "spread": 0
+              },
+              {
+                "color": "#0000000A",
+                "offsetX": 0,
+                "offsetY": 0,
+                "radius": 4,
+                "spread": 0
+              }
+            ]
+          },
+          "cssBoxShadow": "0px 8px 16px 0px rgba(0,0,0,0.051), 0px 0px 4px 0px rgba(0,0,0,0.039)"
+        },
+        {
+          "name": "Shadow M",
+          "category": "drop-shadow",
+          "value": "Effect(type: DROP_SHADOW, color: #0000000D, offset: (0, 8), radius: 40, spread: 0)",
+          "source": "figma-variable",
+          "effect": {
+            "type": "DROP_SHADOW",
+            "layers": [
+              {
+                "color": "#0000000D",
+                "offsetX": 0,
+                "offsetY": 8,
+                "radius": 40,
+                "spread": 0
+              }
+            ]
+          },
+          "cssBoxShadow": "0px 8px 40px 0px rgba(0,0,0,0.051)"
+        },
+        {
+          "name": "Shadow L",
+          "category": "drop-shadow",
+          "value": "Effect(type: DROP_SHADOW, color: #00000026, offset: (0, 12), radius: 48, spread: 0)",
+          "source": "figma-variable",
+          "effect": {
+            "type": "DROP_SHADOW",
+            "layers": [
+              {
+                "color": "#00000026",
+                "offsetX": 0,
+                "offsetY": 12,
+                "radius": 48,
+                "spread": 0
+              }
+            ]
+          },
+          "cssBoxShadow": "0px 12px 48px 0px rgba(0,0,0,0.149)"
+        }
+      ]
+    },
+    {
+      "group": "spacing",
+      "status": "draft",
+      "items": []
+    },
+    {
+      "group": "radius",
+      "status": "draft",
+      "items": []
+    },
+    {
+      "group": "shadow",
+      "status": "draft",
+      "items": []
+    },
+    {
+      "group": "motion",
+      "status": "draft",
+      "items": []
+    }
+  ],
+  "namingRules": {
+    "styleSource": "figma-library-style-name",
+    "codeTokenFormatTarget": "namespace/category/role/state",
+    "example": "color/bg/primary/default"
+  },
+  "notes": [
+    "Only core library styles are included in this first pass.",
+    "Styles with prefix 'Not for dev/' are intentionally excluded.",
+    "Effect tokens section initialized. Full shadow/glass params require direct Figma effect-styles node URL.",
+    "Effects loaded from Figma section 9194:5142 (Shadows, BG Blur, Layer Blur, Glass)."
+  ]
+}

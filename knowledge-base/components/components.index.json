@@ -1,0 +1,49 @@
+{
+  "version": "0.2.0",
+  "lastUpdated": "2026-03-03",
+  "components": [
+    {
+      "id": "button",
+      "name": "Button",
+      "status": "in_progress",
+      "priority": "high",
+      "figmaNodeUrl": "https://www.figma.com/design/IawDi2Zwy7mvMMrsHvIFg1/%F0%9F%9B%A0%EF%B8%8F-Mindbox-Promo-Library?node-id=6483-5558&t=37QSIedZodPM0hws-11",
+      "figmaNodeId": "6483:5558",
+      "specFile": "knowledge-base/components/specs/button.spec.md",
+      "codeTarget": "preview/tokens.html#buttons",
+      "owners": {
+        "design": "TODO_DESIGN_OWNER",
+        "frontend": "TODO_FE_OWNER"
+      },
+      "tokensUsed": [
+        "BG/Button/Green",
+        "BG/Button/Hover/Green",
+        "BG/Button/Black",
+        "BG/Button/Hover/Black",
+        "BG/Button/White",
+        "BG/Button/Secondary",
+        "BG/Button/Hover/Secondary",
+        "BG/Button/Disabled",
+        "Link/Primary",
+        "Link/Hover/Primary",
+        "Text/Primary",
+        "Text/Primary – Night",
+        "Button Component/Button XL",
+        "Button Component/Button L",
+        "Button Component/Button M",
+        "Button Component/Button S",
+        "Button Component/Button XS",
+        "Button Component/Button XXS"
+      ],
+      "statesCovered": [
+        "default",
+        "hover",
+        "active"
+      ],
+      "a11yStatus": "unknown",
+      "testStatus": "unknown",
+      "lastReviewedAt": "2026-03-03",
+      "notes": "Button page assembled in preview with BG=true and BG=false modes, size/type matrix, hover and active behavior."
+    }
+  ]
+}

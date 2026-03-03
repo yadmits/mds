@@ -1,0 +1,9 @@
+{
+  "name": "mindbox-design-system-kb",
+  "private": true,
+  "version": "0.1.0",
+  "scripts": {
+    "preview:build": "node scripts/generate-token-preview.mjs",
+    "preview:serve": "npm run preview:build && npx --yes serve -s preview -l 4173"
+  }
+}
