@@ -6,6 +6,9 @@ const tokensPath = path.join(root, "knowledge-base", "tokens", "tokens.catalog.j
 const iconsPath = path.join(root, "knowledge-base", "icons", "icons.catalog.json");
 const buttonsPath = path.join(root, "knowledge-base", "components", "buttons.catalog.json");
 const badgesPath = path.join(root, "knowledge-base", "components", "badges.catalog.json");
+const checkboxesPath = path.join(root, "knowledge-base", "components", "checkboxes.catalog.json");
+const switchersPath = path.join(root, "knowledge-base", "components", "switchers.catalog.json");
+const radiosPath = path.join(root, "knowledge-base", "components", "radios.catalog.json");
 const fontSourceDir = path.join(root, "knowledge-base", "assets", "fonts");
 const outDir = path.join(root, "preview");
 const outPath = path.join(outDir, "tokens.html");
@@ -19,6 +22,15 @@ const buttonsCatalog = fs.existsSync(buttonsPath)
 const badgesCatalog = fs.existsSync(badgesPath)
   ? JSON.parse(fs.readFileSync(badgesPath, "utf8"))
   : { sizes: [], styleVariants: [], contentVariants: [], colorOptions: [] };
+const checkboxesCatalog = fs.existsSync(checkboxesPath)
+  ? JSON.parse(fs.readFileSync(checkboxesPath, "utf8"))
+  : { sizes: [], states: [], filledModes: [], nightModes: [] };
+const switchersCatalog = fs.existsSync(switchersPath)
+  ? JSON.parse(fs.readFileSync(switchersPath, "utf8"))
+  : { sizes: [], states: [], filledModes: [], nightModes: [] };
+const radiosCatalog = fs.existsSync(radiosPath)
+  ? JSON.parse(fs.readFileSync(radiosPath, "utf8"))
+  : { sizes: [], states: [], filledModes: [] };
 
 const colorGroup = catalog.tokenGroups.find((g) => g.group === "color");
 const typoGroup = catalog.tokenGroups.find((g) => g.group === "typography");
@@ -49,6 +61,12 @@ const badgesSections = renderBadgesPage({
   colorLookup,
   iconLookup
 });
+const controlsSections = renderControlsPage({
+  checkboxesCatalog,
+  switchersCatalog,
+  radiosCatalog,
+  colorLookup
+});
 const buttonConstructorData = buildButtonConstructorData({
   catalog: buttonsCatalog,
   typoLookup,
@@ -61,6 +79,42 @@ const badgeConstructorData = buildBadgeConstructorData({
   colorLookup,
   iconLookup
 });
+const controlsConstructorData = buildControlsConstructorData({
+  checkboxesCatalog,
+  switchersCatalog,
+  radiosCatalog,
+  colorLookup
+});
+
+const uiBg = getColor(colorLookup, "BG/Light 1", "#F0F3F6");
+const uiBgSoft = getColor(colorLookup, "BG/Light 2", "#E8EBEE");
+const uiPanel = getColor(colorLookup, "BG/Light 0", "#FFFFFF");
+const uiInk = getColor(colorLookup, "Text/Primary", "#292B32");
+const uiMuted = getColor(colorLookup, "Text/Secondary", "#0B203F");
+const uiBorderBase = getColor(colorLookup, "Text/Line Secondary", "#0B203F");
+const uiBorderStrongBase = getColor(colorLookup, "Text/Line Primary", "#0B203F");
+const uiBorder = applyOpacity(uiBorderBase, 0.25);
+const uiBorderStrong = applyOpacity(uiBorderStrongBase, 0.35);
+const uiAccent = getColor(colorLookup, "Text/Primary Green", "#39AA5D");
+const uiAccentSoft = getColor(colorLookup, "BG/Highlight/Green 2", "#D0F1CF");
+const uiLink = getColor(colorLookup, "Link/Primary", "#268644");
+
+const uiBgDark = getColor(colorLookup, "BG/Dark 3", "#212329");
+const uiPanelDark = getColor(colorLookup, "BG/Dark 2", "#292B32");
+const uiInkDark = getColor(colorLookup, "Text/Primary – Night", "#FFFFFF");
+const uiMutedDark = getColor(colorLookup, "Text/Secondary – Night", "rgba(255,255,255,0.8)");
+const uiBorderDarkBase = getColor(colorLookup, "Text/Line Secondary – Night", "#FFFFFF");
+const uiBorderStrongDarkBase = getColor(colorLookup, "Text/Line Primary – Night", "#FFFFFF");
+const uiBorderDark = applyOpacity(uiBorderDarkBase, 0.28);
+const uiBorderStrongDark = applyOpacity(uiBorderStrongDarkBase, 0.45);
+const uiAccentDark = getColor(colorLookup, "Text/Primary Green – Night", "#56D67F");
+
+const uiBodyText = getTypographyCssToken(typoLookup, "S", "font-size:16px;line-height:22px;font-weight:400;letter-spacing:-0.01em");
+const uiTitleText = getTypographyCssToken(typoLookup, "H3", "font-size:32px;line-height:32px;font-weight:480;letter-spacing:-0.04em");
+const uiSectionTitleText = getTypographyCssToken(typoLookup, "M – Med", "font-size:18px;line-height:24px;font-weight:500;letter-spacing:-0.02em");
+const uiGroupTitleText = getTypographyCssToken(typoLookup, "S – Med", "font-size:16px;line-height:22px;font-weight:500;letter-spacing:-0.02em");
+const uiMetaText = getTypographyCssToken(typoLookup, "XS – Med", "font-size:14px;line-height:20px;font-weight:500;letter-spacing:-0.01em");
+const uiTinyText = getTypographyCssToken(typoLookup, "XXS – Med", "font-size:12px;line-height:16px;font-weight:500;letter-spacing:0");
 
 const html = `<!doctype html>
 <html lang="ru">
@@ -77,12 +131,15 @@ const html = `<!doctype html>
       font-display: swap;
     }
     :root {
-      --bg: #eef2f6;
-      --panel: #ffffff;
-      --ink: #15161b;
-      --muted: #69707f;
-      --border: #d7dee6;
-      --accent: #39aa5d;
+      --bg: ${uiBg};
+      --bg-soft: ${uiBgSoft};
+      --panel: ${uiPanel};
+      --ink: ${uiInk};
+      --muted: ${uiMuted};
+      --border: ${uiBorder};
+      --border-strong: ${uiBorderStrong};
+      --accent: ${uiAccent};
+      --link: ${uiLink};
       --sidebar-bg: #15161b;
       --sidebar-ink: #d3d8df;
       --sidebar-active: #56d67f;
@@ -93,10 +150,11 @@ const html = `<!doctype html>
     body {
       margin: 0;
       background:
-        radial-gradient(1200px 560px at 0% -10%, #dff2df 0%, rgba(223, 242, 223, 0) 60%),
-        linear-gradient(180deg, #f3f6f9 0%, #eef2f6 60%, #ebeff3 100%);
+        radial-gradient(1200px 560px at 0% -10%, ${uiAccentSoft} 0%, rgba(223, 242, 223, 0) 60%),
+        linear-gradient(180deg, ${uiBgSoft} 0%, ${uiBg} 60%, ${uiBgSoft} 100%);
       color: var(--ink);
       font-family: "CoFo Sans Variable", "Helvetica Neue", Helvetica, Arial, sans-serif;
+      ${uiBodyText};
     }
     .app {
       min-height: 100vh;
@@ -108,7 +166,7 @@ const html = `<!doctype html>
       top: 0;
       height: 100vh;
       background: var(--sidebar-bg);
-      border-right: 1px solid #2a2d35;
+      border-right: none;
       padding: 20px 14px;
     }
     .brand {
@@ -119,20 +177,24 @@ const html = `<!doctype html>
     }
     .nav {
       display: grid;
-      gap: 6px;
+      gap: 10px;
+      margin-bottom: 22px;
+    }
+    .nav-item {
+      display: grid;
+      gap: 8px;
     }
     .nav-link {
       text-decoration: none;
       color: var(--sidebar-ink);
-      border: 1px solid transparent;
+      border: none;
       border-radius: 12px;
-      padding: 10px 12px;
+      padding: 12px 14px;
       font-size: 14px;
       transition: all 0.16s ease;
       display: block;
     }
     .nav-link:hover {
-      border-color: #3a3f4a;
       color: #fff;
       background: #1f2229;
     }
@@ -142,138 +204,169 @@ const html = `<!doctype html>
       border-color: transparent;
       font-weight: 600;
     }
+    .subnav {
+      display: grid;
+      gap: 6px;
+      max-height: 0;
+      opacity: 0;
+      overflow: auto;
+      padding-right: 2px;
+      pointer-events: none;
+      transition: max-height 180ms ease, opacity 140ms ease;
+    }
+    .nav-item.active .subnav {
+      max-height: 280px;
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .subnav-link {
+      text-decoration: none;
+      color: #b7bfcd;
+      font-size: 13px;
+      line-height: 1.25;
+      padding: 6px 10px 6px 14px;
+      border-radius: 8px;
+      background: transparent;
+      transition: color 120ms ease, background-color 120ms ease;
+    }
+    .subnav-link:hover {
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.08);
+    }
+    .subnav-link.active {
+      color: #ffffff;
+      background: rgba(86, 214, 127, 0.2);
+    }
     .main {
-      padding: 24px 20px 84px;
+      padding: 40px 36px 132px;
     }
     .page { display: none; max-width: 1600px; }
     .page.active { display: block; }
     .header {
       background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: 22px;
-      padding: 20px 22px;
-      margin-bottom: 18px;
+      border: none;
+      border-radius: 14px;
+      padding: 28px 30px;
+      margin-bottom: 52px;
     }
     .header-row {
       display: flex;
       align-items: flex-start;
       justify-content: space-between;
-      gap: 12px;
+      gap: 18px;
     }
     .theme-toggle {
-      border: 1px solid var(--border);
+      border: none;
       background: #f8fafc;
-      border-radius: 999px;
-      padding: 8px 12px;
-      font-size: 12px;
+      border-radius: 8px;
+      padding: 10px 14px;
+      ${uiTinyText};
       cursor: pointer;
       color: #253042;
       transition: background-color 120ms ease;
     }
     .theme-toggle:hover { background: #eef4f8; }
-    .title { margin: 0 0 8px; font-size: 30px; line-height: 1.05; letter-spacing: -0.02em; }
-    .subtitle { margin: 0; color: var(--muted); font-size: 14px; }
-    .legend { margin-top: 12px; display: flex; gap: 8px; flex-wrap: wrap; }
+    .title { margin: 0 0 8px; ${uiTitleText}; }
+    .subtitle { margin: 0; color: var(--muted); ${uiMetaText}; }
+    .legend { margin-top: 24px; display: flex; gap: 16px; flex-wrap: wrap; }
     .chip {
-      border: 1px solid var(--border);
-      background: #f8fafc;
-      border-radius: 999px;
-      padding: 6px 12px;
-      font-size: 12px;
+      border: none;
+      background: var(--bg-soft);
+      border-radius: 10px;
+      padding: 8px 14px;
+      ${uiTinyText};
       line-height: 1;
       color: #253042;
     }
     .chip b { color: var(--accent); }
     .section {
       background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: 22px;
-      padding: 14px;
-      margin-top: 14px;
+      border: none;
+      border-radius: 14px;
+      padding: 32px;
+      margin-top: 56px;
     }
     .section h2 {
-      margin: 4px 8px 14px;
-      font-size: 20px;
-      letter-spacing: -0.02em;
+      margin: 6px 8px 28px;
+      ${uiSectionTitleText};
     }
     .group {
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      background: #f9fbfc;
-      padding: 10px;
-      margin: 10px 6px;
+      border: none;
+      border-radius: 0;
+      background: transparent;
+      padding: 14px 0;
+      margin: 46px 0;
     }
     .group-title {
-      margin: 2px 4px 10px;
-      font-size: 14px;
-      font-weight: 600;
-      color: #202c3d;
+      margin: 2px 4px 18px;
+      ${uiGroupTitleText};
+      color: var(--ink);
     }
     .hint {
-      margin: 4px 8px 14px;
+      margin: 8px 10px 30px;
       color: var(--muted);
-      font-size: 13px;
+      ${uiMetaText};
       line-height: 1.35;
     }
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-      gap: 12px;
+      gap: 30px;
     }
     .card {
-      border: 1px solid var(--border);
-      border-radius: 14px;
+      border: none;
+      border-radius: 10px;
       overflow: hidden;
       background: #fff;
     }
-    .swatch { height: 84px; border-bottom: 1px solid var(--border); }
-    .meta { padding: 10px; display: grid; gap: 4px; }
+    .swatch { height: 84px; border-bottom: none; }
+    .meta { padding: 12px; display: grid; gap: 6px; }
     .name { font-size: 12px; line-height: 1.25; font-weight: 600; }
     .value, .cat { font-size: 12px; color: var(--muted); }
     .types {
       display: grid;
       grid-template-columns: 1fr;
-      gap: 10px;
+      gap: 30px;
     }
     .type-card {
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 14px;
+      border: none;
+      border-radius: 10px;
+      padding: 18px;
       background: #fff;
     }
     .type-header { margin-bottom: 8px; }
     .type-header .name { font-size: 20px; letter-spacing: -0.03em; }
-    .spec { color: var(--muted); font-size: 12px; line-height: 1.2; }
+    .spec { color: var(--muted); ${uiTinyText}; line-height: 1.2; }
     .sample { margin: 0; overflow-wrap: anywhere; }
     .effects {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      gap: 12px;
+      gap: 30px;
     }
     .effect-card {
-      border: 1px solid var(--border);
-      border-radius: 14px;
+      border: none;
+      border-radius: 10px;
       background: #fff;
       overflow: hidden;
     }
     .effect-preview {
       height: 110px;
-      border-bottom: 1px solid var(--border);
-      padding: 18px;
+      border-bottom: none;
+      padding: 20px;
       position: relative;
       background: linear-gradient(135deg, #f7f9fb 0%, #eef3f7 100%);
     }
     .effect-demo {
       width: 88px;
       height: 56px;
-      border-radius: 12px;
+      border-radius: 8px;
       background: #ffffff;
-      border: 1px solid #d7dee6;
+      border: none;
     }
     .effect-meta {
-      padding: 10px;
+      padding: 12px;
       display: grid;
-      gap: 4px;
+      gap: 6px;
     }
     .effect-name { font-size: 13px; font-weight: 600; }
     .effect-value, .effect-note {
@@ -282,30 +375,30 @@ const html = `<!doctype html>
       line-height: 1.3;
     }
     .effect-empty {
-      border: 1px dashed #c8d0da;
-      border-radius: 14px;
-      padding: 14px;
-      font-size: 13px;
+      border: none;
+      border-radius: 10px;
+      padding: 18px;
+      ${uiMetaText};
       color: var(--muted);
       background: #fbfcfd;
     }
     .icons {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-      gap: 12px;
+      gap: 30px;
     }
     .icon-card {
-      border: 1px solid var(--border);
-      border-radius: 14px;
+      border: none;
+      border-radius: 10px;
       background: #fff;
-      padding: 12px;
+      padding: 16px;
       display: grid;
-      gap: 8px;
+      gap: 12px;
     }
     .icon-demo {
       height: 70px;
-      border: 1px solid var(--border);
-      border-radius: 12px;
+      border: none;
+      border-radius: 8px;
       background: linear-gradient(180deg, #f6f9fc 0%, #f0f4f8 100%);
       display: flex;
       align-items: center;
@@ -315,11 +408,21 @@ const html = `<!doctype html>
       letter-spacing: -0.03em;
       font-weight: 500;
     }
-    .icon-demo img {
+    .icon-demo .icon-mask {
       width: 24px;
       height: 24px;
-      object-fit: contain;
-      display: block;
+      display: inline-block;
+    }
+    .icon-mask {
+      background-color: currentColor;
+      -webkit-mask-position: center;
+      -webkit-mask-size: contain;
+      -webkit-mask-repeat: no-repeat;
+      mask-position: center;
+      mask-size: contain;
+      mask-repeat: no-repeat;
+      transform-origin: center;
+      transform: scale(var(--icon-scale-x, 1), var(--icon-scale-y, 1));
     }
     .icon-name { font-size: 13px; font-weight: 600; line-height: 1.2; }
     .icon-meta { font-size: 12px; color: var(--muted); line-height: 1.25; }
@@ -329,11 +432,11 @@ const html = `<!doctype html>
       flex-wrap: wrap;
     }
     .token-chip {
-      border: 1px solid var(--border);
-      border-radius: 999px;
+      border: none;
+      border-radius: 10px;
       background: #f9fbfd;
-      padding: 4px 8px;
-      font-size: 11px;
+      padding: 6px 10px;
+      ${uiTinyText};
       color: #2a3445;
       display: inline-flex;
       align-items: center;
@@ -342,15 +445,15 @@ const html = `<!doctype html>
     .token-dot {
       width: 8px;
       height: 8px;
-      border-radius: 999px;
+      border-radius: 8px;
       border: 1px solid rgba(0,0,0,0.08);
       flex: 0 0 8px;
     }
     .anchor-nav {
       display: flex;
       flex-wrap: wrap;
-      gap: 8px;
-      margin: 0 0 10px;
+      gap: 16px;
+      margin: 0 0 24px;
       padding: 0;
       list-style: none;
     }
@@ -358,29 +461,29 @@ const html = `<!doctype html>
       text-decoration: none;
       display: inline-flex;
       align-items: center;
-      border: 1px solid var(--border);
-      border-radius: 999px;
-      padding: 6px 11px;
-      font-size: 12px;
-      color: #2a3445;
-      background: #f8fbfd;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 14px;
+      ${uiTinyText};
+      color: var(--ink);
+      background: var(--bg-soft);
     }
     .anchor-link:hover { background: #edf4f9; }
     .constructor {
-      border: 1px solid var(--border);
-      border-radius: 14px;
+      border: none;
+      border-radius: 10px;
       background: #fff;
-      padding: 12px;
-      margin-top: 8px;
+      padding: 26px;
+      margin-top: 36px;
       display: grid;
       grid-template-columns: minmax(260px, 420px) 1fr;
-      gap: 12px;
+      gap: 24px;
     }
     .constructor-preview {
-      border: 1px solid var(--border);
-      border-radius: 12px;
+      border: none;
+      border-radius: 8px;
       background: linear-gradient(180deg, #f7fafc 0%, #f2f6fa 100%);
-      padding: 14px;
+      padding: 18px;
       min-height: 140px;
       display: flex;
       align-items: center;
@@ -393,21 +496,21 @@ const html = `<!doctype html>
     .constructor-controls {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 8px;
-      margin-bottom: 10px;
+      gap: 16px;
+      margin-bottom: 20px;
     }
     .constructor-controls label {
       font-size: 11px;
       color: var(--muted);
       display: grid;
-      gap: 4px;
+      gap: 6px;
     }
     .constructor-controls select {
-      border: 1px solid var(--border);
-      border-radius: 8px;
+      border: none;
+      border-radius: 6px;
       background: #fff;
       color: var(--ink);
-      padding: 6px 8px;
+      padding: 8px 10px;
       font-family: inherit;
       font-size: 12px;
     }
@@ -417,11 +520,11 @@ const html = `<!doctype html>
     }
     .icon-picker-btn {
       width: 100%;
-      border: 1px solid var(--border);
-      border-radius: 8px;
+      border: none;
+      border-radius: 6px;
       background: #fff;
       color: var(--ink);
-      padding: 6px 8px;
+      padding: 8px 10px;
       font-family: inherit;
       font-size: 12px;
       min-height: 32px;
@@ -449,8 +552,8 @@ const html = `<!doctype html>
       position: absolute;
       z-index: 30;
       inset: calc(100% + 4px) 0 auto 0;
-      border: 1px solid var(--border);
-      border-radius: 10px;
+      border: none;
+      border-radius: 8px;
       background: #fff;
       box-shadow: 0 8px 24px rgba(11, 32, 63, 0.14);
       padding: 6px;
@@ -462,7 +565,7 @@ const html = `<!doctype html>
     .icon-picker-item {
       width: 100%;
       border: 0;
-      border-radius: 8px;
+      border-radius: 6px;
       background: transparent;
       padding: 6px 8px;
       text-align: left;
@@ -488,30 +591,27 @@ const html = `<!doctype html>
     .icon-picker-glyph .icon-mask {
       width: 100%;
       height: 100%;
-      background-color: currentColor;
-      -webkit-mask: var(--icon-mask) center / contain no-repeat;
-      mask: var(--icon-mask) center / contain no-repeat;
     }
     .constructor-props {
-      border: 1px solid var(--border);
-      border-radius: 10px;
+      border: none;
+      border-radius: 8px;
       background: #f9fbfd;
-      padding: 10px;
-      font-size: 12px;
+      padding: 14px;
+      ${uiTinyText};
       line-height: 1.4;
       color: #223047;
       white-space: pre-wrap;
     }
     .btn-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
-      gap: 12px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 30px;
     }
     .btn-card {
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      background: #fff;
-      padding: 12px;
+      border: none;
+      border-radius: 0;
+      background: transparent;
+      padding: 0;
     }
     .btn-card-head {
       font-size: 12px;
@@ -525,7 +625,7 @@ const html = `<!doctype html>
     .btn-row {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 10px;
+      gap: 18px;
     }
     .btn-demo-label {
       font-size: 11px;
@@ -534,13 +634,13 @@ const html = `<!doctype html>
     }
     .btn-demo {
       min-height: 74px;
-      border: 1px solid var(--border);
-      border-radius: 10px;
+      border: none;
+      border-radius: 8px;
       background: linear-gradient(180deg, #f7fafc 0%, #f2f6fa 100%);
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 10px;
+      padding: 14px;
     }
     .btn-demo.dark-sample {
       background: linear-gradient(180deg, #2b2e35 0%, #252931 100%);
@@ -601,9 +701,6 @@ const html = `<!doctype html>
     .ds-btn .icon-mask {
       width: 100%;
       height: 100%;
-      background-color: currentColor;
-      -webkit-mask: var(--icon-mask) center / contain no-repeat;
-      mask: var(--icon-mask) center / contain no-repeat;
     }
     .ds-btn.is-disabled {
       cursor: not-allowed;
@@ -643,6 +740,10 @@ const html = `<!doctype html>
       color: var(--badge-icon-color, currentColor);
       flex: 0 0 var(--badge-icon-size, 14px);
     }
+    .ds-badge .icon-mask {
+      width: 100%;
+      height: 100%;
+    }
     .ds-badge-text-wrap {
       display: inline-flex;
       align-items: center;
@@ -660,20 +761,107 @@ const html = `<!doctype html>
     .ds-badge-label {
       display: inline-block;
     }
+    .controls-section {
+      background: var(--panel);
+      border: none;
+      border-radius: 14px;
+      padding: 32px;
+      margin-top: 56px;
+    }
+    .controls-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 30px;
+    }
+    .control-card {
+      border: none;
+      border-radius: 0;
+      background: transparent;
+      padding: 0;
+      display: grid;
+      gap: 14px;
+    }
+    .control-card .meta {
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .control-demo {
+      min-height: 72px;
+      border: none;
+      border-radius: 8px;
+      background: linear-gradient(180deg, #f7fafc 0%, #f2f6fa 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      padding: 16px;
+    }
+    .control-demo.dark {
+      background: linear-gradient(180deg, #2b2e35 0%, #252931 100%);
+      border-color: #3b3f49;
+    }
+    .ds-checkbox {
+      position: relative;
+      flex: 0 0 auto;
+      display: inline-block;
+    }
+    .ds-checkbox-mark {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: calc(var(--cb-size) * 0.52);
+      height: calc(var(--cb-size) * 0.38);
+      border-left: calc(var(--cb-size) * 0.12) solid var(--cb-check, #fff);
+      border-bottom: calc(var(--cb-size) * 0.12) solid var(--cb-check, #fff);
+      transform: translate(-50%, -58%) rotate(-45deg);
+      border-radius: 1px;
+      opacity: var(--cb-mark-opacity, 1);
+    }
+    .ds-switch {
+      position: relative;
+      display: inline-block;
+      flex: 0 0 auto;
+    }
+    .ds-switch-thumb {
+      position: absolute;
+      top: var(--sw-pad);
+      left: var(--sw-thumb-left);
+      width: var(--sw-thumb-size);
+      height: var(--sw-thumb-size);
+      border-radius: 999px;
+      background: var(--sw-thumb, #fff);
+    }
+    .ds-radio {
+      position: relative;
+      display: inline-block;
+      flex: 0 0 auto;
+    }
+    .ds-radio-inner {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: var(--rd-inner);
+      height: var(--rd-inner);
+      transform: translate(-50%, -50%);
+      border-radius: 999px;
+      background: var(--rd-inner-bg, #fff);
+    }
     code {
       background: #f2f5f8;
-      border: 1px solid #e0e6ed;
+      border: none;
       border-radius: 6px;
-      padding: 1px 5px;
+      padding: 2px 6px;
       font-size: 11px;
     }
     body[data-theme="dark"] {
-      --bg: #171a22;
-      --panel: #1f2430;
-      --ink: #e9edf6;
-      --muted: #aeb7c6;
-      --border: #343b49;
-      --accent: #56d67f;
+      --bg: ${uiBgDark};
+      --bg-soft: color-mix(in srgb, ${uiBgDark} 70%, ${uiPanelDark} 30%);
+      --panel: ${uiPanelDark};
+      --ink: ${uiInkDark};
+      --muted: ${uiMutedDark};
+      --border: ${uiBorderDark};
+      --border-strong: ${uiBorderStrongDark};
+      --accent: ${uiAccentDark};
     }
     body[data-theme="dark"] .chip,
     body[data-theme="dark"] .token-chip,
@@ -689,8 +877,8 @@ const html = `<!doctype html>
     body[data-theme="dark"] .effect-card,
     body[data-theme="dark"] .icon-card,
     body[data-theme="dark"] .btn-card {
-      background: #202734;
-      border-color: #384152;
+      background: color-mix(in srgb, var(--panel) 84%, #ffffff 16%);
+      border-color: var(--border);
     }
     body[data-theme="dark"] .group-title,
     body[data-theme="dark"] .name,
@@ -710,10 +898,12 @@ const html = `<!doctype html>
         height: auto;
         position: static;
         border-right: none;
-        border-bottom: 1px solid #2a2d35;
+        border-bottom: none;
       }
-      .nav { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .nav { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+      .subnav { display: none; }
       .btn-grid { grid-template-columns: 1fr; }
+      .controls-grid { grid-template-columns: 1fr; }
       .btn-row { grid-template-columns: 1fr; }
       .constructor { grid-template-columns: 1fr; }
       .constructor-controls { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -725,9 +915,22 @@ const html = `<!doctype html>
     <aside class="sidebar">
       <h1 class="brand">Mindbox DS</h1>
       <nav class="nav">
-        <a class="nav-link" data-nav="tokens" href="#tokens">Tokens</a>
-        <a class="nav-link" data-nav="buttons" href="#buttons">Buttons</a>
-        <a class="nav-link" data-nav="badges" href="#badges">Badges</a>
+        <div class="nav-item" data-nav-item="tokens">
+          <a class="nav-link" data-nav="tokens" href="#tokens">Tokens</a>
+          <nav class="subnav" data-subnav="tokens"></nav>
+        </div>
+        <div class="nav-item" data-nav-item="buttons">
+          <a class="nav-link" data-nav="buttons" href="#buttons">Buttons</a>
+          <nav class="subnav" data-subnav="buttons"></nav>
+        </div>
+        <div class="nav-item" data-nav-item="badges">
+          <a class="nav-link" data-nav="badges" href="#badges">Badges</a>
+          <nav class="subnav" data-subnav="badges"></nav>
+        </div>
+        <div class="nav-item" data-nav-item="controls">
+          <a class="nav-link" data-nav="controls" href="#controls">Controls</a>
+          <nav class="subnav" data-subnav="controls"></nav>
+        </div>
       </nav>
     </aside>
     <main class="main">
@@ -750,22 +953,22 @@ const html = `<!doctype html>
           </div>
         </header>
 
-        <section class="section">
+        <section id="tokens-colors" class="section" data-toc-item="Colors">
           <h2>Colors (${colors.length})</h2>
           ${colorSections}
         </section>
 
-        <section class="section">
+        <section id="tokens-typography" class="section" data-toc-item="Typography">
           <h2>Typography (${typo.length})</h2>
           ${typoSections}
         </section>
 
-        <section class="section">
+        <section id="tokens-effects" class="section" data-toc-item="Effects">
           <h2>Effects (${effects.length})</h2>
           ${effectSections}
         </section>
 
-        <section class="section">
+        <section id="tokens-icons" class="section" data-toc-item="Icons">
           <h2>Icons (${icons.length})</h2>
           <p class="hint">Rule: icon color inherits <code>currentColor</code> and should use text color tokens (same as button/input/badge text).</p>
           ${iconSections}
@@ -884,20 +1087,43 @@ const html = `<!doctype html>
 
         ${badgesSections}
       </section>
+
+      <section class="page" data-page="controls">
+        <header class="header">
+          <div class="header-row">
+            <div>
+              <h1 class="title">Controls</h1>
+              <p class="subtitle">Checkboxes, Switchers, Radio Buttons from the global DS library.</p>
+            </div>
+            <button class="theme-toggle" type="button" data-theme-toggle>Theme: Light</button>
+          </div>
+          <ul class="anchor-nav">
+            <li><a class="anchor-link" href="#controls-checkboxes">Checkboxes</a></li>
+            <li><a class="anchor-link" href="#controls-switchers">Switchers</a></li>
+            <li><a class="anchor-link" href="#controls-radios">Radios</a></li>
+          </ul>
+        </header>
+        ${controlsSections}
+      </section>
     </main>
   </div>
   <script>
     const BUTTON_CONSTRUCTOR_DATA = ${JSON.stringify(buttonConstructorData)};
     const BADGE_CONSTRUCTOR_DATA = ${JSON.stringify(badgeConstructorData)};
+    const CONTROLS_CONSTRUCTOR_DATA = ${JSON.stringify(controlsConstructorData)};
     (function () {
       const nav = Array.from(document.querySelectorAll("[data-nav]"));
+      const navItems = Array.from(document.querySelectorAll("[data-nav-item]"));
       const pages = Array.from(document.querySelectorAll("[data-page]"));
       const themeButtons = Array.from(document.querySelectorAll("[data-theme-toggle]"));
+      let subnavState = { page: "", ids: [] };
+      let scrollTicking = false;
 
       function resolvePage() {
         const raw = window.location.hash.replace("#", "").trim();
         if (raw === "buttons" || raw.startsWith("buttons-")) return "buttons";
         if (raw === "badges" || raw.startsWith("badges-")) return "badges";
+        if (raw === "controls" || raw.startsWith("controls-")) return "controls";
         return "tokens";
       }
 
@@ -905,6 +1131,96 @@ const html = `<!doctype html>
         const page = resolvePage();
         pages.forEach((el) => el.classList.toggle("active", el.dataset.page === page));
         nav.forEach((el) => el.classList.toggle("active", el.dataset.nav === page));
+        navItems.forEach((el) => el.classList.toggle("active", el.dataset.navItem === page));
+        buildSidebarSubnav(page);
+      }
+
+      function stripCountLabel(text) {
+        return String(text || "").replace(/\s*\(\d+\)\s*$/, "").trim();
+      }
+
+      function collectTocItems(pageEl) {
+        const anchorLinks = Array.from(pageEl.querySelectorAll(".anchor-nav a[href^='#']"));
+        if (anchorLinks.length) {
+          return anchorLinks
+            .map((a) => {
+              const href = a.getAttribute("href") || "";
+              const id = href.startsWith("#") ? href.slice(1) : "";
+              return {
+                id,
+                label: (a.textContent || "").trim()
+              };
+            })
+            .filter((x) => x.id);
+        }
+
+        return Array.from(pageEl.querySelectorAll("[data-toc-item][id]")).map((el) => ({
+          id: el.id,
+          label: (el.getAttribute("data-toc-item") || stripCountLabel(el.querySelector("h2")?.textContent || el.id)).trim()
+        }));
+      }
+
+      function setActiveSubnavLink(id) {
+        const page = subnavState.page;
+        if (!page) return;
+        const slot = document.querySelector('[data-subnav="' + page + '"]');
+        if (!slot) return;
+        const links = Array.from(slot.querySelectorAll(".subnav-link"));
+        links.forEach((link) => link.classList.toggle("active", link.getAttribute("href") === "#" + id));
+      }
+
+      function updateActiveSectionByScroll() {
+        const ids = subnavState.ids || [];
+        if (!ids.length) return;
+        const offset = 170;
+        let lastPassed = "";
+        let firstFuture = "";
+        for (const id of ids) {
+          const el = document.getElementById(id);
+          if (!el || el.offsetParent === null) continue;
+          const top = el.getBoundingClientRect().top;
+          if (top <= offset) {
+            lastPassed = id;
+          } else if (!firstFuture) {
+            firstFuture = id;
+          }
+        }
+        const activeId = lastPassed || firstFuture || ids[0];
+        if (activeId) setActiveSubnavLink(activeId);
+      }
+
+      function scheduleActiveSectionUpdate() {
+        if (scrollTicking) return;
+        scrollTicking = true;
+        requestAnimationFrame(() => {
+          scrollTicking = false;
+          updateActiveSectionByScroll();
+        });
+      }
+
+      function buildSidebarSubnav(page) {
+        const slots = Array.from(document.querySelectorAll("[data-subnav]"));
+        slots.forEach((slot) => (slot.innerHTML = ""));
+        const currentPage = pages.find((el) => el.classList.contains("active"));
+        if (!currentPage) {
+          subnavState = { page: "", ids: [] };
+          return;
+        }
+        const items = collectTocItems(currentPage);
+        const slot = document.querySelector('[data-subnav="' + page + '"]');
+        if (!slot) {
+          subnavState = { page: "", ids: [] };
+          return;
+        }
+        if (!items.length) {
+          subnavState = { page: "", ids: [] };
+          return;
+        }
+        slot.innerHTML = items
+          .map((item) => '<a class="subnav-link" href="#' + item.id + '">' + item.label + "</a>")
+          .join("");
+        subnavState = { page, ids: items.map((item) => item.id) };
+        scheduleActiveSectionUpdate();
       }
 
       function applyTheme(theme) {
@@ -948,9 +1264,11 @@ const html = `<!doctype html>
         function renderGlyph(value) {
           if (value === "none") return '<span class="icon-picker-glyph">∅</span>';
           if (value === "default") return '<span class="icon-picker-glyph">Auto</span>';
-          const url = iconMap[String(value || "").toLowerCase()];
-          if (!url) return '<span class="icon-picker-glyph">•</span>';
-          return '<span class="icon-picker-glyph"><span class="icon-mask" style="--icon-mask:url(' + url + ')"></span></span>';
+          const meta = iconMap[String(value || "").toLowerCase()];
+          if (!meta || !meta.url) return '<span class="icon-picker-glyph">•</span>';
+          const sx = Number(meta.scaleX) || 1;
+          const sy = Number(meta.scaleY) || 1;
+          return '<span class="icon-picker-glyph"><span class="icon-mask" style="-webkit-mask-image:url(\\'' + meta.url + '\\');mask-image:url(\\'' + meta.url + '\\');--icon-scale-x:' + sx + ';--icon-scale-y:' + sy + '"></span></span>';
         }
 
         function renderOptions() {
@@ -1034,8 +1352,8 @@ const html = `<!doctype html>
         ]);
         setOptions(ctrlLeftIcon, [{ value: "default", label: "Default" }, { value: "none", label: "None" }, ...BUTTON_CONSTRUCTOR_DATA.icons.map((v) => ({ value: v, label: v }))]);
         setOptions(ctrlRightIcon, [{ value: "default", label: "Default" }, { value: "none", label: "None" }, ...BUTTON_CONSTRUCTOR_DATA.icons.map((v) => ({ value: v, label: v }))]);
-        const leftPicker = setupIconPicker(ctrlLeftIcon, BUTTON_CONSTRUCTOR_DATA.iconUrlByName || {});
-        const rightPicker = setupIconPicker(ctrlRightIcon, BUTTON_CONSTRUCTOR_DATA.iconUrlByName || {});
+        const leftPicker = setupIconPicker(ctrlLeftIcon, BUTTON_CONSTRUCTOR_DATA.iconMetaByName || {});
+        const rightPicker = setupIconPicker(ctrlRightIcon, BUTTON_CONSTRUCTOR_DATA.iconMetaByName || {});
 
         function syncTypeOptions() {
           const mode = ctrlMode.value;
@@ -1079,7 +1397,7 @@ const html = `<!doctype html>
 
         function applyButtonConstructorIcons(container, item, leftChoice, rightChoice) {
           const slots = Array.from(container.querySelectorAll("[data-icon-slot]"));
-          const iconMap = BUTTON_CONSTRUCTOR_DATA.iconUrlByName || {};
+          const iconMap = BUTTON_CONSTRUCTOR_DATA.iconMetaByName || {};
           for (const slotEl of slots) {
             const slot = slotEl.getAttribute("data-icon-slot") || "left";
             const defaultName = slotEl.getAttribute("data-icon-default") || (slot === "right" ? item.defaultRightIcon : item.defaultLeftIcon) || "";
@@ -1090,9 +1408,11 @@ const html = `<!doctype html>
               continue;
             }
             slotEl.style.display = "";
-            const url = iconMap[String(iconName).toLowerCase()];
-            if (url) {
-              slotEl.innerHTML = '<span class="icon-mask" style="--icon-mask:url(' + url + ')"></span>';
+            const meta = iconMap[String(iconName).toLowerCase()];
+            if (meta && meta.url) {
+              const sx = Number(meta.scaleX) || 1;
+              const sy = Number(meta.scaleY) || 1;
+              slotEl.innerHTML = '<span class="icon-mask" style="-webkit-mask-image:url(\\'' + meta.url + '\\');mask-image:url(\\'' + meta.url + '\\');--icon-scale-x:' + sx + ';--icon-scale-y:' + sy + '"></span>';
             } else {
               slotEl.textContent = "•";
             }
@@ -1149,8 +1469,8 @@ const html = `<!doctype html>
         setOptions(ctrlDividerColor, BADGE_CONSTRUCTOR_DATA.colorTokens.map((v) => ({ value: v, label: v })));
         setOptions(ctrlLeftIcon, [{ value: "default", label: "Default" }, { value: "none", label: "None" }, ...BADGE_CONSTRUCTOR_DATA.icons.map((v) => ({ value: v, label: v }))]);
         setOptions(ctrlRightIcon, [{ value: "default", label: "Default" }, { value: "none", label: "None" }, ...BADGE_CONSTRUCTOR_DATA.icons.map((v) => ({ value: v, label: v }))]);
-        const leftPicker = setupIconPicker(ctrlLeftIcon, BADGE_CONSTRUCTOR_DATA.iconUrlByName || {});
-        const rightPicker = setupIconPicker(ctrlRightIcon, BADGE_CONSTRUCTOR_DATA.iconUrlByName || {});
+        const leftPicker = setupIconPicker(ctrlLeftIcon, BADGE_CONSTRUCTOR_DATA.iconMetaByName || {});
+        const rightPicker = setupIconPicker(ctrlRightIcon, BADGE_CONSTRUCTOR_DATA.iconMetaByName || {});
         setOptions(ctrlTheme, [
           { value: "auto", label: "Auto" },
           { value: "light", label: "Light sample" },
@@ -1216,8 +1536,12 @@ const html = `<!doctype html>
         function renderBadgeFromItem(item, colors) {
           function iconMarkup(iconName) {
             const resolved = iconName === "default" ? item.defaultIconName : iconName;
-            const url = BADGE_CONSTRUCTOR_DATA.iconUrlByName[String(resolved || "").toLowerCase()];
-            if (url) return '<span class="icon-mask" style="--icon-mask:url(' + url + ')"></span>';
+            const meta = BADGE_CONSTRUCTOR_DATA.iconMetaByName[String(resolved || "").toLowerCase()];
+            if (meta && meta.url) {
+              const sx = Number(meta.scaleX) || 1;
+              const sy = Number(meta.scaleY) || 1;
+              return '<span class="icon-mask" style="-webkit-mask-image:url(\\'' + meta.url + '\\');mask-image:url(\\'' + meta.url + '\\');--icon-scale-x:' + sx + ';--icon-scale-y:' + sy + '"></span>';
+            }
             return "•";
           }
           const leftIconName = colors.leftIcon || "default";
@@ -1301,14 +1625,159 @@ const html = `<!doctype html>
         renderCtor();
       }
 
+      function initControlsConstructors() {
+        if (!CONTROLS_CONSTRUCTOR_DATA) return;
+
+        function renderCheckboxMarkup(opts) {
+          const size = Number(opts.size.box) || 20;
+          const radius = Number(opts.size.radius) || 5;
+          const showMark = !!opts.filled;
+          return '<span class="ds-checkbox" style="width:' + size + 'px;height:' + size + 'px;border-radius:' + radius + 'px;background:' + opts.bg + ';border:' + (opts.borderWidth || 0) + 'px solid ' + opts.border + ';--cb-size:' + size + 'px;--cb-check:' + opts.check + ';--cb-mark-opacity:' + (showMark ? 1 : 0) + '"><span class="ds-checkbox-mark"></span></span>';
+        }
+
+        function renderSwitchMarkup(opts) {
+          const s = opts.size;
+          return '<span class="ds-switch" style="width:' + s.trackW + 'px;height:' + s.trackH + 'px;border-radius:999px;background:' + opts.track + ';--sw-pad:' + s.pad + 'px;--sw-thumb-size:' + s.thumb + 'px;--sw-thumb-left:' + opts.thumbLeft + 'px;--sw-thumb:' + opts.thumb + '"><span class="ds-switch-thumb"></span></span>';
+        }
+
+        function renderRadioMarkup(opts) {
+          const s = opts.size;
+          return '<span class="ds-radio" style="width:' + s.box + 'px;height:' + s.box + 'px;border-radius:999px;background:' + opts.outer + ';--rd-inner:' + s.inner + 'px;--rd-inner-bg:' + opts.inner + '"><span class="ds-radio-inner"></span></span>';
+        }
+
+        const checkboxRoot = document.querySelector('[data-control-constructor="checkboxes"]');
+        if (checkboxRoot) {
+          const preview = checkboxRoot.querySelector("[data-control-preview]");
+          const props = checkboxRoot.querySelector("[data-control-props]");
+          const cSize = checkboxRoot.querySelector('[data-ctrl="size"]');
+          const cState = checkboxRoot.querySelector('[data-ctrl="state"]');
+          const cFilled = checkboxRoot.querySelector('[data-ctrl="filled"]');
+          const cNight = checkboxRoot.querySelector('[data-ctrl="night"]');
+          const data = CONTROLS_CONSTRUCTOR_DATA.checkboxes;
+          if (preview && props && cSize && cState && cFilled && cNight && data) {
+            cSize.innerHTML = data.sizes.map((s) => '<option value="' + s.id + '">' + s.id + '</option>').join("");
+            cState.innerHTML = data.states.map((s) => '<option value="' + s + '">' + s + '</option>').join("");
+            cFilled.innerHTML = '<option value="true">Filled=true</option><option value="false">Filled=false</option>';
+            cNight.innerHTML = '<option value="false">Night=false</option><option value="true">Night=true</option>';
+            cSize.value = data.defaultSize;
+            cState.value = data.defaultState;
+            cFilled.value = String(data.defaultFilled);
+            cNight.value = String(data.defaultNight);
+
+            const render = () => {
+              const size = data.sizes.find((s) => s.id === cSize.value) || data.sizes[0];
+              const state = cState.value;
+              const filled = cFilled.value === "true";
+              const night = cNight.value === "true";
+              const style = data.palette[String(filled)][String(night)][state] || data.palette[String(filled)][String(night)].Default;
+              preview.classList.toggle("dark", night);
+              preview.innerHTML = renderCheckboxMarkup({ size, filled, bg: style.bg, border: style.border, borderWidth: style.borderWidth, check: style.check });
+              props.textContent = [
+                "Component: Checkbox",
+                "Size: " + size.id,
+                "State: " + state,
+                "Filled: " + filled,
+                "Night: " + night,
+                "Background: " + style.bg,
+                "Border: " + style.border
+              ].join("\\n");
+            };
+            [cSize, cState, cFilled, cNight].forEach((el) => el.addEventListener("change", render));
+            render();
+          }
+        }
+
+        const switchRoot = document.querySelector('[data-control-constructor="switchers"]');
+        if (switchRoot) {
+          const preview = switchRoot.querySelector("[data-control-preview]");
+          const props = switchRoot.querySelector("[data-control-props]");
+          const cSize = switchRoot.querySelector('[data-ctrl="size"]');
+          const cState = switchRoot.querySelector('[data-ctrl="state"]');
+          const cFilled = switchRoot.querySelector('[data-ctrl="filled"]');
+          const cNight = switchRoot.querySelector('[data-ctrl="night"]');
+          const cOn = switchRoot.querySelector('[data-ctrl="on"]');
+          const data = CONTROLS_CONSTRUCTOR_DATA.switchers;
+          if (preview && props && cSize && cState && cFilled && cNight && cOn && data) {
+            cSize.innerHTML = data.sizes.map((s) => '<option value="' + s.id + '">' + s.id + '</option>').join("");
+            cState.innerHTML = data.states.map((s) => '<option value="' + s + '">' + s + '</option>').join("");
+            cFilled.innerHTML = '<option value="true">Filled=true</option><option value="false">Filled=false</option>';
+            cNight.innerHTML = '<option value="false">Night=false</option><option value="true">Night=true</option>';
+            cOn.innerHTML = '<option value="true">On=true</option><option value="false">On=false</option>';
+            cSize.value = data.defaultSize;
+            cState.value = data.defaultState;
+            cFilled.value = String(data.defaultFilled);
+            cNight.value = String(data.defaultNight);
+            cOn.value = String(data.defaultOn);
+
+            const render = () => {
+              const size = data.sizes.find((s) => s.id === cSize.value) || data.sizes[0];
+              const state = cState.value;
+              const filled = cFilled.value === "true";
+              const night = cNight.value === "true";
+              const on = cOn.value === "true";
+              const style = data.palette[String(filled)][String(night)][state] || data.palette[String(filled)][String(night)].Default;
+              preview.classList.toggle("dark", night);
+              const thumbLeft = on ? (size.trackW - size.pad - size.thumb) : size.pad;
+              preview.innerHTML = renderSwitchMarkup({ size, track: style.track, thumb: style.thumb, thumbLeft });
+              props.textContent = [
+                "Component: Switcher",
+                "Size: " + size.id,
+                "State: " + state,
+                "Filled: " + filled,
+                "Night: " + night,
+                "On: " + on,
+                "Track: " + style.track
+              ].join("\\n");
+            };
+            [cSize, cState, cFilled, cNight, cOn].forEach((el) => el.addEventListener("change", render));
+            render();
+          }
+        }
+
+        const radioRoot = document.querySelector('[data-control-constructor="radios"]');
+        if (radioRoot) {
+          const preview = radioRoot.querySelector("[data-control-preview]");
+          const props = radioRoot.querySelector("[data-control-props]");
+          const cState = radioRoot.querySelector('[data-ctrl="state"]');
+          const cFilled = radioRoot.querySelector('[data-ctrl="filled"]');
+          const data = CONTROLS_CONSTRUCTOR_DATA.radios;
+          if (preview && props && cState && cFilled && data) {
+            cState.innerHTML = data.states.map((s) => '<option value="' + s + '">' + s + '</option>').join("");
+            cFilled.innerHTML = '<option value="true">Filled=true</option><option value="false">Filled=false</option>';
+            cState.value = data.defaultState;
+            cFilled.value = String(data.defaultFilled);
+            const render = () => {
+              const size = data.sizes[0];
+              const state = cState.value;
+              const filled = cFilled.value === "true";
+              const style = data.palette[String(filled)][state] || data.palette[String(filled)].Default;
+              preview.classList.remove("dark");
+              preview.innerHTML = renderRadioMarkup({ size, outer: style.outer, inner: style.inner });
+              props.textContent = [
+                "Component: Radio",
+                "Size: " + size.id,
+                "State: " + state,
+                "Filled: " + filled,
+                "Outer: " + style.outer
+              ].join("\\n");
+            };
+            [cState, cFilled].forEach((el) => el.addEventListener("change", render));
+            render();
+          }
+        }
+      }
+
       themeButtons.forEach((btn) => btn.addEventListener("click", toggleTheme));
 
       const savedTheme = localStorage.getItem("mb-ds-theme");
       applyTheme(savedTheme === "dark" ? "dark" : "light");
       initButtonConstructor();
       initBadgeConstructor();
+      initControlsConstructors();
 
       window.addEventListener("hashchange", render);
+      window.addEventListener("scroll", scheduleActiveSectionUpdate, { passive: true });
+      window.addEventListener("resize", scheduleActiveSectionUpdate);
       render();
     })();
   </script>
@@ -1586,7 +2055,7 @@ function renderIconSections(groupedIcons, colorLookupLocal) {
             })
             .join("");
           const sizeText = `${icon.width || 24}x${icon.height || 24}`;
-          const demoContent = icon.assetUrl ? `<img src="${escapeHtml(icon.assetUrl)}" alt="${escapeHtml(icon.name || "icon")}" />` : escapeHtml(getIconMonogram(icon.name));
+          const demoContent = icon.assetUrl ? `<span class="icon-mask" style="${getIconMaskStyle(icon)}"></span>` : escapeHtml(getIconMonogram(icon.name));
           return `
       <article class="icon-card">
         <div class="icon-demo">${demoContent}</div>
@@ -1965,7 +2434,7 @@ function renderBadgeVariant({ catalog, styleId, sizeId, device, contentId, tLook
   const iconName = catalog.defaultIcon || "chip";
   const icon = iLookup.get(String(iconName).toLowerCase());
   const iconHtml = icon?.assetUrl
-    ? `<span class="icon-mask" style="--icon-mask:url('${escapeHtml(icon.assetUrl)}')"></span>`
+    ? `<span class="icon-mask" style="${getIconMaskStyle(icon)}"></span>`
     : escapeHtml("•");
 
   const textColorToken = overrides.textColorToken || styleMeta.defaultTextToken || "Text/Primary";
@@ -2022,16 +2491,41 @@ function typographyToCss(token) {
   ].join(";");
 }
 
+function getTypographyCssToken(lookup, tokenName, fallback) {
+  const token = lookup.get(String(tokenName || "").toLowerCase());
+  return token ? typographyToCss(token) : fallback;
+}
+
 function getColor(lookup, tokenName, fallback) {
   if (!tokenName) return fallback;
   return lookup.get(String(tokenName).toLowerCase()) || fallback;
+}
+
+function getIconScale(icon) {
+  const srcW = Number(icon?.sourceWidth) || Number(icon?.viewBoxWidth) || Number(icon?.width) || 24;
+  const srcH = Number(icon?.sourceHeight) || Number(icon?.viewBoxHeight) || Number(icon?.height) || 24;
+  if (!Number.isFinite(srcW) || !Number.isFinite(srcH) || srcW <= 0 || srcH <= 0) {
+    return { scaleX: 1, scaleY: 1 };
+  }
+  const ratio = srcW / srcH;
+  if (!Number.isFinite(ratio) || ratio <= 0) return { scaleX: 1, scaleY: 1 };
+  if (ratio >= 1) {
+    return { scaleX: 1, scaleY: Math.max(0.06, 1 / ratio) };
+  }
+  return { scaleX: Math.max(0.06, ratio), scaleY: 1 };
+}
+
+function getIconMaskStyle(icon) {
+  const url = escapeHtml(icon?.assetUrl || "");
+  const { scaleX, scaleY } = getIconScale(icon);
+  return `-webkit-mask-image:url('${url}');mask-image:url('${url}');--icon-scale-x:${scaleX.toFixed(4)};--icon-scale-y:${scaleY.toFixed(4)}`;
 }
 
 function renderIconHtml(name, iconLookupMap, slot = "left") {
   const key = String(name || "").toLowerCase();
   const icon = iconLookupMap.get(key);
   if (icon?.assetUrl) {
-    return `<span class="icon-static" data-icon-slot="${escapeHtml(slot)}" data-icon-default="${escapeHtml(name || "")}"><span class="icon-mask" style="--icon-mask:url('${escapeHtml(icon.assetUrl)}')"></span></span>`;
+    return `<span class="icon-static" data-icon-slot="${escapeHtml(slot)}" data-icon-default="${escapeHtml(name || "")}"><span class="icon-mask" style="${getIconMaskStyle(icon)}"></span></span>`;
   }
   if (key.includes("check")) return `<span class="icon-static" data-icon-slot="${escapeHtml(slot)}" data-icon-default="${escapeHtml(name || "")}">${escapeHtml("✓")}</span>`;
   if (key.includes("download")) return `<span class="icon-static" data-icon-slot="${escapeHtml(slot)}" data-icon-default="${escapeHtml(name || "")}">${escapeHtml("↓")}</span>`;
@@ -2154,7 +2648,19 @@ function buildButtonConstructorData({ catalog, typoLookup: tLookup, colorLookup:
   };
   const iconEntries = Array.from(iLookup.values()).filter((icon) => icon?.assetUrl);
   const availableIcons = Array.from(new Set(iconEntries.map((icon) => String(icon.name || "").trim()).filter(Boolean))).sort((a, b) => a.localeCompare(b));
-  const iconUrlByName = Object.fromEntries(iconEntries.map((icon) => [String(icon.name || "").toLowerCase(), icon.assetUrl || ""]));
+  const iconMetaByName = Object.fromEntries(
+    iconEntries.map((icon) => {
+      const scale = getIconScale(icon);
+      return [
+        String(icon.name || "").toLowerCase(),
+        {
+          url: icon.assetUrl || "",
+          scaleX: Number(scale.scaleX.toFixed(4)),
+          scaleY: Number(scale.scaleY.toFixed(4))
+        }
+      ];
+    })
+  );
   const items = [];
 
   for (const mode of modes) {
@@ -2249,7 +2755,7 @@ function buildButtonConstructorData({ catalog, typoLookup: tLookup, colorLookup:
     contents: contentVariants.map((v) => ({ id: v.id, label: v.label })),
     roundedModes: roundingModes.map((r) => ({ id: r.id, label: r.label })),
     icons: availableIcons,
-    iconUrlByName,
+    iconMetaByName,
     typesByMode: {
       filled: typesByMode.filled.map((t) => ({ name: t.name })),
       link: typesByMode.link.map((t) => ({ name: t.name }))
@@ -2279,7 +2785,19 @@ function buildBadgeConstructorData({ catalog, typoLookup: tLookup, colorLookup: 
   ];
   const iconEntries = Array.from(iconLookup.values()).filter((icon) => icon?.assetUrl);
   const availableIcons = Array.from(new Set(iconEntries.map((icon) => String(icon.name || "").trim()).filter(Boolean))).sort((a, b) => a.localeCompare(b));
-  const iconUrlByName = Object.fromEntries(iconEntries.map((icon) => [String(icon.name || "").toLowerCase(), icon.assetUrl || ""]));
+  const iconMetaByName = Object.fromEntries(
+    iconEntries.map((icon) => {
+      const scale = getIconScale(icon);
+      return [
+        String(icon.name || "").toLowerCase(),
+        {
+          url: icon.assetUrl || "",
+          scaleX: Number(scale.scaleX.toFixed(4)),
+          scaleY: Number(scale.scaleY.toFixed(4))
+        }
+      ];
+    })
+  );
   const items = [];
   const icon = iconLookup.get(String(catalog.defaultIcon || "chip").toLowerCase());
 
@@ -2352,10 +2870,234 @@ function buildBadgeConstructorData({ catalog, typoLookup: tLookup, colorLookup: 
     devices,
     contents: contents.map((c) => ({ id: c.id, label: c.label })),
     icons: availableIcons,
-    iconUrlByName,
+    iconMetaByName,
     colorTokens,
     items
   };
+}
+
+function renderControlsPage({ checkboxesCatalog, switchersCatalog, radiosCatalog, colorLookup: cLookup }) {
+  const data = buildControlsConstructorData({
+    checkboxesCatalog,
+    switchersCatalog,
+    radiosCatalog,
+    colorLookup: cLookup
+  });
+  return `
+    <section id="controls-checkboxes" class="controls-section">
+      <h2>Checkboxes</h2>
+      <p class="hint">States: Default, Hovered, Inactive, Error. Variants: Filled/Empty and Night.</p>
+      ${renderControlConstructor("checkboxes", ["size", "state", "filled", "night"])}
+      <div class="controls-grid">${renderCheckboxCards(data.checkboxes)}</div>
+    </section>
+    <section id="controls-switchers" class="controls-section">
+      <h2>Switchers</h2>
+      <p class="hint">States: Default, Hovered, Inactive. Variants: Filled/Empty, Night and On/Off.</p>
+      ${renderControlConstructor("switchers", ["size", "state", "filled", "night", "on"])}
+      <div class="controls-grid">${renderSwitcherCards(data.switchers)}</div>
+    </section>
+    <section id="controls-radios" class="controls-section">
+      <h2>Radio Buttons</h2>
+      <p class="hint">States: Default, Hovered. Variants: Filled/Empty.</p>
+      ${renderControlConstructor("radios", ["state", "filled"])}
+      <div class="controls-grid">${renderRadioCards(data.radios)}</div>
+    </section>
+  `;
+}
+
+function renderControlConstructor(type, controls) {
+  const labels = { size: "Size", state: "State", filled: "Filled", night: "Night", on: "On" };
+  const selects = controls.map((name) => `<label>${labels[name]}<select data-ctrl="${name}"></select></label>`).join("");
+  return `
+    <section class="constructor" data-control-constructor="${type}">
+      <div class="constructor-preview" data-control-preview></div>
+      <div>
+        <div class="constructor-controls">${selects}</div>
+        <div class="constructor-props" data-control-props>Loading...</div>
+      </div>
+    </section>
+  `;
+}
+
+function renderCheckboxCards(data) {
+  const size = data.sizes.find((s) => s.id === data.defaultSize) || data.sizes[0];
+  return data.states.map((state) => {
+    const lightFilled = data.palette["true"]["false"][state] || data.palette["true"]["false"].Default;
+    const lightEmpty = data.palette["false"]["false"][state] || data.palette["false"]["false"].Default;
+    const nightFilled = data.palette["true"]["true"][state] || data.palette["true"]["true"].Default;
+    const nightEmpty = data.palette["false"]["true"][state] || data.palette["false"]["true"].Default;
+    return `
+      <article class="control-card">
+        <div><strong>${escapeHtml(state)}</strong></div>
+        <div class="control-demo">${renderCheckboxNode(size, true, lightFilled)} ${renderCheckboxNode(size, false, lightEmpty)}</div>
+        <div class="control-demo dark">${renderCheckboxNode(size, true, nightFilled)} ${renderCheckboxNode(size, false, nightEmpty)}</div>
+        <div class="meta">Light: filled + empty | Dark: filled + empty</div>
+      </article>
+    `;
+  }).join("");
+}
+
+function renderSwitcherCards(data) {
+  const size = data.sizes.find((s) => s.id === data.defaultSize) || data.sizes[0];
+  return data.states.map((state) => {
+    const lightOn = data.palette["true"]["false"][state] || data.palette["true"]["false"].Default;
+    const lightOff = data.palette["false"]["false"][state] || data.palette["false"]["false"].Default;
+    const nightOn = data.palette["true"]["true"][state] || data.palette["true"]["true"].Default;
+    const nightOff = data.palette["false"]["true"][state] || data.palette["false"]["true"].Default;
+    return `
+      <article class="control-card">
+        <div><strong>${escapeHtml(state)}</strong></div>
+        <div class="control-demo">${renderSwitcherNode(size, true, lightOn)} ${renderSwitcherNode(size, false, lightOff)}</div>
+        <div class="control-demo dark">${renderSwitcherNode(size, true, nightOn)} ${renderSwitcherNode(size, false, nightOff)}</div>
+        <div class="meta">Light: on + off | Dark: on + off</div>
+      </article>
+    `;
+  }).join("");
+}
+
+function renderRadioCards(data) {
+  const size = data.sizes[0];
+  return data.states.map((state) => {
+    const on = data.palette["true"][state] || data.palette["true"].Default;
+    const off = data.palette["false"][state] || data.palette["false"].Default;
+    return `
+      <article class="control-card">
+        <div><strong>${escapeHtml(state)}</strong></div>
+        <div class="control-demo">${renderRadioNode(size, on)} ${renderRadioNode(size, off)}</div>
+        <div class="meta">Filled + Empty</div>
+      </article>
+    `;
+  }).join("");
+}
+
+function renderCheckboxNode(size, filled, style) {
+  const box = Number(size?.box) || 20;
+  const radius = Number(size?.radius) || 5;
+  const borderWidth = Number(style?.borderWidth ?? 1);
+  return `<span class="ds-checkbox" style="width:${box}px;height:${box}px;border-radius:${radius}px;background:${style.bg};border:${borderWidth}px solid ${style.border};--cb-size:${box}px;--cb-check:${style.check};--cb-mark-opacity:${filled ? 1 : 0}"><span class="ds-checkbox-mark"></span></span>`;
+}
+
+function renderSwitcherNode(size, on, style) {
+  const trackW = Number(size?.trackW) || 38;
+  const trackH = Number(size?.trackH) || 24;
+  const pad = Number(size?.pad) || 3;
+  const thumb = Number(size?.thumb) || 18;
+  const left = on ? trackW - pad - thumb : pad;
+  return `<span class="ds-switch" style="width:${trackW}px;height:${trackH}px;border-radius:999px;background:${style.track};--sw-pad:${pad}px;--sw-thumb-size:${thumb}px;--sw-thumb-left:${left}px;--sw-thumb:${style.thumb}"><span class="ds-switch-thumb"></span></span>`;
+}
+
+function renderRadioNode(size, style) {
+  const box = Number(size?.box) || 20;
+  const inner = Number(size?.inner) || 14;
+  return `<span class="ds-radio" style="width:${box}px;height:${box}px;border-radius:999px;background:${style.outer};--rd-inner:${inner}px;--rd-inner-bg:${style.inner}"><span class="ds-radio-inner"></span></span>`;
+}
+
+function buildControlsConstructorData({ checkboxesCatalog, switchersCatalog, radiosCatalog, colorLookup: cLookup }) {
+  const resolve = (value, fallback) => resolveColorReference(value, cLookup, fallback);
+  const cbTokens = checkboxesCatalog.tokens || {};
+  const swTokens = switchersCatalog.tokens || {};
+  const rdTokens = radiosCatalog.tokens || {};
+
+  const checkboxes = {
+    sizes: checkboxesCatalog.sizes || [],
+    states: checkboxesCatalog.states || [],
+    defaultSize: checkboxesCatalog.defaultSize || "S",
+    defaultState: checkboxesCatalog.defaultState || "Default",
+    defaultFilled: checkboxesCatalog.defaultFilled ?? true,
+    defaultNight: checkboxesCatalog.defaultNight ?? false,
+    palette: {
+      true: {
+        false: {
+          Default: { bg: resolve(cbTokens.fill, "#39AA5D"), border: "transparent", borderWidth: 0, check: resolve(cbTokens.check, "#FFFFFF") },
+          Hovered: { bg: resolve(cbTokens.fillHover, "#268644"), border: "transparent", borderWidth: 0, check: resolve(cbTokens.check, "#FFFFFF") },
+          Inactive: { bg: resolve(cbTokens.inactiveLight, "rgba(11,32,63,0.1)"), border: "transparent", borderWidth: 0, check: resolve(cbTokens.check, "#FFFFFF") },
+          Error: { bg: resolve(cbTokens.fillError, "#D84258"), border: "transparent", borderWidth: 0, check: resolve(cbTokens.check, "#FFFFFF") }
+        },
+        true: {
+          Default: { bg: resolve(cbTokens.fill, "#39AA5D"), border: "transparent", borderWidth: 0, check: resolve(cbTokens.checkNight, "#FFFFFF") },
+          Hovered: { bg: resolve(cbTokens.fillHover, "#268644"), border: "transparent", borderWidth: 0, check: resolve(cbTokens.checkNight, "#FFFFFF") },
+          Inactive: { bg: resolve(cbTokens.inactiveNight, "rgba(255,255,255,0.1)"), border: "transparent", borderWidth: 0, check: resolve(cbTokens.checkNight, "#FFFFFF") },
+          Error: { bg: resolve(cbTokens.fillError, "#D84258"), border: "transparent", borderWidth: 0, check: resolve(cbTokens.checkNight, "#FFFFFF") }
+        }
+      },
+      false: {
+        false: {
+          Default: { bg: "transparent", border: resolve(cbTokens.borderLight, "rgba(11,32,63,0.25)"), borderWidth: 1, check: "transparent" },
+          Hovered: { bg: "transparent", border: resolve(cbTokens.borderLightHover, "rgba(11,32,63,0.35)"), borderWidth: 1, check: "transparent" },
+          Inactive: { bg: "transparent", border: resolve(cbTokens.inactiveLight, "rgba(11,32,63,0.1)"), borderWidth: 1, check: "transparent" },
+          Error: { bg: "transparent", border: resolve(cbTokens.fillError, "#D84258"), borderWidth: 1, check: "transparent" }
+        },
+        true: {
+          Default: { bg: "transparent", border: resolve(cbTokens.borderNight, "rgba(255,255,255,0.15)"), borderWidth: 1, check: "transparent" },
+          Hovered: { bg: "transparent", border: resolve(cbTokens.borderNightHover, "rgba(255,255,255,0.6)"), borderWidth: 1, check: "transparent" },
+          Inactive: { bg: "transparent", border: resolve(cbTokens.inactiveNight, "rgba(255,255,255,0.1)"), borderWidth: 1, check: "transparent" },
+          Error: { bg: "transparent", border: resolve(cbTokens.fillError, "#D84258"), borderWidth: 1, check: "transparent" }
+        }
+      }
+    }
+  };
+
+  const switchers = {
+    sizes: switchersCatalog.sizes || [],
+    states: switchersCatalog.states || [],
+    defaultSize: switchersCatalog.defaultSize || "L",
+    defaultState: switchersCatalog.defaultState || "Default",
+    defaultFilled: switchersCatalog.defaultFilled ?? true,
+    defaultNight: switchersCatalog.defaultNight ?? false,
+    defaultOn: switchersCatalog.defaultOn ?? true,
+    palette: {
+      true: {
+        false: {
+          Default: { track: resolve(swTokens.on, "#39AA5D"), thumb: resolve(swTokens.thumb, "#FFFFFF") },
+          Hovered: { track: resolve(swTokens.onHover, "#268644"), thumb: resolve(swTokens.thumb, "#FFFFFF") },
+          Inactive: { track: resolve(swTokens.inactiveLight, "rgba(11,32,63,0.1)"), thumb: resolve(swTokens.thumbInactive, "rgba(255,255,255,0.6)") }
+        },
+        true: {
+          Default: { track: resolve(swTokens.on, "#39AA5D"), thumb: resolve(swTokens.thumb, "#FFFFFF") },
+          Hovered: { track: resolve(swTokens.onHover, "#268644"), thumb: resolve(swTokens.thumb, "#FFFFFF") },
+          Inactive: { track: resolve(swTokens.inactiveNight, "rgba(255,255,255,0.1)"), thumb: resolve(swTokens.thumbInactive, "rgba(255,255,255,0.6)") }
+        }
+      },
+      false: {
+        false: {
+          Default: { track: resolve(swTokens.offLight, "rgba(11,32,63,0.35)"), thumb: resolve(swTokens.thumb, "#FFFFFF") },
+          Hovered: { track: resolve(swTokens.offLightHover, "rgba(11,32,63,0.5)"), thumb: resolve(swTokens.thumb, "#FFFFFF") },
+          Inactive: { track: resolve(swTokens.inactiveLight, "rgba(11,32,63,0.1)"), thumb: resolve(swTokens.thumbInactive, "rgba(255,255,255,0.6)") }
+        },
+        true: {
+          Default: { track: resolve(swTokens.offNight, "rgba(255,255,255,0.3)"), thumb: resolve(swTokens.thumb, "#FFFFFF") },
+          Hovered: { track: resolve(swTokens.offNightHover, "rgba(255,255,255,0.6)"), thumb: resolve(swTokens.thumb, "#FFFFFF") },
+          Inactive: { track: resolve(swTokens.inactiveNight, "rgba(255,255,255,0.1)"), thumb: resolve(swTokens.thumbInactive, "rgba(255,255,255,0.6)") }
+        }
+      }
+    }
+  };
+
+  const radios = {
+    sizes: radiosCatalog.sizes || [{ id: "S", box: 20, inner: 14 }],
+    states: radiosCatalog.states || ["Default", "Hovered"],
+    defaultState: radiosCatalog.defaultState || "Default",
+    defaultFilled: radiosCatalog.defaultFilled ?? true,
+    palette: {
+      true: {
+        Default: { outer: resolve(rdTokens.on, "#56D67F"), inner: resolve(rdTokens.onInner, "#39AA5D") },
+        Hovered: { outer: resolve(rdTokens.on, "#56D67F"), inner: resolve(rdTokens.onInner, "#39AA5D") }
+      },
+      false: {
+        Default: { outer: resolve(rdTokens.off, "rgba(11,32,63,0.25)"), inner: resolve(rdTokens.core, "#FFFFFF") },
+        Hovered: { outer: resolve(rdTokens.offHover, "rgba(11,32,63,0.35)"), inner: resolve(rdTokens.core, "#FFFFFF") }
+      }
+    }
+  };
+
+  return { checkboxes, switchers, radios };
+}
+
+function resolveColorReference(value, lookup, fallback) {
+  const raw = String(value || "").trim();
+  if (!raw) return fallback;
+  if (raw.startsWith("#") || raw.startsWith("rgb(") || raw.startsWith("rgba(")) return raw;
+  return lookup?.get(raw.toLowerCase()) || fallback;
 }
 
 function getTextOnlyPadX(sizeName, mode) {

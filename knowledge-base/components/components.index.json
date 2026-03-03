@@ -80,6 +80,39 @@
       "testStatus": "unknown",
       "lastReviewedAt": "2026-03-03",
       "notes": "Badge added with optional parts toggles and color-token constructor on preview page."
+    },
+    {
+      "id": "checkbox",
+      "name": "Checkbox",
+      "status": "in_progress",
+      "priority": "high",
+      "figmaNodeUrl": "https://www.figma.com/design/IawDi2Zwy7mvMMrsHvIFg1/%F0%9F%9B%A0%EF%B8%8F-Mindbox-Promo-Library?node-id=7091-62868&t=37QSIedZodPM0hws-11",
+      "figmaNodeId": "7091:62868",
+      "codeTarget": "preview/tokens.html#controls-checkboxes",
+      "lastReviewedAt": "2026-03-03",
+      "notes": "Added grouped Controls page with checkbox showcase and constructor."
+    },
+    {
+      "id": "switcher",
+      "name": "Switcher",
+      "status": "in_progress",
+      "priority": "high",
+      "figmaNodeUrl": "https://www.figma.com/design/IawDi2Zwy7mvMMrsHvIFg1/%F0%9F%9B%A0%EF%B8%8F-Mindbox-Promo-Library?node-id=7091-62867&t=37QSIedZodPM0hws-11",
+      "figmaNodeId": "7091:62867",
+      "codeTarget": "preview/tokens.html#controls-switchers",
+      "lastReviewedAt": "2026-03-03",
+      "notes": "Added grouped Controls page with switcher showcase and constructor."
+    },
+    {
+      "id": "radio",
+      "name": "Radio Button",
+      "status": "in_progress",
+      "priority": "high",
+      "figmaNodeUrl": "https://www.figma.com/design/IawDi2Zwy7mvMMrsHvIFg1/%F0%9F%9B%A0%EF%B8%8F-Mindbox-Promo-Library?node-id=7091-62866&t=37QSIedZodPM0hws-11",
+      "figmaNodeId": "7091:62866",
+      "codeTarget": "preview/tokens.html#controls-radios",
+      "lastReviewedAt": "2026-03-03",
+      "notes": "Added grouped Controls page with radio showcase and constructor."
     }
   ]
 }

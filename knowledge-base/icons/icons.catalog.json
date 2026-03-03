@@ -28,7 +28,10 @@
       "colorTokens": [
         "Text/Primary",
         "Text/Primary – Night"
-      ]
+      ],
+      "assetUrl": "https://www.figma.com/api/mcp/asset/b7514e05-e2e9-4b2e-9486-706820a67479",
+      "sourceWidth": 20,
+      "sourceHeight": 10
     },
     {
       "name": "cross",
@@ -39,7 +42,9 @@
         "Text/Primary",
         "Text/Primary – Night"
       ],
-      "assetUrl": "https://www.figma.com/api/mcp/asset/42dab918-4d0e-4c04-a489-f016c91fe5ac"
+      "assetUrl": "https://www.figma.com/api/mcp/asset/67f4654e-4c33-47a5-b289-e82e1c58bbb3",
+      "sourceWidth": 15.1266,
+      "sourceHeight": 15.3768
     },
     {
       "name": "plus",
@@ -50,7 +55,9 @@
         "Text/Primary",
         "Text/Primary – Night"
       ],
-      "assetUrl": "https://www.figma.com/api/mcp/asset/b0676c3d-9435-4ce1-9efa-17bab27fda5b"
+      "assetUrl": "https://www.figma.com/api/mcp/asset/7611e59c-7228-4f21-8764-6daeadf9adc3",
+      "sourceWidth": 18,
+      "sourceHeight": 18
     },
     {
       "name": "minus",
@@ -61,7 +68,9 @@
         "Text/Primary",
         "Text/Primary – Night"
       ],
-      "assetUrl": "https://www.figma.com/api/mcp/asset/13be0bae-ca8b-4e8e-8802-68322f78fdd9"
+      "assetUrl": "https://www.figma.com/api/mcp/asset/566f33b1-73e7-4a68-90d9-299983e2c9b2",
+      "sourceWidth": 18,
+      "sourceHeight": 2.5
     },
     {
       "name": "Up Arrow",
@@ -71,7 +80,10 @@
       "colorTokens": [
         "Text/Primary",
         "Text/Primary – Night"
-      ]
+      ],
+      "assetUrl": "https://www.figma.com/api/mcp/asset/9394ec76-8c92-447b-86fb-95de4fbd4da7",
+      "sourceWidth": 15.6712,
+      "sourceHeight": 18.8079
     },
     {
       "name": "Down Arrow",
@@ -81,7 +93,10 @@
       "colorTokens": [
         "Text/Primary",
         "Text/Primary – Night"
-      ]
+      ],
+      "assetUrl": "https://www.figma.com/api/mcp/asset/daa5269e-c4c6-4e57-831c-fe7567ac4b5b",
+      "sourceWidth": 15.6712,
+      "sourceHeight": 18.8079
     },
     {
       "name": "Left Arrow",
@@ -91,7 +106,10 @@
       "colorTokens": [
         "Text/Primary",
         "Text/Primary – Night"
-      ]
+      ],
+      "assetUrl": "https://www.figma.com/api/mcp/asset/c91bf3bb-5004-49ee-a6c9-78b0eb06585a",
+      "sourceWidth": 18.8079,
+      "sourceHeight": 15.6712
     },
     {
       "name": "Right Arrow",
@@ -102,7 +120,9 @@
         "Text/Primary",
         "Text/Primary – Night"
       ],
-      "assetUrl": "https://www.figma.com/api/mcp/asset/9c6f4b2f-1de5-447e-9861-a67dec82fe9a"
+      "assetUrl": "https://www.figma.com/api/mcp/asset/01f58abc-90bf-421a-9b20-ddc8b159c8d6",
+      "sourceWidth": 18.8079,
+      "sourceHeight": 15.6712
     },
     {
       "name": "Right Chevron",
@@ -113,7 +133,9 @@
         "Text/Primary",
         "Text/Primary – Night"
       ],
-      "assetUrl": "https://www.figma.com/api/mcp/asset/7e177c73-7575-4553-9e4e-03cc2fcecf9c"
+      "assetUrl": "https://www.figma.com/api/mcp/asset/9cbb5712-f125-4022-99f9-bcc38d1ae3ba",
+      "sourceWidth": 8.2147,
+      "sourceHeight": 15.6712
     },
     {
       "name": "Left Chevron",
@@ -124,7 +146,9 @@
         "Text/Primary",
         "Text/Primary – Night"
       ],
-      "assetUrl": "https://www.figma.com/api/mcp/asset/337b13ec-a537-459d-9c6a-aa9d3a5334c4"
+      "assetUrl": "https://www.figma.com/api/mcp/asset/59d34319-ad34-4bbe-bde5-42b2ce50a806",
+      "sourceWidth": 8.2147,
+      "sourceHeight": 15.6712
     },
     {
       "name": "Down Chevron",
@@ -135,7 +159,9 @@
         "Text/Primary",
         "Text/Primary – Night"
       ],
-      "assetUrl": "https://www.figma.com/api/mcp/asset/7811e573-af5b-4d04-9e05-60d0473db408"
+      "assetUrl": "https://www.figma.com/api/mcp/asset/ae929bdd-9ad9-4cd8-8fa2-9609fcadb595",
+      "sourceWidth": 15.6712,
+      "sourceHeight": 8.2147
     },
     {
       "name": "Up Chevron",
@@ -146,7 +172,9 @@
         "Text/Primary",
         "Text/Primary – Night"
       ],
-      "assetUrl": "https://www.figma.com/api/mcp/asset/f1776dac-0f7e-44c7-83c1-d9c7de814190"
+      "assetUrl": "https://www.figma.com/api/mcp/asset/9ab2e532-cd92-4dd8-b2f4-a7c17c0ba8e7",
+      "sourceWidth": 15.6712,
+      "sourceHeight": 8.2147
     },
     {
       "name": "Up Small Arrow",
@@ -156,7 +184,10 @@
       "colorTokens": [
         "Text/Primary",
         "Text/Primary – Night"
-      ]
+      ],
+      "assetUrl": "https://www.figma.com/api/mcp/asset/69c2b286-1ce3-4925-86c1-8ebcefd49cee",
+      "sourceWidth": 11.7965,
+      "sourceHeight": 8.3606
     },
     {
       "name": "Down Small Arrow",
@@ -166,7 +197,10 @@
       "colorTokens": [
         "Text/Primary",
         "Text/Primary – Night"
-      ]
+      ],
+      "assetUrl": "https://www.figma.com/api/mcp/asset/cab07f00-f0c7-45db-960c-fd9db09c2c26",
+      "sourceWidth": 11.7965,
+      "sourceHeight": 8.3606
     },
     {
       "name": "magnifier",
@@ -177,7 +211,9 @@
         "Text/Line Primary",
         "Text/Primary – Night"
       ],
-      "assetUrl": "https://www.figma.com/api/mcp/asset/0378246c-6f71-4232-be83-e47a28a5ead2"
+      "assetUrl": "https://www.figma.com/api/mcp/asset/7355810d-4ff0-4a03-9d5d-1447bbe5519e",
+      "sourceWidth": 17.5446,
+      "sourceHeight": 17.5783
     },
     {
       "name": "check",
@@ -188,7 +224,9 @@
         "Text/Primary Green",
         "Text/Primary – Night"
       ],
-      "assetUrl": "https://www.figma.com/api/mcp/asset/4a638aca-591c-4549-89c4-ff9134396479"
+      "assetUrl": "https://www.figma.com/api/mcp/asset/2f243f70-724a-4ebc-87ef-55950b77dd4c",
+      "sourceWidth": 16.1422,
+      "sourceHeight": 11.1203
     },
     {
       "name": "copy",
@@ -198,7 +236,10 @@
       "colorTokens": [
         "Text/Line Primary",
         "Text/Primary – Night"
-      ]
+      ],
+      "assetUrl": "https://www.figma.com/api/mcp/asset/ad39edd0-5681-4974-acba-958b6c332367",
+      "sourceWidth": 17.9998,
+      "sourceHeight": 20
     },
     {
       "name": "trash",
@@ -208,7 +249,10 @@
       "colorTokens": [
         "Text/Error",
         "Text/Primary – Night"
-      ]
+      ],
+      "assetUrl": "https://www.figma.com/api/mcp/asset/9eb86ce9-a00f-4cf5-9d5d-3e3377c3f2bc",
+      "sourceWidth": 17.1,
+      "sourceHeight": 19
     },
     {
       "name": "edit",
@@ -218,7 +262,10 @@
       "colorTokens": [
         "Text/Line Primary",
         "Text/Primary – Night"
-      ]
+      ],
+      "assetUrl": "https://www.figma.com/api/mcp/asset/8e6e01e2-8c98-4a08-a943-9efdbfcbb300",
+      "sourceWidth": 17.8278,
+      "sourceHeight": 17.8278
     },
     {
       "name": "download",
@@ -229,7 +276,9 @@
         "Text/Line Primary",
         "Text/Primary – Night"
       ],
-      "assetUrl": "https://www.figma.com/api/mcp/asset/28f1e987-24dc-4c33-a839-98dddae90804"
+      "assetUrl": "https://www.figma.com/api/mcp/asset/f4f942f9-0480-452a-b7a7-aad2b4b73b0d",
+      "sourceWidth": 20,
+      "sourceHeight": 19.0005
     },
     {
       "name": "undo",
@@ -239,7 +288,10 @@
       "colorTokens": [
         "Text/Line Primary",
         "Text/Primary – Night"
-      ]
+      ],
+      "assetUrl": "https://www.figma.com/api/mcp/asset/5b876a1d-e43f-405f-a2fc-9935ea33c789",
+      "sourceWidth": 17.5,
+      "sourceHeight": 16
     },
     {
       "name": "sync",
@@ -249,7 +301,10 @@
       "colorTokens": [
         "Text/Line Primary",
         "Text/Primary – Night"
-      ]
+      ],
+      "assetUrl": "https://www.figma.com/api/mcp/asset/a94b7b74-0d1f-46e3-a87e-cdc05c1a285f",
+      "sourceWidth": 19.0005,
+      "sourceHeight": 20
     },
     {
       "name": "history",
@@ -259,7 +314,10 @@
       "colorTokens": [
         "Text/Line Primary",
         "Text/Primary – Night"
-      ]
+      ],
+      "assetUrl": "https://www.figma.com/api/mcp/asset/fdad5259-921b-4730-8c43-d9a82f262207",
+      "sourceWidth": 19.9538,
+      "sourceHeight": 20
     },
     {
       "name": "erase",
@@ -269,7 +327,10 @@
       "colorTokens": [
         "Text/Line Primary",
         "Text/Primary – Night"
-      ]
+      ],
+      "assetUrl": "https://www.figma.com/api/mcp/asset/a5a36c08-c832-4c9d-8efc-d99be396dc0f",
+      "sourceWidth": 18,
+      "sourceHeight": 18
     },
     {
       "name": "file-type-xls",
@@ -278,7 +339,10 @@
       "height": 24,
       "colorTokens": [
         "Text/Line Primary"
-      ]
+      ],
+      "assetUrl": "https://www.figma.com/api/mcp/asset/da365301-f9b8-4028-99c9-d696f13fd706",
+      "sourceWidth": 18.0001,
+      "sourceHeight": 20.0002
     },
     {
       "name": "alert",
@@ -289,7 +353,9 @@
         "Text/Error",
         "Text/Primary – Night"
       ],
-      "assetUrl": "https://www.figma.com/api/mcp/asset/3a4e514c-d661-4217-b408-a468689b96e3"
+      "assetUrl": "https://www.figma.com/api/mcp/asset/ec710b8f-7a81-4ad1-af83-faf77f63d1e9",
+      "sourceWidth": 19.8288,
+      "sourceHeight": 17.4245
     },
     {
       "name": "info",
@@ -300,7 +366,9 @@
         "Text/Line Primary",
         "Text/Primary – Night"
       ],
-      "assetUrl": "https://www.figma.com/api/mcp/asset/7fb1820a-5b65-4cf9-9e8d-0d87cbab78d9"
+      "assetUrl": "https://www.figma.com/api/mcp/asset/f25614d0-cdce-4217-8df9-211a3488a4f4",
+      "sourceWidth": 22,
+      "sourceHeight": 22
     },
     {
       "name": "play",
@@ -310,7 +378,10 @@
       "colorTokens": [
         "Text/Line Primary",
         "Text/Primary – Night"
-      ]
+      ],
+      "assetUrl": "https://www.figma.com/api/mcp/asset/6b900c67-3c27-491e-978f-1d1a335c4119",
+      "sourceWidth": 14.6286,
+      "sourceHeight": 16.6406
     },
     {
       "name": "replay",
@@ -320,7 +391,10 @@
       "colorTokens": [
         "Text/Line Primary",
         "Text/Primary – Night"
-      ]
+      ],
+      "assetUrl": "https://www.figma.com/api/mcp/asset/3bffd20c-5eb0-4553-b10d-99beed8c0c45",
+      "sourceWidth": 18.7838,
+      "sourceHeight": 19.5
     },
     {
       "name": "link",
@@ -331,7 +405,9 @@
         "Text/Primary Green",
         "Text/Primary – Night"
       ],
-      "assetUrl": "https://www.figma.com/api/mcp/asset/3a719b8c-7be2-40fa-8088-96589fc84774"
+      "assetUrl": "https://www.figma.com/api/mcp/asset/d9ff18c4-6402-489d-b707-1b7631393453",
+      "sourceWidth": 20.5747,
+      "sourceHeight": 20.5416
     },
     {
       "name": "person",
@@ -341,7 +417,10 @@
       "colorTokens": [
         "Text/Primary",
         "Text/Primary – Night"
-      ]
+      ],
+      "assetUrl": "https://www.figma.com/api/mcp/asset/2b5f013f-b1b6-4862-b7fc-a1ce21cbe210",
+      "sourceWidth": 19.9996,
+      "sourceHeight": 23
     },
     {
       "name": "user",
@@ -351,7 +430,10 @@
       "colorTokens": [
         "Text/Primary",
         "Text/Primary – Night"
-      ]
+      ],
+      "assetUrl": "https://www.figma.com/api/mcp/asset/9e2ef931-1d2f-4bc3-82e7-fe1b8bf1f7e0",
+      "sourceWidth": 19.2,
+      "sourceHeight": 19.2
     },
     {
       "name": "user-detailed",
@@ -361,7 +443,10 @@
       "colorTokens": [
         "Text/Primary",
         "Text/Primary – Night"
-      ]
+      ],
+      "assetUrl": "https://www.figma.com/api/mcp/asset/71179a42-66b0-4b4f-9258-ea60eb0033a9",
+      "sourceWidth": 20,
+      "sourceHeight": 22
     },
     {
       "name": "people",
@@ -371,7 +456,10 @@
       "colorTokens": [
         "Text/Primary",
         "Text/Primary – Night"
-      ]
+      ],
+      "assetUrl": "https://www.figma.com/api/mcp/asset/1ece645d-027c-4210-8bae-fd91cebb8645",
+      "sourceWidth": 20.5714,
+      "sourceHeight": 15.1457
     },
     {
       "name": "camera",
@@ -381,7 +469,10 @@
       "colorTokens": [
         "Text/Primary",
         "Text/Primary – Night"
-      ]
+      ],
+      "assetUrl": "https://www.figma.com/api/mcp/asset/fd71e1d5-7a13-4393-9dc5-28d2341a55b9",
+      "sourceWidth": 17.1417,
+      "sourceHeight": 11.5515
     },
     {
       "name": "map",
@@ -391,7 +482,10 @@
       "colorTokens": [
         "Text/Line Primary",
         "Text/Primary – Night"
-      ]
+      ],
+      "assetUrl": "https://www.figma.com/api/mcp/asset/8532181e-b7ad-4884-99b4-a5dbbcffd65f",
+      "sourceWidth": 14.8039,
+      "sourceHeight": 21.3388
     },
     {
       "name": "calendar",
@@ -402,7 +496,9 @@
         "Text/Line Primary",
         "Text/Primary – Night"
       ],
-      "assetUrl": "https://www.figma.com/api/mcp/asset/590a7510-5ef2-4192-adb0-9b06990b7b10"
+      "assetUrl": "https://www.figma.com/api/mcp/asset/a3120a11-bf59-4101-aaa7-e61df0a945af",
+      "sourceWidth": 18,
+      "sourceHeight": 20
     },
     {
       "name": "map-pin",
@@ -412,7 +508,10 @@
       "colorTokens": [
         "Text/Line Primary",
         "Text/Primary – Night"
-      ]
+      ],
+      "assetUrl": "https://www.figma.com/api/mcp/asset/7c734d57-28b6-424a-8046-6d85251889df",
+      "sourceWidth": 20,
+      "sourceHeight": 20
     },
     {
       "name": "mail-letter",
@@ -422,7 +521,10 @@
       "colorTokens": [
         "Text/Line Primary",
         "Text/Primary – Night"
-      ]
+      ],
+      "assetUrl": "https://www.figma.com/api/mcp/asset/50c94e5e-950a-408f-b801-f82818495fa9",
+      "sourceWidth": 21.05,
+      "sourceHeight": 16.861
     },
     {
       "name": "bell",
@@ -432,7 +534,10 @@
       "colorTokens": [
         "Text/Line Primary",
         "Text/Primary – Night"
-      ]
+      ],
+      "assetUrl": "https://www.figma.com/api/mcp/asset/13be1dad-7276-452b-9e34-c27d161d49fc",
+      "sourceWidth": 19.862,
+      "sourceHeight": 20.87
     },
     {
       "name": "registration",
@@ -442,7 +547,10 @@
       "colorTokens": [
         "Text/Line Primary",
         "Text/Primary – Night"
-      ]
+      ],
+      "assetUrl": "https://www.figma.com/api/mcp/asset/048b2954-6e48-46e8-ad47-dffdbc825de1",
+      "sourceWidth": 21.5746,
+      "sourceHeight": 18.3475
     },
     {
       "name": "chip",
@@ -453,7 +561,9 @@
         "Text/Secondary Green",
         "Text/Primary – Night"
       ],
-      "assetUrl": "https://www.figma.com/api/mcp/asset/d8f5cfbf-7238-4f92-a435-005fe2125a34"
+      "assetUrl": "https://www.figma.com/api/mcp/asset/bf94c04f-26d1-440e-8b41-44b7fd540912",
+      "sourceWidth": 18.6836,
+      "sourceHeight": 18.6837
     },
     {
       "name": "cookies",
@@ -463,7 +573,10 @@
       "colorTokens": [
         "Text/Secondary Green",
         "Text/Primary – Night"
-      ]
+      ],
+      "assetUrl": "https://www.figma.com/api/mcp/asset/b314d733-ad07-472f-bc60-556d6d4117a3",
+      "sourceWidth": 20,
+      "sourceHeight": 20
     },
     {
       "name": "bookmark-favourite",
@@ -473,7 +586,10 @@
       "colorTokens": [
         "Text/Primary Green",
         "Text/Primary – Night"
-      ]
+      ],
+      "assetUrl": "https://www.figma.com/api/mcp/asset/85034a9f-322a-446a-b169-34ae994492bf",
+      "sourceWidth": 16,
+      "sourceHeight": 19.0659
     },
     {
       "name": "low-battery",
@@ -483,7 +599,10 @@
       "colorTokens": [
         "Text/Error",
         "Text/Primary – Night"
-      ]
+      ],
+      "assetUrl": "https://www.figma.com/api/mcp/asset/75867ca1-4250-4836-bd95-44a97da391d9",
+      "sourceWidth": 14,
+      "sourceHeight": 24
     },
     {
       "name": "rouble",
@@ -493,7 +612,10 @@
       "colorTokens": [
         "Text/Secondary Green",
         "Text/Primary – Night"
-      ]
+      ],
+      "assetUrl": "https://www.figma.com/api/mcp/asset/1a0ff9a7-d891-41e3-83db-819e357e9df9",
+      "sourceWidth": 20.9091,
+      "sourceHeight": 20
     },
     {
       "name": "certificate",
@@ -503,7 +625,10 @@
       "colorTokens": [
         "Text/Primary Green",
         "Text/Primary – Night"
-      ]
+      ],
+      "assetUrl": "https://www.figma.com/api/mcp/asset/ab6801e1-97b1-435f-86fe-a98e024b05b9",
+      "sourceWidth": 9.2727,
+      "sourceHeight": 7.2898
     },
     {
       "name": "octopus-deploy",
@@ -513,7 +638,10 @@
       "colorTokens": [
         "Text/Line Primary",
         "Text/Primary – Night"
-      ]
+      ],
+      "assetUrl": "https://www.figma.com/api/mcp/asset/637ac631-792a-4acf-bae8-0ed8e1770341",
+      "sourceWidth": 17.0239,
+      "sourceHeight": 18
     },
     {
       "name": "trending-up-arrow",
@@ -523,7 +651,10 @@
       "colorTokens": [
         "Text/Primary Green",
         "Text/Primary – Night"
-      ]
+      ],
+      "assetUrl": "https://www.figma.com/api/mcp/asset/eda332cd-125f-466a-9fac-8dc7b454f253",
+      "sourceWidth": 18.6667,
+      "sourceHeight": 11.7273
     },
     {
       "name": "lock",
@@ -533,7 +664,10 @@
       "colorTokens": [
         "Text/Primary",
         "Text/Primary – Night"
-      ]
+      ],
+      "assetUrl": "https://www.figma.com/api/mcp/asset/7e4b5d01-0666-4817-bbb9-c66a13a7bc4e",
+      "sourceWidth": 17.8008,
+      "sourceHeight": 19.8008
     },
     {
       "name": "live",
@@ -543,7 +677,10 @@
       "colorTokens": [
         "Text/Error",
         "Text/Primary – Night"
-      ]
+      ],
+      "assetUrl": "https://www.figma.com/api/mcp/asset/08e07e1e-1c16-4d27-8e9c-d3cc802aeecb",
+      "sourceWidth": 6,
+      "sourceHeight": 6
     },
     {
       "name": "telegram",
@@ -553,7 +690,10 @@
       "colorTokens": [
         "Text/Line Primary",
         "Text/Primary – Night"
-      ]
+      ],
+      "assetUrl": "https://www.figma.com/api/mcp/asset/590e58e4-c8a3-4181-a8b6-9f28e6d08556",
+      "sourceWidth": 22,
+      "sourceHeight": 18
     },
     {
       "name": "yandex-direct",
@@ -563,7 +703,10 @@
       "colorTokens": [
         "Text/Primary",
         "Text/Primary – Night"
-      ]
+      ],
+      "assetUrl": "https://www.figma.com/api/mcp/asset/f4b8e5c3-d80f-43b0-8d4e-7e3c802f05f7",
+      "sourceWidth": 22.6667,
+      "sourceHeight": 22.6667
     },
     {
       "name": "google-ads",
@@ -573,7 +716,10 @@
       "colorTokens": [
         "Text/Primary",
         "Text/Primary – Night"
-      ]
+      ],
+      "assetUrl": "https://www.figma.com/api/mcp/asset/8e40fe50-0133-4045-bde3-9872cfdeeb3d",
+      "sourceWidth": 14.7217,
+      "sourceHeight": 19.6964
     },
     {
       "name": "my-target",
@@ -583,7 +729,10 @@
       "colorTokens": [
         "Text/Primary",
         "Text/Primary – Night"
-      ]
+      ],
+      "assetUrl": "https://www.figma.com/api/mcp/asset/af63bf9f-8f3c-4fde-8f09-72140942408c",
+      "sourceWidth": 22.2235,
+      "sourceHeight": 22.6178
     },
     {
       "name": "mindbox icn",
@@ -593,7 +742,10 @@
       "colorTokens": [
         "Text/Primary",
         "Text/Primary – Night"
-      ]
+      ],
+      "assetUrl": "https://www.figma.com/api/mcp/asset/71e1dd25-4162-421f-a927-cafbf0e2df32",
+      "sourceWidth": 22,
+      "sourceHeight": 22
     }
   ]
 }

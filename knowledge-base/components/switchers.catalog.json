@@ -1,0 +1,33 @@
+{
+  "version": "0.1.0",
+  "lastUpdated": "2026-03-03",
+  "source": {
+    "fileKey": "IawDi2Zwy7mvMMrsHvIFg1",
+    "nodeId": "7091:62867",
+    "url": "https://www.figma.com/design/IawDi2Zwy7mvMMrsHvIFg1/%F0%9F%9B%A0%EF%B8%8F-Mindbox-Promo-Library?node-id=7091-62867&t=37QSIedZodPM0hws-11"
+  },
+  "sizes": [
+    { "id": "L", "trackW": 38, "trackH": 24, "pad": 3, "thumb": 18 },
+    { "id": "S", "trackW": 28, "trackH": 18, "pad": 2, "thumb": 14 }
+  ],
+  "states": ["Default", "Hovered", "Inactive"],
+  "filledModes": [true, false],
+  "nightModes": [false, true],
+  "defaultSize": "L",
+  "defaultState": "Default",
+  "defaultFilled": true,
+  "defaultNight": false,
+  "defaultOn": true,
+  "tokens": {
+    "on": "BG/Button/Green",
+    "onHover": "BG/Button/Hover/Green",
+    "offLight": "rgba(11,32,63,0.35)",
+    "offLightHover": "rgba(11,32,63,0.5)",
+    "offNight": "rgba(255,255,255,0.3)",
+    "offNightHover": "rgba(255,255,255,0.6)",
+    "inactiveLight": "rgba(11,32,63,0.1)",
+    "inactiveNight": "rgba(255,255,255,0.1)",
+    "thumb": "#FFFFFF",
+    "thumbInactive": "rgba(255,255,255,0.6)"
+  }
+}
