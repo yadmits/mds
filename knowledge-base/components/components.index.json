@@ -44,6 +44,42 @@
       "testStatus": "unknown",
       "lastReviewedAt": "2026-03-03",
       "notes": "Button page assembled in preview with BG=true and BG=false modes, size/type matrix, hover and active behavior."
+    },
+    {
+      "id": "badge",
+      "name": "Badge",
+      "status": "in_progress",
+      "priority": "high",
+      "figmaNodeUrl": "https://www.figma.com/design/IawDi2Zwy7mvMMrsHvIFg1/%F0%9F%9B%A0%EF%B8%8F-Mindbox-Promo-Library?node-id=3480-5323&t=37QSIedZodPM0hws-11",
+      "figmaNodeId": "3480:5323",
+      "specFile": "knowledge-base/components/specs/badge.spec.md",
+      "codeTarget": "preview/tokens.html#badges",
+      "owners": {
+        "design": "TODO_DESIGN_OWNER",
+        "frontend": "TODO_FE_OWNER"
+      },
+      "tokensUsed": [
+        "BG/Light 0",
+        "Text/Primary",
+        "Text/Primary – Night",
+        "Text/Secondary",
+        "Text/Secondary – Night",
+        "L – Med",
+        "S – Med",
+        "XS – Med",
+        "XXS – Med"
+      ],
+      "statesCovered": [
+        "fill",
+        "outline",
+        "left-icon",
+        "right-icon",
+        "text2"
+      ],
+      "a11yStatus": "unknown",
+      "testStatus": "unknown",
+      "lastReviewedAt": "2026-03-03",
+      "notes": "Badge added with optional parts toggles and color-token constructor on preview page."
     }
   ]
 }

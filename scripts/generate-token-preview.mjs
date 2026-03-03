@@ -5,6 +5,7 @@ const root = process.cwd();
 const tokensPath = path.join(root, "knowledge-base", "tokens", "tokens.catalog.json");
 const iconsPath = path.join(root, "knowledge-base", "icons", "icons.catalog.json");
 const buttonsPath = path.join(root, "knowledge-base", "components", "buttons.catalog.json");
+const badgesPath = path.join(root, "knowledge-base", "components", "badges.catalog.json");
 const fontSourceDir = path.join(root, "knowledge-base", "assets", "fonts");
 const outDir = path.join(root, "preview");
 const outPath = path.join(outDir, "tokens.html");
@@ -15,6 +16,9 @@ const iconsCatalog = fs.existsSync(iconsPath) ? JSON.parse(fs.readFileSync(icons
 const buttonsCatalog = fs.existsSync(buttonsPath)
   ? JSON.parse(fs.readFileSync(buttonsPath, "utf8"))
   : { sizes: [], filledTypes: [], linkTypes: [] };
+const badgesCatalog = fs.existsSync(badgesPath)
+  ? JSON.parse(fs.readFileSync(badgesPath, "utf8"))
+  : { sizes: [], styleVariants: [], contentVariants: [], colorOptions: [] };
 
 const colorGroup = catalog.tokenGroups.find((g) => g.group === "color");
 const typoGroup = catalog.tokenGroups.find((g) => g.group === "typography");
@@ -39,8 +43,20 @@ const buttonsSections = renderButtonsPage({
   colorLookup,
   iconLookup
 });
+const badgesSections = renderBadgesPage({
+  catalog: badgesCatalog,
+  typoLookup,
+  colorLookup,
+  iconLookup
+});
 const buttonConstructorData = buildButtonConstructorData({
   catalog: buttonsCatalog,
+  typoLookup,
+  colorLookup,
+  iconLookup
+});
+const badgeConstructorData = buildBadgeConstructorData({
+  catalog: badgesCatalog,
   typoLookup,
   colorLookup,
   iconLookup
@@ -395,6 +411,87 @@ const html = `<!doctype html>
       font-family: inherit;
       font-size: 12px;
     }
+    .icon-native-select { display: none; }
+    .icon-picker {
+      position: relative;
+    }
+    .icon-picker-btn {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: #fff;
+      color: var(--ink);
+      padding: 6px 8px;
+      font-family: inherit;
+      font-size: 12px;
+      min-height: 32px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      cursor: pointer;
+    }
+    .icon-picker-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    .icon-picker-value {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 0;
+    }
+    .icon-picker-caret {
+      font-size: 10px;
+      opacity: 0.7;
+    }
+    .icon-picker-menu {
+      position: absolute;
+      z-index: 30;
+      inset: calc(100% + 4px) 0 auto 0;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: #fff;
+      box-shadow: 0 8px 24px rgba(11, 32, 63, 0.14);
+      padding: 6px;
+      max-height: 220px;
+      overflow: auto;
+      display: none;
+    }
+    .icon-picker.open .icon-picker-menu { display: block; }
+    .icon-picker-item {
+      width: 100%;
+      border: 0;
+      border-radius: 8px;
+      background: transparent;
+      padding: 6px 8px;
+      text-align: left;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: #111827;
+      cursor: pointer;
+      font-size: 12px;
+    }
+    .icon-picker-item:hover {
+      background: #f3f7fb;
+    }
+    .icon-picker-glyph {
+      width: 14px;
+      height: 14px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: #292B32;
+      flex: 0 0 14px;
+    }
+    .icon-picker-glyph .icon-mask {
+      width: 100%;
+      height: 100%;
+      background-color: currentColor;
+      -webkit-mask: var(--icon-mask) center / contain no-repeat;
+      mask: var(--icon-mask) center / contain no-repeat;
+    }
     .constructor-props {
       border: 1px solid var(--border);
       border-radius: 10px;
@@ -523,6 +620,46 @@ const html = `<!doctype html>
     .ds-btn.link:not(.is-disabled):active {
       transition: transform 160ms cubic-bezier(0.2, 0.8, 0.2, 1), background-color 90ms ease, color 90ms ease, border-color 90ms ease, padding-inline 120ms ease, border-radius 120ms ease;
     }
+    .ds-badge {
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+    .ds-badge.fill {
+      background: var(--badge-fill, #fff);
+      border: 1px solid transparent;
+    }
+    .ds-badge.outline {
+      background: transparent;
+      border: var(--badge-stroke-width, 1px) solid var(--badge-stroke, #fff);
+    }
+    .ds-badge-icon {
+      width: var(--badge-icon-size, 14px);
+      height: var(--badge-icon-size, 14px);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--badge-icon-color, currentColor);
+      flex: 0 0 var(--badge-icon-size, 14px);
+    }
+    .ds-badge-text-wrap {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--badge-text-gap, 8px);
+      color: var(--badge-text-color, #292B32);
+    }
+    .ds-badge-divider {
+      width: var(--badge-divider-size, 3px);
+      height: var(--badge-divider-size, 3px);
+      border-radius: 999px;
+      background: var(--badge-divider-color, currentColor);
+      opacity: var(--badge-divider-opacity, 0.6);
+      flex: 0 0 var(--badge-divider-size, 3px);
+    }
+    .ds-badge-label {
+      display: inline-block;
+    }
     code {
       background: #f2f5f8;
       border: 1px solid #e0e6ed;
@@ -575,7 +712,7 @@ const html = `<!doctype html>
         border-right: none;
         border-bottom: 1px solid #2a2d35;
       }
-      .nav { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .nav { grid-template-columns: repeat(3, minmax(0, 1fr)); }
       .btn-grid { grid-template-columns: 1fr; }
       .btn-row { grid-template-columns: 1fr; }
       .constructor { grid-template-columns: 1fr; }
@@ -590,6 +727,7 @@ const html = `<!doctype html>
       <nav class="nav">
         <a class="nav-link" data-nav="tokens" href="#tokens">Tokens</a>
         <a class="nav-link" data-nav="buttons" href="#buttons">Buttons</a>
+        <a class="nav-link" data-nav="badges" href="#badges">Badges</a>
       </nav>
     </aside>
     <main class="main">
@@ -674,6 +812,12 @@ const html = `<!doctype html>
                 <label>Theme
                   <select data-ctrl="theme"></select>
                 </label>
+                <label>Left Icon
+                  <select class="icon-native-select" data-ctrl="leftIcon"></select>
+                </label>
+                <label>Right Icon
+                  <select class="icon-native-select" data-ctrl="rightIcon"></select>
+                </label>
               </div>
               <div class="constructor-props" data-constructor-props>Loading...</div>
             </div>
@@ -682,10 +826,69 @@ const html = `<!doctype html>
 
         ${buttonsSections}
       </section>
+
+      <section class="page" data-page="badges">
+        <header class="header">
+          <div class="header-row">
+            <div>
+              <h1 class="title">Badges</h1>
+              <p class="subtitle">Figma source node: <code>3480:5323</code> | Optional parts: left icon, right icon, text2 | Styles: <code>filled</code> / <code>outline</code>.</p>
+            </div>
+            <button class="theme-toggle" type="button" data-theme-toggle>Theme: Light</button>
+          </div>
+          <ul class="anchor-nav">
+            <li><a class="anchor-link" href="#badges-constructor">Constructor</a></li>
+            <li><a class="anchor-link" href="#badges-filled">Filled</a></li>
+            <li><a class="anchor-link" href="#badges-outline">Outline</a></li>
+            <li><a class="anchor-link" href="#badges-content">Parts</a></li>
+          </ul>
+          <section id="badges-constructor" class="constructor" data-badge-constructor>
+            <div class="constructor-preview" data-badge-constructor-preview></div>
+            <div>
+              <div class="constructor-controls">
+                <label>Style
+                  <select data-badge-ctrl="style"></select>
+                </label>
+                <label>Size
+                  <select data-badge-ctrl="size"></select>
+                </label>
+                <label>Device
+                  <select data-badge-ctrl="device"></select>
+                </label>
+                <label>Parts
+                  <select data-badge-ctrl="content"></select>
+                </label>
+                <label>Text Color
+                  <select data-badge-ctrl="textColor"></select>
+                </label>
+                <label>Theme
+                  <select data-badge-ctrl="theme"></select>
+                </label>
+                <label>Fill / Stroke
+                  <select data-badge-ctrl="containerColor"></select>
+                </label>
+                <label>Divider Color
+                  <select data-badge-ctrl="dividerColor"></select>
+                </label>
+                <label>Left Icon
+                  <select class="icon-native-select" data-badge-ctrl="leftIcon"></select>
+                </label>
+                <label>Right Icon
+                  <select class="icon-native-select" data-badge-ctrl="rightIcon"></select>
+                </label>
+              </div>
+              <div class="constructor-props" data-badge-constructor-props>Loading...</div>
+            </div>
+          </section>
+        </header>
+
+        ${badgesSections}
+      </section>
     </main>
   </div>
   <script>
     const BUTTON_CONSTRUCTOR_DATA = ${JSON.stringify(buttonConstructorData)};
+    const BADGE_CONSTRUCTOR_DATA = ${JSON.stringify(badgeConstructorData)};
     (function () {
       const nav = Array.from(document.querySelectorAll("[data-nav]"));
       const pages = Array.from(document.querySelectorAll("[data-page]"));
@@ -694,6 +897,7 @@ const html = `<!doctype html>
       function resolvePage() {
         const raw = window.location.hash.replace("#", "").trim();
         if (raw === "buttons" || raw.startsWith("buttons-")) return "buttons";
+        if (raw === "badges" || raw.startsWith("badges-")) return "badges";
         return "tokens";
       }
 
@@ -716,6 +920,88 @@ const html = `<!doctype html>
         applyTheme(next);
       }
 
+      function setupIconPicker(select, iconMap) {
+        if (!select) return { sync: () => {} };
+        const label = select.closest("label");
+        if (!label) return { sync: () => {} };
+
+        if (label.querySelector(".icon-picker")) {
+          return {
+            sync: () => {
+              const btn = label.querySelector(".icon-picker-btn");
+              if (btn) btn.disabled = !!select.disabled;
+            }
+          };
+        }
+
+        const picker = document.createElement("div");
+        picker.className = "icon-picker";
+        const trigger = document.createElement("button");
+        trigger.type = "button";
+        trigger.className = "icon-picker-btn";
+        trigger.innerHTML = '<span class="icon-picker-value"></span><span class="icon-picker-caret">▾</span>';
+        const menu = document.createElement("div");
+        menu.className = "icon-picker-menu";
+        picker.append(trigger, menu);
+        label.appendChild(picker);
+
+        function renderGlyph(value) {
+          if (value === "none") return '<span class="icon-picker-glyph">∅</span>';
+          if (value === "default") return '<span class="icon-picker-glyph">Auto</span>';
+          const url = iconMap[String(value || "").toLowerCase()];
+          if (!url) return '<span class="icon-picker-glyph">•</span>';
+          return '<span class="icon-picker-glyph"><span class="icon-mask" style="--icon-mask:url(' + url + ')"></span></span>';
+        }
+
+        function renderOptions() {
+          menu.innerHTML = "";
+          const values = Array.from(select.options).map((opt) => ({ value: opt.value, label: opt.textContent || opt.value }));
+          const validValues = new Set(values.map((v) => v.value));
+          if (!validValues.has(select.value) && values[0]) select.value = values[0].value;
+          for (const item of values) {
+            const optionBtn = document.createElement("button");
+            optionBtn.type = "button";
+            optionBtn.className = "icon-picker-item";
+            optionBtn.innerHTML = renderGlyph(item.value) + "<span>" + item.label + "</span>";
+            optionBtn.addEventListener("click", () => {
+              select.value = item.value;
+              select.dispatchEvent(new Event("change", { bubbles: true }));
+              picker.classList.remove("open");
+              updateTrigger();
+            });
+            menu.appendChild(optionBtn);
+          }
+          updateTrigger();
+        }
+
+        function updateTrigger() {
+          const selected = Array.from(select.options).find((o) => o.value === select.value) || select.options[0];
+          const value = selected?.value || "none";
+          const labelText = selected?.textContent || value;
+          const valueEl = trigger.querySelector(".icon-picker-value");
+          if (valueEl) valueEl.innerHTML = renderGlyph(value) + "<span>" + labelText + "</span>";
+          trigger.disabled = !!select.disabled;
+        }
+
+        trigger.addEventListener("click", () => {
+          if (select.disabled) return;
+          picker.classList.toggle("open");
+        });
+
+        document.addEventListener("click", (event) => {
+          if (!picker.contains(event.target)) picker.classList.remove("open");
+        });
+
+        select.addEventListener("change", updateTrigger);
+        renderOptions();
+        return {
+          sync: () => {
+            renderOptions();
+            updateTrigger();
+          }
+        };
+      }
+
       function initButtonConstructor() {
         const root = document.querySelector("[data-constructor-preview]")?.closest(".constructor");
         if (!root || !BUTTON_CONSTRUCTOR_DATA || !Array.isArray(BUTTON_CONSTRUCTOR_DATA.items)) return;
@@ -727,9 +1013,11 @@ const html = `<!doctype html>
         const ctrlContent = root.querySelector('[data-ctrl="content"]');
         const ctrlRounded = root.querySelector('[data-ctrl="rounded"]');
         const ctrlTheme = root.querySelector('[data-ctrl="theme"]');
+        const ctrlLeftIcon = root.querySelector('[data-ctrl="leftIcon"]');
+        const ctrlRightIcon = root.querySelector('[data-ctrl="rightIcon"]');
 
-        const controls = [ctrlMode, ctrlType, ctrlSize, ctrlContent, ctrlRounded, ctrlTheme].filter(Boolean);
-        if (controls.length !== 6) return;
+        const controls = [ctrlMode, ctrlType, ctrlSize, ctrlContent, ctrlRounded, ctrlTheme, ctrlLeftIcon, ctrlRightIcon].filter(Boolean);
+        if (controls.length !== 8) return;
 
         function setOptions(select, values) {
           select.innerHTML = values.map((v) => '<option value=\"' + v.value + '\">' + v.label + '</option>').join("");
@@ -744,6 +1032,10 @@ const html = `<!doctype html>
           { value: "light", label: "Light sample" },
           { value: "dark", label: "Dark sample" }
         ]);
+        setOptions(ctrlLeftIcon, [{ value: "default", label: "Default" }, { value: "none", label: "None" }, ...BUTTON_CONSTRUCTOR_DATA.icons.map((v) => ({ value: v, label: v }))]);
+        setOptions(ctrlRightIcon, [{ value: "default", label: "Default" }, { value: "none", label: "None" }, ...BUTTON_CONSTRUCTOR_DATA.icons.map((v) => ({ value: v, label: v }))]);
+        const leftPicker = setupIconPicker(ctrlLeftIcon, BUTTON_CONSTRUCTOR_DATA.iconUrlByName || {});
+        const rightPicker = setupIconPicker(ctrlRightIcon, BUTTON_CONSTRUCTOR_DATA.iconUrlByName || {});
 
         function syncTypeOptions() {
           const mode = ctrlMode.value;
@@ -773,14 +1065,45 @@ const html = `<!doctype html>
           const effectiveTheme = selectedTheme === "auto" ? item.recommendedTheme : selectedTheme;
           preview.classList.toggle("dark", effectiveTheme === "dark");
           preview.innerHTML = item.htmlByTheme[effectiveTheme] || item.htmlByTheme.light || "";
+          const leftIconChoice = item.hasLeftIcon || item.isIconOnly ? (ctrlLeftIcon.value || "default") : "none";
+          const rightIconChoice = item.hasRightIcon ? (ctrlRightIcon.value || "default") : "none";
+          ctrlLeftIcon.disabled = !(item.hasLeftIcon || item.isIconOnly);
+          ctrlRightIcon.disabled = !item.hasRightIcon;
+          if (ctrlLeftIcon.disabled) ctrlLeftIcon.value = "none";
+          if (ctrlRightIcon.disabled) ctrlRightIcon.value = "none";
+          leftPicker.sync();
+          rightPicker.sync();
+          applyButtonConstructorIcons(preview, item, leftIconChoice, rightIconChoice);
           props.textContent = item.details;
+        }
+
+        function applyButtonConstructorIcons(container, item, leftChoice, rightChoice) {
+          const slots = Array.from(container.querySelectorAll("[data-icon-slot]"));
+          const iconMap = BUTTON_CONSTRUCTOR_DATA.iconUrlByName || {};
+          for (const slotEl of slots) {
+            const slot = slotEl.getAttribute("data-icon-slot") || "left";
+            const defaultName = slotEl.getAttribute("data-icon-default") || (slot === "right" ? item.defaultRightIcon : item.defaultLeftIcon) || "";
+            const selected = slot === "right" ? rightChoice : leftChoice;
+            const iconName = selected === "default" ? defaultName : selected;
+            if (!iconName || iconName === "none") {
+              slotEl.style.display = "none";
+              continue;
+            }
+            slotEl.style.display = "";
+            const url = iconMap[String(iconName).toLowerCase()];
+            if (url) {
+              slotEl.innerHTML = '<span class="icon-mask" style="--icon-mask:url(' + url + ')"></span>';
+            } else {
+              slotEl.textContent = "•";
+            }
+          }
         }
 
         ctrlMode.addEventListener("change", () => {
           syncTypeOptions();
           renderCtor();
         });
-        [ctrlType, ctrlSize, ctrlContent, ctrlRounded, ctrlTheme].forEach((el) => el.addEventListener("change", renderCtor));
+        [ctrlType, ctrlSize, ctrlContent, ctrlRounded, ctrlTheme, ctrlLeftIcon, ctrlRightIcon].forEach((el) => el.addEventListener("change", renderCtor));
 
         ctrlMode.value = "filled";
         syncTypeOptions();
@@ -789,6 +1112,192 @@ const html = `<!doctype html>
         ctrlContent.value = "text";
         ctrlRounded.value = "rounded";
         ctrlTheme.value = "auto";
+        ctrlLeftIcon.value = "default";
+        ctrlRightIcon.value = "default";
+        renderCtor();
+      }
+
+      function initBadgeConstructor() {
+        const root = document.querySelector("[data-badge-constructor]");
+        if (!root || !BADGE_CONSTRUCTOR_DATA || !Array.isArray(BADGE_CONSTRUCTOR_DATA.items)) return;
+        const preview = root.querySelector("[data-badge-constructor-preview]");
+        const props = root.querySelector("[data-badge-constructor-props]");
+        const ctrlStyle = root.querySelector('[data-badge-ctrl="style"]');
+        const ctrlSize = root.querySelector('[data-badge-ctrl="size"]');
+        const ctrlDevice = root.querySelector('[data-badge-ctrl="device"]');
+        const ctrlContent = root.querySelector('[data-badge-ctrl="content"]');
+        const ctrlTextColor = root.querySelector('[data-badge-ctrl="textColor"]');
+        const ctrlContainerColor = root.querySelector('[data-badge-ctrl="containerColor"]');
+        const ctrlDividerColor = root.querySelector('[data-badge-ctrl="dividerColor"]');
+        const ctrlTheme = root.querySelector('[data-badge-ctrl="theme"]');
+        const ctrlLeftIcon = root.querySelector('[data-badge-ctrl="leftIcon"]');
+        const ctrlRightIcon = root.querySelector('[data-badge-ctrl="rightIcon"]');
+
+        const controls = [ctrlStyle, ctrlSize, ctrlDevice, ctrlContent, ctrlTextColor, ctrlContainerColor, ctrlDividerColor, ctrlTheme, ctrlLeftIcon, ctrlRightIcon].filter(Boolean);
+        if (controls.length !== 10) return;
+
+        function setOptions(select, values) {
+          select.innerHTML = values.map((v) => '<option value="' + v.value + '">' + v.label + '</option>').join("");
+        }
+
+        setOptions(ctrlStyle, BADGE_CONSTRUCTOR_DATA.styles.map((v) => ({ value: v.id, label: v.label })));
+        setOptions(ctrlSize, BADGE_CONSTRUCTOR_DATA.sizes.map((v) => ({ value: v, label: v })));
+        setOptions(ctrlDevice, BADGE_CONSTRUCTOR_DATA.devices.map((v) => ({ value: v.id, label: v.label })));
+        setOptions(ctrlContent, BADGE_CONSTRUCTOR_DATA.contents.map((v) => ({ value: v.id, label: v.label })));
+        setOptions(ctrlTextColor, BADGE_CONSTRUCTOR_DATA.colorTokens.map((v) => ({ value: v, label: v })));
+        setOptions(ctrlContainerColor, BADGE_CONSTRUCTOR_DATA.colorTokens.map((v) => ({ value: v, label: v })));
+        setOptions(ctrlDividerColor, BADGE_CONSTRUCTOR_DATA.colorTokens.map((v) => ({ value: v, label: v })));
+        setOptions(ctrlLeftIcon, [{ value: "default", label: "Default" }, { value: "none", label: "None" }, ...BADGE_CONSTRUCTOR_DATA.icons.map((v) => ({ value: v, label: v }))]);
+        setOptions(ctrlRightIcon, [{ value: "default", label: "Default" }, { value: "none", label: "None" }, ...BADGE_CONSTRUCTOR_DATA.icons.map((v) => ({ value: v, label: v }))]);
+        const leftPicker = setupIconPicker(ctrlLeftIcon, BADGE_CONSTRUCTOR_DATA.iconUrlByName || {});
+        const rightPicker = setupIconPicker(ctrlRightIcon, BADGE_CONSTRUCTOR_DATA.iconUrlByName || {});
+        setOptions(ctrlTheme, [
+          { value: "auto", label: "Auto" },
+          { value: "light", label: "Light sample" },
+          { value: "dark", label: "Dark sample" }
+        ]);
+
+        function syncColorDefaults() {
+          const style = ctrlStyle.value;
+          const styleMeta = BADGE_CONSTRUCTOR_DATA.styles.find((x) => x.id === style) || BADGE_CONSTRUCTOR_DATA.styles[0];
+          if (!styleMeta) return;
+          ctrlTextColor.value = styleMeta.defaultTextToken || ctrlTextColor.value;
+          ctrlDividerColor.value = styleMeta.defaultDividerToken || ctrlDividerColor.value;
+          ctrlContainerColor.value = style === "outline"
+            ? (styleMeta.defaultStrokeToken || ctrlContainerColor.value)
+            : (styleMeta.defaultFillToken || ctrlContainerColor.value);
+        }
+
+        function renderCtor() {
+          const style = ctrlStyle.value;
+          const size = ctrlSize.value;
+          const device = ctrlDevice.value;
+          const content = ctrlContent.value;
+          const textColor = ctrlTextColor.value;
+          const containerColor = ctrlContainerColor.value;
+          const dividerColor = ctrlDividerColor.value;
+          const leftIcon = ctrlLeftIcon.value;
+          const rightIcon = ctrlRightIcon.value;
+          const selectedTheme = ctrlTheme.value;
+
+          const item = BADGE_CONSTRUCTOR_DATA.items.find((x) =>
+            x.style === style &&
+            x.size === size &&
+            x.device === device &&
+            x.content === content
+          );
+          if (!item) return;
+
+          const effectiveTheme = selectedTheme === "auto" ? item.recommendedTheme : selectedTheme;
+          preview.classList.toggle("dark", effectiveTheme === "dark");
+          ctrlLeftIcon.disabled = !item.leftIcon;
+          ctrlRightIcon.disabled = !item.rightIcon;
+          if (ctrlLeftIcon.disabled) ctrlLeftIcon.value = "none";
+          if (ctrlRightIcon.disabled) ctrlRightIcon.value = "none";
+          leftPicker.sync();
+          rightPicker.sync();
+          preview.innerHTML = renderBadgeFromItem(item, {
+            textColor,
+            containerColor,
+            dividerColor,
+            leftIcon,
+            rightIcon
+          });
+          props.textContent = getBadgeDetails(item, {
+            textColor,
+            containerColor,
+            dividerColor,
+            leftIcon,
+            rightIcon,
+            theme: effectiveTheme
+          });
+        }
+
+        function renderBadgeFromItem(item, colors) {
+          function iconMarkup(iconName) {
+            const resolved = iconName === "default" ? item.defaultIconName : iconName;
+            const url = BADGE_CONSTRUCTOR_DATA.iconUrlByName[String(resolved || "").toLowerCase()];
+            if (url) return '<span class="icon-mask" style="--icon-mask:url(' + url + ')"></span>';
+            return "•";
+          }
+          const leftIconName = colors.leftIcon || "default";
+          const rightIconName = colors.rightIcon || "default";
+          const leftIcon = item.leftIcon && leftIconName !== "none" ? '<span class="ds-badge-icon">' + iconMarkup(leftIconName) + '</span>' : "";
+          const rightIcon = item.rightIcon && rightIconName !== "none" ? '<span class="ds-badge-icon">' + iconMarkup(rightIconName) + '</span>' : "";
+          const secondText = item.text2
+            ? '<span class="ds-badge-divider"></span><span class="ds-badge-label">' + item.textSecondary + '</span>'
+            : "";
+          const styleCss = [
+            '--badge-fill:' + item.bgColor,
+            '--badge-stroke:' + item.strokeColor,
+            '--badge-stroke-width:' + item.strokeWidth + 'px',
+            '--badge-text-color:' + item.textColor,
+            '--badge-divider-color:' + item.dividerColor,
+            '--badge-icon-color:' + item.textColor,
+            '--badge-icon-size:' + item.iconSize + 'px',
+            '--badge-text-gap:' + item.textGap + 'px',
+            '--badge-divider-size:' + item.dividerSize + 'px',
+            'gap:' + item.outerGap + 'px',
+            'padding-left:' + item.paddingX + 'px',
+            'padding-right:' + item.paddingX + 'px',
+            'padding-top:' + item.paddingTop + 'px',
+            'padding-bottom:' + item.paddingBottom + 'px',
+            'font-family:"' + item.fontFamily + '",sans-serif',
+            'font-size:' + item.fontSize + 'px',
+            'line-height:' + item.lineHeight + 'px',
+            'font-weight:' + item.fontWeight,
+            'letter-spacing:' + item.letterSpacing
+          ];
+          styleCss[0] = '--badge-fill:' + (item.style === 'fill' ? item.containerColorValue[colors.containerColor] || item.bgColor : 'transparent');
+          styleCss[1] = '--badge-stroke:' + (item.style === 'outline' ? item.containerColorValue[colors.containerColor] || item.strokeColor : item.strokeColor);
+          styleCss[3] = '--badge-text-color:' + (item.containerColorValue[colors.textColor] || item.textColor);
+          styleCss[4] = '--badge-divider-color:' + (item.containerColorValue[colors.dividerColor] || item.dividerColor);
+          styleCss[5] = '--badge-icon-color:' + (item.containerColorValue[colors.textColor] || item.textColor);
+
+          return '<div class="ds-badge ' + item.style + '" style="' + styleCss.join(';') + '">' +
+            leftIcon +
+            '<span class="ds-badge-text-wrap"><span class="ds-badge-label">' + item.textPrimary + '</span>' + secondText + '</span>' +
+            rightIcon +
+            '</div>';
+        }
+
+        function getBadgeDetails(item, info) {
+          return [
+            'Style: ' + item.style,
+            'Size: ' + item.size,
+            'Device: ' + item.device,
+            'Parts: ' + item.contentLabel,
+            'Typography token: ' + item.textToken,
+            'Text color token: ' + info.textColor,
+            'Divider color token: ' + info.dividerColor,
+            (item.style === 'fill' ? 'Fill color token: ' : 'Stroke color token: ') + info.containerColor,
+            'Left icon: ' + (item.leftIcon ? info.leftIcon : "none"),
+            'Right icon: ' + (item.rightIcon ? info.rightIcon : "none"),
+            'Theme sample: ' + info.theme,
+            'Padding X: ' + item.paddingX + 'px',
+            'Padding Y: ' + item.paddingTop + 'px / ' + item.paddingBottom + 'px',
+            'Outer gap: ' + item.outerGap + 'px',
+            'Text gap: ' + item.textGap + 'px',
+            'Icon size: ' + item.iconSize + 'px',
+            'Divider size: ' + item.dividerSize + 'px',
+            'Border width (outline): ' + item.strokeWidth + 'px'
+          ].join('\\n');
+        }
+
+        ctrlStyle.addEventListener("change", () => {
+          syncColorDefaults();
+          renderCtor();
+        });
+        [ctrlSize, ctrlDevice, ctrlContent, ctrlTextColor, ctrlContainerColor, ctrlDividerColor, ctrlTheme, ctrlLeftIcon, ctrlRightIcon].forEach((el) => el.addEventListener("change", renderCtor));
+
+        ctrlStyle.value = "fill";
+        ctrlSize.value = "M";
+        ctrlDevice.value = "desktop";
+        ctrlContent.value = "full";
+        syncColorDefaults();
+        ctrlTheme.value = "auto";
+        ctrlLeftIcon.value = "default";
+        ctrlRightIcon.value = "default";
         renderCtor();
       }
 
@@ -797,6 +1306,7 @@ const html = `<!doctype html>
       const savedTheme = localStorage.getItem("mb-ds-theme");
       applyTheme(savedTheme === "dark" ? "dark" : "light");
       initButtonConstructor();
+      initBadgeConstructor();
 
       window.addEventListener("hashchange", render);
       render();
@@ -1325,13 +1835,179 @@ function renderButtonVariant({ size, type, mode, roundingMode, contentVariant, t
   const iconShift = `${hasAnyIcon ? 0 : metrics.iconShift}px`;
   const classes = ["ds-btn", mode, type.isDisabled ? "is-disabled" : ""].filter(Boolean).join(" ");
 
-  const leftIcon = contentVariant.leftIcon ? renderIconHtml(contentVariant.leftIcon, iLookup) : "";
-  const rightIcon = contentVariant.rightIcon ? renderIconHtml(contentVariant.rightIcon, iLookup) : "";
+  const leftIcon = contentVariant.leftIcon ? renderIconHtml(contentVariant.leftIcon, iLookup, "left") : "";
+  const rightIcon = contentVariant.rightIcon ? renderIconHtml(contentVariant.rightIcon, iLookup, "right") : "";
   const label = isIconOnly ? "" : "<span>Button</span>";
   const body = `${leftIcon}${label}${rightIcon}`;
   const blur = type.backdropBlur ? `${Number(type.backdropBlur) || 0}px` : "0px";
 
   return `<button class="${classes}" style="--btn-bg:${bg};--btn-bg-hover:${bgHover};--btn-color:${color};--btn-color-hover:${colorHover};--btn-h:${h};--btn-pad-x:${padX};--btn-pad-y-top:${padYTop};--btn-pad-y-bottom:${padYBottom};--btn-radius:${radius}px;--btn-gap:${gap};--btn-icon-size:${iconSize}px;--btn-icon-shift:${iconShift};--btn-backdrop-blur:${blur};--btn-link-hover-pad-x:${!hasAnyIcon ? getTextOnlyPadX(size.name, mode) : (metrics.linkHoverPadX || metrics.padX)}px;--btn-link-hover-radius:${metrics.linkHoverRadius || metrics.radius}px;padding-top:${padYTop};padding-bottom:${padYBottom};${typoStyle}">${body}</button>`;
+}
+
+function renderBadgesPage({ catalog, typoLookup: tLookup, colorLookup: cLookup, iconLookup: iLookup }) {
+  const styles = catalog.styleVariants || [];
+  const sizes = catalog.sizes || [];
+  const contents = catalog.contentVariants || [];
+  if (!styles.length || !sizes.length || !contents.length) return `<section class="section"><div class="effect-empty">No badge data.</div></section>`;
+
+  const fillStyle = styles.find((s) => s.id === "fill") || styles[0];
+  const outlineStyle = styles.find((s) => s.id === "outline") || styles[0];
+  const fullContent = contents.find((v) => v.id === "full") || contents[0];
+
+  const filledCards = renderBadgeCards({
+    id: "badges-filled",
+    title: "Filled",
+    description: "Fill style with token-driven text/divider/fill colors.",
+    styles: [fillStyle],
+    sizes,
+    contents: [fullContent],
+    devices: ["desktop", "mobile"],
+    catalog,
+    tLookup,
+    cLookup,
+    iLookup
+  });
+
+  const outlineCards = renderBadgeCards({
+    id: "badges-outline",
+    title: "Outline",
+    description: "Outline style with token-driven text/divider/stroke colors.",
+    styles: [outlineStyle],
+    sizes,
+    contents: [fullContent],
+    devices: ["desktop", "mobile"],
+    catalog,
+    tLookup,
+    cLookup,
+    iLookup
+  });
+
+  const contentCards = renderBadgeCards({
+    id: "badges-content",
+    title: "Parts",
+    description: "Optional parts: left icon, right icon, and second text block.",
+    styles: [fillStyle, outlineStyle],
+    sizes: [sizes[1] || sizes[0]],
+    contents,
+    devices: ["desktop"],
+    catalog,
+    tLookup,
+    cLookup,
+    iLookup
+  });
+
+  return `
+    <section class="section">${filledCards}</section>
+    <section class="section">${outlineCards}</section>
+    <section class="section">${contentCards}</section>
+  `;
+}
+
+function renderBadgeCards({ id, title, description, styles, sizes, contents, devices, catalog, tLookup, cLookup, iLookup }) {
+  const cards = sizes
+    .map((size) => {
+      const demos = styles
+        .flatMap((styleMeta) =>
+          devices.flatMap((device) =>
+            contents.map((content) => {
+              const demo = renderBadgeVariant({
+                catalog,
+                styleId: styleMeta.id,
+                sizeId: size.id,
+                device,
+                contentId: content.id,
+                tLookup,
+                cLookup,
+                iLookup
+              });
+              const themeClass = styleMeta.id === "outline" ? "btn-demo dark-sample" : "btn-demo";
+              return `
+                <div>
+                  <div class="btn-demo-label">${escapeHtml(`${styleMeta.label} / ${device} / ${content.label}`)}</div>
+                  <div class="${themeClass}">${demo}</div>
+                </div>
+              `;
+            })
+          )
+        )
+        .join("");
+      return `
+        <article class="btn-card">
+          <div class="btn-card-head">
+            <span><strong>${escapeHtml(size.id)}</strong></span>
+            <span>Badge matrix</span>
+          </div>
+          <div class="btn-row">${demos}</div>
+        </article>
+      `;
+    })
+    .join("");
+  const idAttr = id ? ` id="${escapeHtml(id)}"` : "";
+  return `
+    <div${idAttr}>
+      <h2>${escapeHtml(title)}</h2>
+      <p class="hint">${escapeHtml(description)}</p>
+      <div class="btn-grid">${cards}</div>
+    </div>
+  `;
+}
+
+function renderBadgeVariant({ catalog, styleId, sizeId, device, contentId, tLookup, cLookup, iLookup, overrides = {} }) {
+  const styleMeta = (catalog.styleVariants || []).find((s) => s.id === styleId) || (catalog.styleVariants || [])[0];
+  const sizeMeta = (catalog.sizes || []).find((s) => s.id === sizeId) || (catalog.sizes || [])[0];
+  const contentMeta = (catalog.contentVariants || []).find((c) => c.id === contentId) || (catalog.contentVariants || [])[0];
+  if (!styleMeta || !sizeMeta || !contentMeta) return "";
+
+  const metric = getBadgeMetrics(sizeMeta, device);
+  const typoTokenName = metric.textToken || "XS – Med";
+  const typoToken = tLookup.get(String(typoTokenName).toLowerCase()) || null;
+  const typoStyle = typoToken ? typographyToCss(typoToken) : "";
+  const iconName = catalog.defaultIcon || "chip";
+  const icon = iLookup.get(String(iconName).toLowerCase());
+  const iconHtml = icon?.assetUrl
+    ? `<span class="icon-mask" style="--icon-mask:url('${escapeHtml(icon.assetUrl)}')"></span>`
+    : escapeHtml("•");
+
+  const textColorToken = overrides.textColorToken || styleMeta.defaultTextToken || "Text/Primary";
+  const dividerColorToken = overrides.dividerColorToken || styleMeta.defaultDividerToken || textColorToken;
+  const containerColorToken = overrides.containerColorToken || (styleId === "outline" ? styleMeta.defaultStrokeToken : styleMeta.defaultFillToken) || "BG/Light 0";
+
+  const textColor = getColor(cLookup, textColorToken, styleId === "outline" ? "#FFFFFF" : "#292B32");
+  const dividerColor = getColor(cLookup, dividerColorToken, textColor);
+  const containerColor = getColor(cLookup, containerColorToken, styleId === "outline" ? "#FFFFFF" : "#FFFFFF");
+  const bgColor = styleId === "fill" ? containerColor : "transparent";
+  const strokeColor = styleId === "outline" ? containerColor : "transparent";
+
+  const leftIcon = contentMeta.leftIcon ? `<span class="ds-badge-icon">${iconHtml}</span>` : "";
+  const rightIcon = contentMeta.rightIcon ? `<span class="ds-badge-icon">${iconHtml}</span>` : "";
+  const secondText = contentMeta.text2
+    ? `<span class="ds-badge-divider"></span><span class="ds-badge-label">${escapeHtml(catalog.defaultText || "Some text")}</span>`
+    : "";
+
+  const style = [
+    `--badge-fill:${bgColor}`,
+    `--badge-stroke:${strokeColor}`,
+    `--badge-stroke-width:${Number(metric.borderWidthOutline) || 1}px`,
+    `--badge-text-color:${textColor}`,
+    `--badge-divider-color:${dividerColor}`,
+    `--badge-icon-color:${textColor}`,
+    `--badge-icon-size:${Number(metric.iconSize) || 14}px`,
+    `--badge-text-gap:${Number(metric.gapText) || 8}px`,
+    `--badge-divider-size:${Number(metric.dividerSize) || 3}px`,
+    `gap:${Number(metric.gapOuter) || 4}px`,
+    `padding-left:${Number(metric.paddingX) || 10}px`,
+    `padding-right:${Number(metric.paddingX) || 10}px`,
+    `padding-top:${Number(metric.paddingTop) || 4}px`,
+    `padding-bottom:${Number(metric.paddingBottom) || 4}px`,
+    typoStyle
+  ].join(";");
+
+  return `<div class="ds-badge ${escapeHtml(styleId)}" style="${style}">${leftIcon}<span class="ds-badge-text-wrap"><span class="ds-badge-label">${escapeHtml(catalog.defaultText || "Some text")}</span>${secondText}</span>${rightIcon}</div>`;
+}
+
+function getBadgeMetrics(sizeMeta, device) {
+  const key = String(device || "desktop").toLowerCase() === "mobile" ? "mobile" : "desktop";
+  return sizeMeta?.[key] || sizeMeta?.desktop || {};
 }
 
 function typographyToCss(token) {
@@ -1351,16 +2027,16 @@ function getColor(lookup, tokenName, fallback) {
   return lookup.get(String(tokenName).toLowerCase()) || fallback;
 }
 
-function renderIconHtml(name, iconLookupMap) {
+function renderIconHtml(name, iconLookupMap, slot = "left") {
   const key = String(name || "").toLowerCase();
   const icon = iconLookupMap.get(key);
   if (icon?.assetUrl) {
-    return `<span class="icon-static"><span class="icon-mask" style="--icon-mask:url('${escapeHtml(icon.assetUrl)}')"></span></span>`;
+    return `<span class="icon-static" data-icon-slot="${escapeHtml(slot)}" data-icon-default="${escapeHtml(name || "")}"><span class="icon-mask" style="--icon-mask:url('${escapeHtml(icon.assetUrl)}')"></span></span>`;
   }
-  if (key.includes("check")) return `<span class="icon-static">${escapeHtml("✓")}</span>`;
-  if (key.includes("download")) return `<span class="icon-static">${escapeHtml("↓")}</span>`;
-  if (key.includes("plus")) return `<span class="icon-static">${escapeHtml("+")}</span>`;
-  return `<span class="icon-static">${escapeHtml("•")}</span>`;
+  if (key.includes("check")) return `<span class="icon-static" data-icon-slot="${escapeHtml(slot)}" data-icon-default="${escapeHtml(name || "")}">${escapeHtml("✓")}</span>`;
+  if (key.includes("download")) return `<span class="icon-static" data-icon-slot="${escapeHtml(slot)}" data-icon-default="${escapeHtml(name || "")}">${escapeHtml("↓")}</span>`;
+  if (key.includes("plus")) return `<span class="icon-static" data-icon-slot="${escapeHtml(slot)}" data-icon-default="${escapeHtml(name || "")}">${escapeHtml("+")}</span>`;
+  return `<span class="icon-static" data-icon-slot="${escapeHtml(slot)}" data-icon-default="${escapeHtml(name || "")}">${escapeHtml("•")}</span>`;
 }
 
 function applyOpacity(color, opacity) {
@@ -1476,6 +2152,9 @@ function buildButtonConstructorData({ catalog, typoLookup: tLookup, colorLookup:
     filled: catalog.filledTypes || [],
     link: catalog.linkTypes || []
   };
+  const iconEntries = Array.from(iLookup.values()).filter((icon) => icon?.assetUrl);
+  const availableIcons = Array.from(new Set(iconEntries.map((icon) => String(icon.name || "").trim()).filter(Boolean))).sort((a, b) => a.localeCompare(b));
+  const iconUrlByName = Object.fromEntries(iconEntries.map((icon) => [String(icon.name || "").toLowerCase(), icon.assetUrl || ""]));
   const items = [];
 
   for (const mode of modes) {
@@ -1549,6 +2228,11 @@ function buildButtonConstructorData({ catalog, typoLookup: tLookup, colorLookup:
               size: size.name,
               content: contentVariant.id,
               rounded: roundingMode.id,
+              hasLeftIcon: !!contentVariant.leftIcon || !!contentVariant.iconOnly,
+              hasRightIcon: !!contentVariant.rightIcon,
+              isIconOnly: !!contentVariant.iconOnly,
+              defaultLeftIcon: contentVariant.leftIcon || "",
+              defaultRightIcon: contentVariant.rightIcon || "",
               recommendedTheme,
               htmlByTheme: { light: lightHtml, dark: darkHtml },
               details
@@ -1564,10 +2248,112 @@ function buildButtonConstructorData({ catalog, typoLookup: tLookup, colorLookup:
     sizes: sizes.map((s) => s.name),
     contents: contentVariants.map((v) => ({ id: v.id, label: v.label })),
     roundedModes: roundingModes.map((r) => ({ id: r.id, label: r.label })),
+    icons: availableIcons,
+    iconUrlByName,
     typesByMode: {
       filled: typesByMode.filled.map((t) => ({ name: t.name })),
       link: typesByMode.link.map((t) => ({ name: t.name }))
     },
+    items
+  };
+}
+
+function buildBadgeConstructorData({ catalog, typoLookup: tLookup, colorLookup: cLookup, iconLookup: iLookup }) {
+  const styles = catalog.styleVariants || [];
+  const sizes = catalog.sizes || [];
+  const contents = catalog.contentVariants || [];
+  const colorTokens = Array.from(
+    new Set(
+      [
+        ...(catalog.colorOptions || []),
+        ...styles.map((s) => s.defaultTextToken).filter(Boolean),
+        ...styles.map((s) => s.defaultDividerToken).filter(Boolean),
+        ...styles.map((s) => s.defaultFillToken).filter(Boolean),
+        ...styles.map((s) => s.defaultStrokeToken).filter(Boolean)
+      ].filter(Boolean)
+    )
+  );
+  const devices = [
+    { id: "desktop", label: "Desktop" },
+    { id: "mobile", label: "Mobile" }
+  ];
+  const iconEntries = Array.from(iconLookup.values()).filter((icon) => icon?.assetUrl);
+  const availableIcons = Array.from(new Set(iconEntries.map((icon) => String(icon.name || "").trim()).filter(Boolean))).sort((a, b) => a.localeCompare(b));
+  const iconUrlByName = Object.fromEntries(iconEntries.map((icon) => [String(icon.name || "").toLowerCase(), icon.assetUrl || ""]));
+  const items = [];
+  const icon = iconLookup.get(String(catalog.defaultIcon || "chip").toLowerCase());
+
+  for (const styleMeta of styles) {
+    for (const size of sizes) {
+      for (const device of devices) {
+        for (const content of contents) {
+          const metric = getBadgeMetrics(size, device.id);
+          const typoTokenName = metric.textToken || "XS – Med";
+          const typoToken = tLookup.get(String(typoTokenName).toLowerCase()) || {};
+          const defaultTextToken = styleMeta.defaultTextToken || "Text/Primary";
+          const defaultDividerToken = styleMeta.defaultDividerToken || defaultTextToken;
+          const defaultContainerToken = styleMeta.id === "outline"
+            ? (styleMeta.defaultStrokeToken || "BG/Light 0")
+            : (styleMeta.defaultFillToken || "BG/Light 0");
+          const recommendedTheme = styleMeta.id === "outline" ? "dark" : "light";
+
+          items.push({
+            style: styleMeta.id,
+            size: size.id,
+            device: device.id,
+            content: content.id,
+            contentLabel: content.label,
+            recommendedTheme,
+            textToken: typoTokenName,
+            leftIcon: !!content.leftIcon,
+            rightIcon: !!content.rightIcon,
+            text2: !!content.text2,
+            textPrimary: catalog.defaultText || "Some text",
+            textSecondary: catalog.defaultText || "Some text",
+            defaultIconName: catalog.defaultIcon || "chip",
+            iconAssetUrl: icon?.assetUrl || "",
+            iconSize: Number(metric.iconSize) || 14,
+            dividerSize: Number(metric.dividerSize) || 3,
+            textGap: Number(metric.gapText) || 8,
+            outerGap: Number(metric.gapOuter) || 4,
+            paddingX: Number(metric.paddingX) || 10,
+            paddingTop: Number(metric.paddingTop) || 4,
+            paddingBottom: Number(metric.paddingBottom) || 4,
+            strokeWidth: Number(metric.borderWidthOutline) || 1,
+            bgColor: getColor(cLookup, styleMeta.defaultFillToken, "#FFFFFF"),
+            strokeColor: getColor(cLookup, styleMeta.defaultStrokeToken, "#FFFFFF"),
+            textColor: getColor(cLookup, defaultTextToken, styleMeta.id === "outline" ? "#FFFFFF" : "#292B32"),
+            dividerColor: getColor(cLookup, defaultDividerToken, styleMeta.id === "outline" ? "#FFFFFF" : "#7B8190"),
+            defaultTextToken,
+            defaultDividerToken,
+            defaultContainerToken,
+            containerColorValue: Object.fromEntries(colorTokens.map((token) => [token, getColor(cLookup, token, "#292B32")])),
+            fontFamily: typoToken.family || "CoFo Sans Variable",
+            fontSize: Number(typoToken.size) || 14,
+            lineHeight: Number(typoToken.lineHeight) || 21,
+            fontWeight: Number(typoToken.weight) || 500,
+            letterSpacing: toCssLetterSpacing(Number(typoToken.letterSpacing) || 0, typoToken.letterSpacingUnit || "percent")
+          });
+        }
+      }
+    }
+  }
+
+  return {
+    styles: styles.map((s) => ({
+      id: s.id,
+      label: s.label,
+      defaultTextToken: s.defaultTextToken,
+      defaultDividerToken: s.defaultDividerToken,
+      defaultFillToken: s.defaultFillToken,
+      defaultStrokeToken: s.defaultStrokeToken
+    })),
+    sizes: sizes.map((s) => s.id),
+    devices,
+    contents: contents.map((c) => ({ id: c.id, label: c.label })),
+    icons: availableIcons,
+    iconUrlByName,
+    colorTokens,
     items
   };
 }

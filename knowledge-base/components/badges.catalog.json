@@ -1,0 +1,179 @@
+{
+  "version": "0.1.0",
+  "lastUpdated": "2026-03-03",
+  "source": {
+    "fileKey": "IawDi2Zwy7mvMMrsHvIFg1",
+    "nodeId": "3480:5323",
+    "url": "https://www.figma.com/design/IawDi2Zwy7mvMMrsHvIFg1/%F0%9F%9B%A0%EF%B8%8F-Mindbox-Promo-Library?node-id=3480-5323&t=37QSIedZodPM0hws-11"
+  },
+  "description": "Badge supports optional left icon, right icon, and second text block. Style can be Fill or Outline. Text/fill/stroke/divider colors are token-driven.",
+  "styleVariants": [
+    {
+      "id": "fill",
+      "label": "Fill",
+      "isOutline": false,
+      "defaultFillToken": "BG/Light 0",
+      "defaultTextToken": "Text/Primary",
+      "defaultDividerToken": "Text/Secondary"
+    },
+    {
+      "id": "outline",
+      "label": "Outline",
+      "isOutline": true,
+      "defaultStrokeToken": "BG/Light 0",
+      "defaultTextToken": "Text/Primary – Night",
+      "defaultDividerToken": "Text/Secondary – Night"
+    }
+  ],
+  "sizes": [
+    {
+      "id": "L",
+      "desktop": {
+        "textToken": "L – Med",
+        "iconSize": 20,
+        "dividerSize": 4,
+        "gapOuter": 6,
+        "gapText": 10,
+        "paddingX": 14,
+        "paddingTop": 8,
+        "paddingBottom": 9,
+        "borderWidthOutline": 1.5
+      },
+      "mobile": {
+        "textToken": "XS – Med",
+        "iconSize": 16,
+        "dividerSize": 3,
+        "gapOuter": 4,
+        "gapText": 8,
+        "paddingX": 10,
+        "paddingTop": 5,
+        "paddingBottom": 6,
+        "borderWidthOutline": 1
+      }
+    },
+    {
+      "id": "M",
+      "desktop": {
+        "textToken": "S – Med",
+        "iconSize": 18,
+        "dividerSize": 4,
+        "gapOuter": 6,
+        "gapText": 8,
+        "paddingX": 12,
+        "paddingTop": 6,
+        "paddingBottom": 7,
+        "borderWidthOutline": 1.5
+      },
+      "mobile": {
+        "textToken": "XS – Med",
+        "iconSize": 14,
+        "dividerSize": 3,
+        "gapOuter": 4,
+        "gapText": 8,
+        "paddingX": 10,
+        "paddingTop": 5,
+        "paddingBottom": 5,
+        "borderWidthOutline": 1
+      }
+    },
+    {
+      "id": "S",
+      "desktop": {
+        "textToken": "XS – Med",
+        "iconSize": 16,
+        "dividerSize": 3,
+        "gapOuter": 4,
+        "gapText": 8,
+        "paddingX": 10,
+        "paddingTop": 5.5,
+        "paddingBottom": 6.5,
+        "borderWidthOutline": 1
+      },
+      "mobile": {
+        "textToken": "XS – Med",
+        "iconSize": 14,
+        "dividerSize": 3,
+        "gapOuter": 4,
+        "gapText": 8,
+        "paddingX": 10,
+        "paddingTop": 5,
+        "paddingBottom": 5,
+        "borderWidthOutline": 1
+      }
+    },
+    {
+      "id": "XS",
+      "desktop": {
+        "textToken": "XXS – Med",
+        "iconSize": 14,
+        "dividerSize": 3,
+        "gapOuter": 3,
+        "gapText": 6,
+        "paddingX": 8,
+        "paddingTop": 3,
+        "paddingBottom": 4,
+        "borderWidthOutline": 1
+      },
+      "mobile": {
+        "textToken": "XXS – Med",
+        "iconSize": 14,
+        "dividerSize": 3,
+        "gapOuter": 3,
+        "gapText": 6,
+        "paddingX": 8,
+        "paddingTop": 3,
+        "paddingBottom": 4,
+        "borderWidthOutline": 1
+      }
+    }
+  ],
+  "contentVariants": [
+    {
+      "id": "full",
+      "label": "Left icon + text + text2 + right icon",
+      "leftIcon": true,
+      "text2": true,
+      "rightIcon": true
+    },
+    {
+      "id": "left-text",
+      "label": "Left icon + text",
+      "leftIcon": true,
+      "text2": false,
+      "rightIcon": false
+    },
+    {
+      "id": "text-only",
+      "label": "Text only",
+      "leftIcon": false,
+      "text2": false,
+      "rightIcon": false
+    },
+    {
+      "id": "text-right",
+      "label": "Text + right icon",
+      "leftIcon": false,
+      "text2": false,
+      "rightIcon": true
+    }
+  ],
+  "defaultIcon": "chip",
+  "defaultText": "Some text",
+  "colorOptions": [
+    "Text/Primary",
+    "Text/Primary – Night",
+    "Text/Secondary",
+    "Text/Secondary – Night",
+    "Text/Primary Green",
+    "Text/Primary Green – Night",
+    "Text/Line Primary",
+    "Text/Line Primary – Night",
+    "BG/Light 0",
+    "BG/Dark 1",
+    "BG/Dark 3",
+    "BG/Highlight/Green 2",
+    "BG/Highlight/Green 4",
+    "BG/Green 1",
+    "BG/Green 2"
+  ]
+}
