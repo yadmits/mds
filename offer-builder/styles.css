@@ -48,37 +48,45 @@ svg {
 .portal-page {
   width: min(600px, 100% - 40px);
   margin: 0 auto;
-  padding: 40px 0 200px;
+  padding: 40px 0 160px;
   display: grid;
   gap: 80px;
 }
 
 .portal-add-offer {
-  justify-self: center;
-  border: 0;
-  background: transparent;
-  color: #268644;
+  position: fixed;
+  left: 50%;
+  bottom: 32px;
+  transform: translateX(-50%);
+  background: var(--green);
+  color: #fff;
   display: inline-flex;
   align-items: center;
-  gap: 4px;
+  justify-content: center;
+  gap: 8px;
   border-radius: 6px;
-  padding: 4px;
+  padding: 15px 28px;
   cursor: pointer;
   font-family: var(--font);
   font-size: 18px;
   line-height: 24px;
   letter-spacing: -0.02em;
-  font-weight: 400;
+  font-weight: 500;
   text-decoration: none;
+  z-index: 20;
 }
 
 .portal-add-offer svg {
-  width: 18px;
-  height: 18px;
+  width: 20px;
+  height: 20px;
 }
 
 .portal-add-offer:hover {
-  background: rgba(38, 134, 68, 0.08);
+  background: var(--green-dark);
+}
+
+.portal-add-offer:active {
+  transform: translateX(-50%) scale(0.98);
 }
 
 .portal-section {
@@ -151,17 +159,30 @@ svg {
   gap: 0;
 }
 
+.template-updated {
+  margin: 0;
+  min-width: 60px;
+  text-align: right;
+  color: rgba(11, 32, 63, 0.5);
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: -0.01em;
+}
+
 .mini-icon,
 .icon-btn {
-  width: 28px;
-  height: 28px;
+  width: 32px;
+  height: 32px;
   border: 0;
   border-radius: 100px;
   background: transparent;
   color: #5d6674;
-  display: grid;
-  place-items: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
+  padding: 6px;
+  transition: background 160ms cubic-bezier(0.2, 0.8, 0.2, 1), transform 160ms cubic-bezier(0.2, 0.8, 0.2, 1), color 160ms cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 .mini-icon svg,
@@ -172,17 +193,49 @@ svg {
 
 .mini-icon:hover,
 .icon-btn:hover {
-  background: rgba(11, 32, 63, 0.08);
+  background: rgba(11, 32, 63, 0.12);
+}
+
+.mini-icon:active,
+.icon-btn:active {
+  transform: scale(0.98);
 }
 
 .bookmark {
-  width: 18px;
-  height: 18px;
+  width: 16px;
+  height: 19px;
   color: rgba(11, 32, 63, 0.35);
 }
 
 .bookmark.active {
-  color: var(--green);
+  color: #39aa5d;
+}
+
+.copy-img {
+  width: 18px;
+  height: 20px;
+  display: block;
+}
+
+.sidebar-header .icon-btn {
+  background: #eef1f5;
+}
+
+.sidebar-header .icon-btn:hover {
+  background: #e3e8ee;
+}
+
+.sidebar-header #favorite-btn .bookmark {
+  color: #292b32;
+}
+
+.sidebar-header #favorite-btn .bookmark.active {
+  color: #39aa5d;
+}
+
+.template-title-line .bookmark {
+  width: 14px;
+  height: 16px;
 }
 
 .editor-body {
@@ -215,7 +268,7 @@ svg {
   grid-template-columns: 32px 1fr 32px 32px;
   gap: 8px;
   align-items: center;
-  padding: 12px 20px;
+  padding: 16px 20px;
 }
 
 .sidebar-title {
@@ -476,11 +529,16 @@ svg {
   grid-template-columns: 348px 1fr;
   gap: 32px;
   padding: 22px 0;
+}
+
+.preview-row.with-divider {
   border-bottom: 1px solid rgba(11, 32, 63, 0.2);
 }
 
-.preview-row:last-child {
-  border-bottom: 0;
+.preview-divider {
+  height: 1px;
+  background: rgba(11, 32, 63, 0.2);
+  margin: 0 0 6px;
 }
 
 .preview-label {
@@ -745,6 +803,30 @@ svg {
   width: 124px;
 }
 
+@media print {
+  body.print-preview-mode .editor-shell > :not(.preview-column) {
+    display: none !important;
+  }
+
+  body.print-preview-mode .preview-column {
+    padding: 0 !important;
+    height: auto !important;
+    overflow: visible !important;
+    background: #fff !important;
+  }
+
+  body.print-preview-mode .preview-stage,
+  body.print-preview-mode .preview-scale-wrap {
+    width: auto !important;
+    height: auto !important;
+  }
+
+  body.print-preview-mode .offer-preview {
+    transform: none !important;
+    width: 1100px !important;
+  }
+}
+
 @media (max-width: 1000px) {
   .editor-shell {
     height: auto;
@@ -805,7 +887,7 @@ svg {
 
   .portal-page {
     width: min(600px, 100% - 20px);
-    padding: 40px 0 80px;
+    padding: 40px 0 120px;
     gap: 40px;
   }
 
@@ -836,5 +918,15 @@ svg {
   .template-meta span {
     font-size: 12px;
     line-height: 16px;
+  }
+
+  .template-updated {
+    min-width: 52px;
+    font-size: 12px;
+    line-height: 16px;
+  }
+
+  .portal-add-offer {
+    bottom: 16px;
   }
 }

@@ -13,13 +13,13 @@
       name: "Имя",
       position: "Должность",
       responseDate: "ДД месяц ГГГГ",
-      salaryMonth: "000 000 ₽/мес.",
-      salaryYear: "",
+      salaryMonth: 0,
       salaryConditions: [],
       team: "Например, маркетинг",
       leadName: "Имя Фамилия",
       leadEmail: "surname@mindbox.cloud",
-      fromText: "Имя Фамилия, должность"
+      fromText: "Имя Фамилия, должность",
+      fromEmail: "surname@mindbox.cloud"
     });
     window.location.href = `./editor.html?id=${encodeURIComponent(draft.id)}`;
   });
@@ -52,6 +52,7 @@
         </div>
         <span>${escapeHtml(Store.getTemplateSummary(template))}</span>
       </div>
+      <p class="template-updated">${escapeHtml(Store.formatUpdatedShort(template.updatedAt))}</p>
       <div class="template-actions">
         <button class="mini-icon" data-copy="${template.id}" type="button" aria-label="Дублировать">${copyIcon()}</button>
       </div>
@@ -80,11 +81,11 @@
   }
 
   function bookmarkIcon(active) {
-    return `<svg class="bookmark ${active ? "active" : ""}" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.2c-.88 0-1.6.72-1.6 1.6v9.6c0 .15.09.29.22.35.14.06.3.04.41-.06L8 10.06l4.97 3.63c.12.1.28.12.41.06a.4.4 0 0 0 .22-.35V3.8c0-.88-.72-1.6-1.6-1.6H4Z"/></svg>`;
+    return `<svg class="bookmark ${active ? "active" : ""}" viewBox="0 0 18 18" aria-hidden="true"><path d="M5 2.5A1.5 1.5 0 0 0 3.5 4v10.17a.34.34 0 0 0 .54.27L9 10.74l4.96 3.7a.34.34 0 0 0 .54-.27V4A1.5 1.5 0 0 0 13 2.5H5Z"/></svg>`;
   }
 
   function copyIcon() {
-    return `<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4.8 2.2A2.6 2.6 0 0 0 2.2 4.8v6.4a2.6 2.6 0 0 0 2.6 2.6h4a2.6 2.6 0 0 0 2.6-2.6V4.8a2.6 2.6 0 0 0-2.6-2.6h-4Zm0 1.2h4c.77 0 1.4.63 1.4 1.4v6.4c0 .77-.63 1.4-1.4 1.4h-4c-.77 0-1.4-.63-1.4-1.4V4.8c0-.77.63-1.4 1.4-1.4Z"/><path d="M8.8 4.2a.6.6 0 0 1 .6-.6h2a2.4 2.4 0 0 1 2.4 2.4v4.8a.6.6 0 0 1-1.2 0V6a1.2 1.2 0 0 0-1.2-1.2h-2a.6.6 0 0 1-.6-.6Z"/></svg>`;
+    return `<img class="copy-img" src="https://www.figma.com/api/mcp/asset/ad39edd0-5681-4974-acba-958b6c332367" alt="" />`;
   }
 
   function escapeHtml(value) {

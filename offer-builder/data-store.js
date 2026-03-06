@@ -36,8 +36,7 @@
       position: "Должность",
       country: "ru",
       responseDate: "15 сентября 2025",
-      salaryMonth: "100 000 ₽/мес.",
-      salaryYear: "1 200 000 ₽/год",
+      salaryMonth: 100000,
       salaryConditions: [
         {
           id: uid(),
@@ -52,6 +51,7 @@
       workFormat: "Офис, Москва, ул. Правды, 26, этаж 12, гибкий график",
       fromText: "Имя Фамилия, должность",
       helpText: "Знает ответы на все вопросы",
+      fromEmail: "arifanova@mindbox.cloud",
       taxText: "С 2025 года в России изменилась шкала НДФЛ. Рассчитайте средний доход после налогов в калькуляторе.",
       taxButtonText: "Рассчитать заработную плату (net)",
       taxButtonUrl: "https://docs.google.com/spreadsheets/d/1H3RgbPO4BaEHnUrioMX6m-Dc_VaU1gERp95gAm0JcHk/edit?gid=686534902#gid=686534902",
@@ -64,11 +64,11 @@
   }
 
   function seedTemplates() {
-    const a = createDefaultTemplate({ name: "Иван", position: "Веб-дизайнер", favorite: true, salaryMonth: "100 000 ₽/мес.", salaryYear: "" });
-    const b = createDefaultTemplate({ name: "Имя", position: "Senior-Разработчик", country: "am", favorite: true, salaryMonth: "100 000 ₽/мес.", salaryYear: "" });
-    const c = createDefaultTemplate({ name: "Анастасия", position: "Manager", salaryMonth: "000 000 ₽/мес.", salaryYear: "", salaryConditions: [] });
-    const d = createDefaultTemplate({ name: "Игорь", position: "специалист по продажам", country: "am", salaryMonth: "356 352 ₽/мес.", salaryYear: "", salaryConditions: [] });
-    const copied = createDefaultTemplate({ name: "(Копия) Анастасия", position: "Manager", salaryMonth: "000 000 ₽/мес.", salaryYear: "", salaryConditions: [] });
+    const a = createDefaultTemplate({ name: "Иван", position: "Веб-дизайнер", favorite: true, salaryMonth: 100000 });
+    const b = createDefaultTemplate({ name: "Имя", position: "Senior-Разработчик", country: "am", favorite: true, salaryMonth: 100000 });
+    const c = createDefaultTemplate({ name: "Анастасия", position: "Manager", salaryMonth: 0, salaryConditions: [] });
+    const d = createDefaultTemplate({ name: "Игорь", position: "специалист по продажам", country: "am", salaryMonth: 356352, salaryConditions: [] });
+    const copied = createDefaultTemplate({ name: "(Копия) Анастасия", position: "Manager", salaryMonth: 0, salaryConditions: [] });
     return [copied, c, a, b, d].map((template, index) => {
       const shifted = new Date(Date.now() - index * 60_000).toISOString();
       return { ...template, createdAt: shifted, updatedAt: shifted };
@@ -84,11 +84,23 @@
     return {
       ...base,
       ...template,
+      salaryMonth: normalizeSalaryMonth(template.salaryMonth),
       salaryConditions: Array.isArray(template.salaryConditions) ? template.salaryConditions.map(normalizeCondition) : [],
       benefits: Array.isArray(template.benefits) && template.benefits.length ? template.benefits : clone(DEFAULT_BENEFITS),
       favorite: Boolean(template.favorite),
       country: template.country === "am" ? "am" : "ru"
     };
+  }
+
+  function normalizeSalaryMonth(value) {
+    if (typeof value === "number" && Number.isFinite(value)) return Math.max(0, Math.round(value));
+    const digits = String(value || "").replace(/\D+/g, "");
+    if (!digits) return 0;
+    return Number.parseInt(digits, 10) || 0;
+  }
+
+  function formatNumberRu(value) {
+    return new Intl.NumberFormat("ru-RU").format(Math.max(0, Number(value) || 0));
   }
 
   function safeLocalStorageGet(key) {
@@ -222,7 +234,7 @@
 
   function getTemplateSummary(template) {
     const country = getCountryLabel(template.country);
-    const salary = template.salaryMonth || "000 000 ₽/мес.";
+    const salary = `${formatNumberRu(template.salaryMonth)}\u00A0₽/мес.`;
     const count = template.salaryConditions.length;
     let suffix = "";
 
@@ -249,6 +261,26 @@
     return `${hh}:${min}, ${dd}.${mm}.${yyyy}`;
   }
 
+  function formatUpdatedShort(isoDate) {
+    const date = new Date(isoDate || Date.now());
+    if (Number.isNaN(date.getTime())) return "—";
+
+    const now = new Date();
+    const startToday = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
+    const startTarget = new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime();
+    const diffDays = Math.floor((startToday - startTarget) / 86400000);
+
+    if (diffDays === 0) {
+      return date.toLocaleTimeString("ru-RU", { hour: "2-digit", minute: "2-digit" });
+    }
+    if (diffDays === 1) return "Вчера";
+
+    const dd = String(date.getDate()).padStart(2, "0");
+    const mm = String(date.getMonth() + 1).padStart(2, "0");
+    const yy = String(date.getFullYear()).slice(-2);
+    return `${dd}.${mm}.${yy}`;
+  }
+
   windowObj.OfferStore = {
     STORAGE_KEY,
     getTemplatesSorted,
@@ -263,6 +295,8 @@
     getCountryLabel,
     getTemplateHeading,
     getTemplateSummary,
-    formatSavedAt
+    formatSavedAt,
+    formatUpdatedShort,
+    formatNumberRu
   };
 })(window);

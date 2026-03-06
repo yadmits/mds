@@ -2,6 +2,8 @@
   const Store = window.OfferStore;
   if (!Store) return;
 
+  const PT_PER_PX = 0.75;
+
   const ASSETS = {
     heroBox: "https://www.figma.com/api/mcp/asset/05d9363e-f9e7-47b1-becf-06fb39a0968e",
     benefitCat: "https://www.figma.com/api/mcp/asset/ecf978e7-b22d-416b-93bf-3895918118e9",
@@ -21,13 +23,13 @@
       name: "Имя",
       position: "Должность",
       responseDate: "ДД месяц ГГГГ",
-      salaryMonth: "000 000 ₽/мес.",
-      salaryYear: "",
+      salaryMonth: 0,
       salaryConditions: [],
       team: "Например, маркетинг",
       leadName: "Имя Фамилия",
       leadEmail: "surname@mindbox.cloud",
-      fromText: "Имя Фамилия, должность"
+      fromText: "Имя Фамилия, должность",
+      fromEmail: "surname@mindbox.cloud"
     });
 
     const nextUrl = new URL(window.location.href);
@@ -59,6 +61,7 @@
   };
 
   let saveTimer = null;
+  let curveFontPromise = null;
 
   renderAll();
   bindEvents();
@@ -104,7 +107,13 @@
 
     if (target.matches("[data-field]")) {
       const field = target.getAttribute("data-field");
-      template[field] = target.value;
+      if (field === "salaryMonth") {
+        const digits = target.value.replace(/\D+/g, "");
+        template.salaryMonth = digits ? Number.parseInt(digits, 10) : 0;
+        target.value = formatInputNumber(template.salaryMonth);
+      } else {
+        template[field] = target.value;
+      }
     }
 
     if (target.matches("[data-country]")) {
@@ -188,8 +197,7 @@
       </section>
 
       <section class="form-group">
-        ${formRow("ЗП в месяц", `<input data-field="salaryMonth" type="text" value="${escapeHtmlAttr(template.salaryMonth)}"/>`)}
-        ${formRow("ЗП в год", `<input data-field="salaryYear" type="text" value="${escapeHtmlAttr(template.salaryYear)}"/>`)}
+        ${formRow("ЗП, ₽/мес.", `<input data-field="salaryMonth" inputmode="numeric" type="text" value="${escapeHtmlAttr(formatInputNumber(template.salaryMonth))}"/>`)}
         ${template.salaryConditions
           .map(
             (condition, index) => `
@@ -214,13 +222,24 @@
         ${formRow("Его почта", `<input data-field="leadEmail" type="email" value="${escapeHtmlAttr(template.leadEmail)}"/>`)}
         ${formRow("Формат", `<textarea data-field="workFormat" rows="5">${escapeHtml(template.workFormat)}</textarea>`)}
         ${formRow("От кого", `<input data-field="fromText" type="text" value="${escapeHtmlAttr(template.fromText)}"/>`)}
-        ${formRow("Польза", `<input data-field="helpText" type="text" value="${escapeHtmlAttr(template.helpText)}"/>`)}
+        ${formRow("Почта", `<input data-field="fromEmail" type="email" value="${escapeHtmlAttr(template.fromEmail || "")}"/>`)}
       </section>
     `;
   }
 
   function renderPreview() {
-    const totalSalary = [template.salaryMonth, template.salaryYear].filter(Boolean).join("<br/>");
+    const salaryMonth = Number(template.salaryMonth) || 0;
+    const salaryYear = salaryMonth * 12;
+
+    const salaryConditionsHtml = template.salaryConditions
+      .map((condition) =>
+        previewRow(
+          escapeHtml(condition.title || "Условие"),
+          `<div class="value-strong">${applyNbsp(escapeHtml(condition.perk || ""))}</div><div class="value-muted">${applyNbsp(escapeHtml(condition.text || "")).replace(/\n/g, "<br/>")}</div>`,
+          false
+        )
+      )
+      .join("");
 
     refs.preview.innerHTML = `
       <section class="offer-top-section">
@@ -230,26 +249,24 @@
       </section>
 
       <section class="offer-details-section">
-        ${previewRow("Заработная плата до вычета налогов (gross)", `<div class="value-strong">${totalSalary || "—"}</div>`) }
-        ${template.salaryConditions
-          .map((condition) =>
-            previewRow(
-              escapeHtml(condition.title || "Условие"),
-              `<div class="value-strong">${escapeHtml(condition.perk || "")}</div><div class="value-muted">${escapeHtml(condition.text || "").replace(/\n/g, "<br/>")}</div>`
-            )
-          )
-          .join("")}
-
-        ${previewRow("Должность", escapeHtml(template.position))}
-        ${previewRow("Команда", escapeHtml(template.team))}
-        ${previewRow("Ведущий", `${escapeHtml(template.leadName)},<br/>${escapeHtml(template.leadEmail)}`)}
-        ${previewRow("Формат и место работы", escapeHtml(template.workFormat))}
+        ${previewRow(
+          "Заработная плата до вычета налогов (gross)",
+          `<div class="value-strong">${salaryMonth ? formatSalary(salaryMonth, "мес") : "—"}<br/>${salaryYear ? formatSalary(salaryYear, "год") : "—"}</div>`,
+          false
+        )}
+        ${salaryConditionsHtml}
+        ${template.salaryConditions.length > 0 ? `<div class="preview-divider"></div>` : ""}
+        ${previewRow("Должность", applyNbsp(escapeHtml(template.position)), false)}
+        ${previewRow("Команда", applyNbsp(escapeHtml(template.team)), false)}
+        ${previewRow("Ведущий", `${applyNbsp(escapeHtml(template.leadName))},<br/>${applyNbsp(escapeHtml(template.leadEmail))}`, false)}
+        ${previewRow("Формат и место работы", applyNbsp(escapeHtml(template.workFormat)), false)}
 
         ${
           template.country === "ru"
             ? `<div class="offer-tax">${previewRow(
                 "Калькулятор прогрессивной шкалы НДФЛ",
-                `<p>${escapeHtml(template.taxText)}</p><a href="${escapeHtmlAttr(template.taxButtonUrl)}" target="_blank" rel="noreferrer">${escapeHtml(template.taxButtonText)}</a>`
+                `<p>${applyNbsp(escapeHtml(template.taxText))}</p><a href="${escapeHtmlAttr(template.taxButtonUrl)}" target="_blank" rel="noreferrer">${escapeHtml(template.taxButtonText)}</a>`,
+                false
               )}</div>`
             : ""
         }
@@ -271,8 +288,8 @@
 
         <div class="offer-join">
           <h3>Присоединяйся,<br/>не хватает только <span>тебя!</span></h3>
-          <p>${escapeHtml(template.fromText)}</p>
-          <p>${escapeHtml(template.helpText)}<br/>${escapeHtml(template.leadEmail)}</p>
+          <p>${applyNbsp(escapeHtml(template.fromText))}</p>
+          <p>${applyNbsp(escapeHtml(template.helpText))}<br/>${applyNbsp(escapeHtml(template.fromEmail || template.leadEmail || ""))}</p>
         </div>
       </section>
     `;
@@ -280,12 +297,21 @@
     requestAnimationFrame(updatePreviewScale);
   }
 
-  function previewRow(label, value) {
-    return `<div class="preview-row"><div class="preview-label">${label}</div><div class="preview-value">${value}</div></div>`;
+  function previewRow(label, value, withDivider) {
+    return `<div class="preview-row ${withDivider ? "with-divider" : ""}"><div class="preview-label">${label}</div><div class="preview-value">${value}</div></div>`;
   }
 
   function formRow(label, control) {
     return `<label class="form-row"><span>${label}</span><div>${control}</div></label>`;
+  }
+
+  function formatInputNumber(value) {
+    const num = Number(value) || 0;
+    return num ? Store.formatNumberRu(num) : "";
+  }
+
+  function formatSalary(value, period) {
+    return `${Store.formatNumberRu(value)}\u00A0₽/${period}.`;
   }
 
   async function exportPdf() {
@@ -293,20 +319,49 @@
     const initialText = button.textContent;
 
     try {
+      if (!window.html2canvas || !window.jspdf || !window.opentype) throw new Error("Export libraries unavailable");
+
       button.disabled = true;
       button.textContent = "Готовлю PDF...";
 
-      const canvas = await window.html2canvas(refs.preview, {
-        backgroundColor: "#ffffff",
-        scale: 2,
-        useCORS: true
-      });
+      const rootRect = refs.preview.getBoundingClientRect();
+      const widthPx = refs.preview.offsetWidth;
+      const heightPx = refs.preview.scrollHeight;
+      const widthPt = widthPx * PT_PER_PX;
+      const heightPt = heightPx * PT_PER_PX;
+
+      const textBlocks = collectRenderableTextBlocks(refs.preview);
+      let backgroundCanvas = null;
+
+      try {
+        backgroundCanvas = await capturePreviewWithoutText(textBlocks, false);
+      } catch {
+        backgroundCanvas = await capturePreviewWithoutText(textBlocks, true);
+      }
+
+      const backgroundData = backgroundCanvas.toDataURL("image/jpeg", 0.82);
 
       const { jsPDF } = window.jspdf;
-      const pdf = new jsPDF({ orientation: canvas.width > canvas.height ? "landscape" : "portrait", unit: "px", format: [canvas.width, canvas.height] });
-      const image = canvas.toDataURL("image/jpeg", 0.95);
-      pdf.addImage(image, "JPEG", 0, 0, canvas.width, canvas.height, undefined, "FAST");
-      pdf.save(`${safeFileName(Store.getTemplateHeading(template))}.pdf`);
+      const pdf = new jsPDF({
+        orientation: widthPt > heightPt ? "landscape" : "portrait",
+        unit: "pt",
+        format: [widthPt, heightPt],
+        compress: true
+      });
+
+      pdf.addImage(backgroundData, "JPEG", 0, 0, widthPt, heightPt, undefined, "MEDIUM");
+
+      const font = await loadCurveFont();
+      for (const block of textBlocks) {
+        try {
+          if (font) drawTextBlockAsCurves(pdf, font, block, rootRect);
+          else drawTextBlockFallback(pdf, block, rootRect);
+        } catch {
+          drawTextBlockFallback(pdf, block, rootRect);
+        }
+      }
+
+      pdf.save(buildPdfFileName());
     } catch (error) {
       console.error(error);
       alert("Не удалось сохранить PDF");
@@ -314,6 +369,214 @@
       button.disabled = false;
       button.textContent = initialText;
     }
+  }
+
+  function loadCurveFont() {
+    if (curveFontPromise) return curveFontPromise;
+
+    curveFontPromise = new Promise((resolve) => {
+      const urls = [
+        new URL("../knowledge-base/assets/fonts/CoFoSansVariable.woff", window.location.href).href,
+        new URL("../knowledge-base/assets/fonts/CoFoSansVariable.woff2", window.location.href).href
+      ];
+
+      const tryLoad = (index) => {
+        if (index >= urls.length) {
+          resolve(null);
+          return;
+        }
+
+        window.opentype.load(urls[index], (error, font) => {
+          if (!error && font) resolve(font);
+          else tryLoad(index + 1);
+        });
+      };
+
+      tryLoad(0);
+    });
+
+    return curveFontPromise;
+  }
+
+  async function capturePreviewWithoutText(textBlocks, stripImages) {
+    textBlocks.forEach((block, index) => block.element.setAttribute("data-pdf-text-id", String(index)));
+
+    const host = document.createElement("div");
+    host.style.position = "fixed";
+    host.style.left = "-100000px";
+    host.style.top = "0";
+    host.style.width = `${refs.preview.offsetWidth}px`;
+    host.style.pointerEvents = "none";
+
+    const clone = refs.preview.cloneNode(true);
+    clone.style.transform = "none";
+    clone.style.width = `${refs.preview.offsetWidth}px`;
+
+    clone.querySelectorAll("[data-pdf-text-id]").forEach((node) => {
+      node.style.color = "transparent";
+      node.style.webkitTextFillColor = "transparent";
+      node.style.textShadow = "none";
+    });
+
+    if (stripImages) {
+      clone.querySelectorAll("img").forEach((img) => img.remove());
+      clone.querySelectorAll("*").forEach((node) => {
+        const style = node.style;
+        if (style.backgroundImage) style.backgroundImage = "none";
+      });
+    }
+
+    host.appendChild(clone);
+    document.body.appendChild(host);
+
+    try {
+      return await window.html2canvas(clone, {
+        backgroundColor: "#ffffff",
+        scale: 2,
+        useCORS: true,
+        logging: false
+      });
+    } finally {
+      host.remove();
+      textBlocks.forEach((block) => block.element.removeAttribute("data-pdf-text-id"));
+    }
+  }
+
+  function collectRenderableTextBlocks(root) {
+    const selectors = "h1,h2,h3,p,a,span,strong,li";
+
+    return Array.from(root.querySelectorAll(selectors))
+      .filter((element) => {
+        const childElements = Array.from(element.children).filter((child) => child.tagName !== "BR");
+        if (childElements.length > 0) return false;
+        if (!element.textContent || !element.textContent.trim()) return false;
+
+        const style = window.getComputedStyle(element);
+        if (style.display === "none" || style.visibility === "hidden" || Number.parseFloat(style.opacity) === 0) return false;
+
+        const rect = element.getBoundingClientRect();
+        return rect.width > 0 && rect.height > 0;
+      })
+      .map((element) => ({ element, rect: element.getBoundingClientRect(), style: window.getComputedStyle(element) }));
+  }
+
+  function drawTextBlockAsCurves(pdf, font, block, rootRect) {
+    const text = (block.element.innerText || block.element.textContent || "").replace(/\r/g, "");
+    if (!text.trim()) return;
+
+    const lines = text.split("\n");
+    const fontSizePx = Number.parseFloat(block.style.fontSize) || 16;
+    const lineHeightPx = Number.isFinite(Number.parseFloat(block.style.lineHeight)) ? Number.parseFloat(block.style.lineHeight) : fontSizePx * 1.2;
+    const letterSpacingPx = Number.isFinite(Number.parseFloat(block.style.letterSpacing)) ? Number.parseFloat(block.style.letterSpacing) : 0;
+    const align = block.style.textAlign;
+    const color = parseCssColor(block.style.color);
+
+    const x0 = block.rect.left - rootRect.left;
+    const y0 = block.rect.top - rootRect.top;
+    const ascenderPx = (font.ascender / font.unitsPerEm) * fontSizePx;
+    const firstBaseline = y0 + (lineHeightPx - fontSizePx) / 2 + ascenderPx;
+
+    pdf.setFillColor(color.r, color.g, color.b);
+
+    lines.forEach((line, lineIndex) => {
+      const normalized = line.replace(/\u00a0/g, " ");
+      const lineWidth = measureLineWidth(font, normalized, fontSizePx, letterSpacingPx);
+      let lineX = x0;
+      if (align === "center") lineX = x0 + (block.rect.width - lineWidth) / 2;
+      if (align === "right" || align === "end") lineX = x0 + block.rect.width - lineWidth;
+
+      const baseline = firstBaseline + lineIndex * lineHeightPx;
+      drawLineAsPath(pdf, font, normalized, lineX, baseline, fontSizePx, letterSpacingPx);
+    });
+  }
+
+  function drawTextBlockFallback(pdf, block, rootRect) {
+    const text = (block.element.innerText || block.element.textContent || "").replace(/\r/g, "");
+    if (!text.trim()) return;
+
+    const lines = text.split("\n");
+    const fontSizePx = Number.parseFloat(block.style.fontSize) || 16;
+    const lineHeightPx = Number.isFinite(Number.parseFloat(block.style.lineHeight)) ? Number.parseFloat(block.style.lineHeight) : fontSizePx * 1.2;
+    const color = parseCssColor(block.style.color);
+    const align = block.style.textAlign;
+    const x0 = block.rect.left - rootRect.left;
+    const y0 = block.rect.top - rootRect.top;
+
+    pdf.setTextColor(color.r, color.g, color.b);
+    pdf.setFont("helvetica", Number.parseFloat(block.style.fontWeight) >= 500 ? "bold" : "normal");
+    pdf.setFontSize(toPt(fontSizePx));
+
+    lines.forEach((line, index) => {
+      let x = toPt(x0);
+      const y = toPt(y0 + (index + 1) * lineHeightPx - (lineHeightPx - fontSizePx) / 2);
+      const w = pdf.getTextWidth(line);
+      if (align === "center") x = toPt(x0 + block.rect.width / 2) - w / 2;
+      if (align === "right" || align === "end") x = toPt(x0 + block.rect.width) - w;
+      pdf.text(line, x, y);
+    });
+  }
+
+  function measureLineWidth(font, line, fontSizePx, letterSpacingPx) {
+    let width = 0;
+    for (const symbol of line) width += font.getAdvanceWidth(symbol, fontSizePx) + letterSpacingPx;
+    return width;
+  }
+
+  function drawLineAsPath(pdf, font, line, xPx, yPx, fontSizePx, letterSpacingPx) {
+    let cursor = xPx;
+
+    for (const symbol of line) {
+      const path = font.getPath(symbol, cursor, yPx, fontSizePx);
+      const ops = toPdfPathOps(path);
+      if (ops.length > 0) pdf.path(ops, "F");
+      cursor += font.getAdvanceWidth(symbol, fontSizePx) + letterSpacingPx;
+    }
+  }
+
+  function toPdfPathOps(path) {
+    const ops = [];
+    let currentX = 0;
+    let currentY = 0;
+
+    for (const command of path.commands) {
+      if (command.type === "M") {
+        currentX = command.x;
+        currentY = command.y;
+        ops.push({ op: "m", c: [toPt(command.x), toPt(command.y)] });
+      } else if (command.type === "L") {
+        currentX = command.x;
+        currentY = command.y;
+        ops.push({ op: "l", c: [toPt(command.x), toPt(command.y)] });
+      } else if (command.type === "C") {
+        currentX = command.x;
+        currentY = command.y;
+        ops.push({ op: "c", c: [toPt(command.x1), toPt(command.y1), toPt(command.x2), toPt(command.y2), toPt(command.x), toPt(command.y)] });
+      } else if (command.type === "Q") {
+        const c1x = currentX + (2 / 3) * (command.x1 - currentX);
+        const c1y = currentY + (2 / 3) * (command.y1 - currentY);
+        const c2x = command.x + (2 / 3) * (command.x1 - command.x);
+        const c2y = command.y + (2 / 3) * (command.y1 - command.y);
+        currentX = command.x;
+        currentY = command.y;
+        ops.push({ op: "c", c: [toPt(c1x), toPt(c1y), toPt(c2x), toPt(c2y), toPt(command.x), toPt(command.y)] });
+      } else if (command.type === "Z") {
+        ops.push({ op: "h", c: [] });
+      }
+    }
+
+    return ops;
+  }
+
+  function toPt(valuePx) {
+    return valuePx * PT_PER_PX;
+  }
+
+  function parseCssColor(value) {
+    const match = String(value || "").match(/rgba?\(([^)]+)\)/i);
+    if (!match) return { r: 41, g: 43, b: 50 };
+
+    const [r, g, b] = match[1].split(",").map((item) => Number.parseFloat(item.trim()) || 0);
+    return { r: Math.round(r), g: Math.round(g), b: Math.round(b) };
   }
 
   function updatePreviewScale() {
@@ -329,16 +592,33 @@
     refs.previewWrap.style.height = `${refs.preview.scrollHeight * scale}px`;
   }
 
+  function applyNbsp(value) {
+    return String(value || "")
+      .replace(/(\d) (\d{3})(?=(\D|$))/g, "$1\u00A0$2")
+      .replace(/(^|\s)([А-Яа-яA-Za-z]{1,2})\s/g, "$1$2\u00A0")
+      .replace(/\s₽/g, "\u00A0₽");
+  }
+
   function bookmarkIcon(active) {
-    return `<svg class="bookmark ${active ? "active" : ""}" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.2c-.88 0-1.6.72-1.6 1.6v9.6c0 .15.09.29.22.35.14.06.3.04.41-.06L8 10.06l4.97 3.63c.12.1.28.12.41.06a.4.4 0 0 0 .22-.35V3.8c0-.88-.72-1.6-1.6-1.6H4Z"/></svg>`;
+    return `<svg class="bookmark ${active ? "active" : ""}" viewBox="0 0 18 18" aria-hidden="true"><path d="M5 2.5A1.5 1.5 0 0 0 3.5 4v10.17a.34.34 0 0 0 .54.27L9 10.74l4.96 3.7a.34.34 0 0 0 .54-.27V4A1.5 1.5 0 0 0 13 2.5H5Z"/></svg>`;
   }
 
   function trashIcon() {
     return `<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6.8 2a.6.6 0 0 0-.56.4L6 3H3.5a.6.6 0 1 0 0 1.2h.27l.66 8.2A1.8 1.8 0 0 0 6.23 14h3.54a1.8 1.8 0 0 0 1.8-1.6l.66-8.2h.27a.6.6 0 1 0 0-1.2H10l-.24-.6A.6.6 0 0 0 9.2 2H6.8Zm.17 1.2h2.06l.1.26-.03.04H6.9l-.03-.04.1-.26ZM5 4.2h6l-.63 8.11a.6.6 0 0 1-.6.49H6.23a.6.6 0 0 1-.6-.49L5 4.2Zm1.8 1.4a.6.6 0 0 0-.6.6v4a.6.6 0 1 0 1.2 0v-4a.6.6 0 0 0-.6-.6Zm2.4 0a.6.6 0 0 0-.6.6v4a.6.6 0 1 0 1.2 0v-4a.6.6 0 0 0-.6-.6Z"/></svg>`;
   }
 
-  function safeFileName(value) {
-    return value.toLowerCase().replace(/[^a-zA-Zа-яА-Я0-9]+/g, "-").replace(/^-+|-+$/g, "") || "offer";
+  function buildPdfFileName() {
+    const position = String(template.position || "Должность").trim();
+    const responseDate = String(template.responseDate || "дата").trim();
+    const raw = `Оффер от Mindbox – ${position}, до ${responseDate}`;
+    return `${sanitizeFileName(raw)}.pdf`;
+  }
+
+  function sanitizeFileName(value) {
+    return String(value || "Оффер от Mindbox")
+      .replace(/[\\/:*?"<>|]/g, " ")
+      .replace(/\s+/g, " ")
+      .trim();
   }
 
   function escapeHtml(value) {
